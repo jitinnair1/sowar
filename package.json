@@ -6,10 +6,10 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build:assets": "mkdir -p dist && cp -r public/* dist/",
-    "build:ts": "bun build src/main.ts --outdir dist --target browser",
+    "build:ts": "bun build src/main.ts --outdir dist --target browser --loader .md:text --loader .ml:text",
     "build": "bun run clean && bun run build:assets && bun run build:ts",
     "start": "bun run build && bun run serve",
-    "dev": "bun run build:assets && bun build src/main.ts --outdir dist --target browser --watch",
+    "dev": "bun run build:assets && bun build src/main.ts --outdir dist --target browser --watch --watch --loader .md:text --loader .ml:text",
     "serve": "bun server.ts"
   }
 }
