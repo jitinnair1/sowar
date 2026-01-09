@@ -11,5 +11,10 @@
     "start": "bun run build && bun run serve",
     "dev": "bun run build:assets && bun build src/main.ts --outdir dist --target browser --watch --watch --loader .md:text --loader .ml:text",
     "serve": "bun server.ts"
+  },
+  "dependencies": {
+    "codejar": "^4.3.0",
+    "prismjs": "^1.30.0",
+    "zustand": "^5.0.9"
   }
 }
