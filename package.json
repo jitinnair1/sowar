@@ -1,0 +1,15 @@
+{
+  "name": "sawar",
+  "version": "0.1.0",
+  "description": "in-browser OCaml exercises",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build:assets": "mkdir -p dist && cp -r public/* dist/",
+    "build:ts": "bun build src/main.ts --outdir dist --target browser",
+    "build": "bun run clean && bun run build:assets && bun run build:ts",
+    "start": "bun run build && bun run serve",
+    "dev": "bun run build:assets && bun build src/main.ts --outdir dist --target browser --watch",
+    "serve": "bun server.ts"
+  }
+}
