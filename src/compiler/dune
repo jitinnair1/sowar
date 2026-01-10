@@ -1,7 +1,8 @@
 (executable
-  (name sowar_toplevel)
-  (modes js)
-  (libraries js_of_ocaml-toplevel js_of_ocaml-compiler.dynlink)
-  (preprocess (pps js_of_ocaml-ppx))
-  (link_flags (:standard -linkall))
-  (js_of_ocaml (flags (:standard --effects=cps))));
+ (name sowar_toplevel)
+ (modes js)
+ (libraries js_of_ocaml js_of_ocaml-toplevel js_of_ocaml-compiler.dynlink)
+ (preprocess (pps js_of_ocaml-ppx))
+ (link_flags (:standard -g -linkall))
+ (js_of_ocaml
+   (flags (:standard --toplevel --effects=cps))));

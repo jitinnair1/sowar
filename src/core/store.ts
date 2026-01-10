@@ -27,8 +27,8 @@ export const store = createStore<AppState>()(
       setCurrent: (id) => set({ currentExerciseId: id })
     }),
     {
-      name: 'ocaml-tutor-storage',
-      //maybe filter out later what all gets saved?
+      name: 'sowar-storage',
+      //todo: maybe filter out later what all gets saved?
     }
   )
 );
