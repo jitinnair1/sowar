@@ -1,0 +1,8 @@
+- Clean up all source code files
+- Why is the JS file 40 MBs? How do I get it to be a reasonable size?
+- Review the architecture of the `CompilerResult` based design? Does error reporting work as expected?
+- Build it on Ubuntu to check if the build is now consistent?
+- Remove all debug logs
+- Add GH actions to build and deploy
+- Streamline `index.html` for better UX as needed?
+- Add a code trim functionality in `evalOcaml()`
