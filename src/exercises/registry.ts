@@ -1,14 +1,17 @@
-import { Exercise } from '../types';
+import { Exercise } from '../core/types';
 
-// 1. The Magic: Ask the bundler to find all index.ts files inside subfolders
-// { eager: true } means "bundle them right now", don't wait for a network request.
-const modules = import.meta.glob('./*/index.ts', { eager: true });
+// 1. Explicitly import each exercise module
+// This guarantees the bundler includes the files and Typescript checks them.
+import helloWorld from './01_hello_world/index';
+// import variables from './02_variables/index'; // Example for later
 
-// 2. Transform the raw import object into a clean array
-export const exercises: Exercise[] = Object.values(modules)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  .map((module: any) => module.default) // Get the default export from each file
-  .sort((a, b) => {
-    // 3. Auto-Sort based on ID (assuming IDs are "1.1", "1.2", etc.)
-    return parseFloat(a.id) - parseFloat(b.id);
-  });
+// 2. Add them to the array manually
+export const exercises: Exercise[] = [
+    helloWorld,
+    // variables,
+];
+
+// Helper to find exercise by ID
+export const getExercise = (id: string) => {
+    return exercises.find(e => e.id === id) || exercises[0];
+};
