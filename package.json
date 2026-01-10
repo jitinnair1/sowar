@@ -13,6 +13,7 @@
     "serve": "bun server.ts"
   },
   "dependencies": {
+    "canvas-confetti": "^1.9.4",
     "codejar": "^4.3.0",
     "prismjs": "^1.30.0",
     "zustand": "^5.0.9"
