@@ -12,6 +12,7 @@
 
 (package
 (name sowar_toplevel)
+(allow_empty)
  (synopsis "Browser-based OCaml exercises")
  (license MIT)
  (depends
