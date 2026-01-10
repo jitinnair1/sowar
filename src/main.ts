@@ -69,33 +69,26 @@ async function runCode() {
     runBtn.disabled = true;
     consoleEl.textContent = "";
 
-    const logs: string[] = [];
-    const originalLog = console.log;
-    const originalError = console.error;
-
-    // Capture console logs (optional: OCaml might capture stdout internally,
-    // but this catches JS-side logs)
-    console.log = (...args) => logs.push(args.join(' '));
-    console.error = (...args) => logs.push("[ERR] " + args.join(' '));
+    let finalOutput = "";
 
     try {
         const userCode = getCode();
-        await new Promise<void>(resolve => setTimeout(resolve, 10));
-
         const result = await evaluateOCaml(userCode);
 
-        // If your toplevel returns the stdout as a string, push it to logs
-        if (result && typeof result === 'string') logs.push(result);
+        console.log("FINAL OBJECT:", result);
+
+        if (result.success) {
+          finalOutput = result.out;
+        } else {
+          finalOutput = result.err || "Unknown Error";
+        }
 
     } catch (e: any) {
-        logs.push("Runtime Error: " + e.message);
+        finalOutput = "Runtime Error: " + e.message;
     } finally {
-        console.log = originalLog;
-        console.error = originalError;
         runBtn.disabled = false;
     }
 
-    const finalOutput = logs.join('\n');
     consoleEl.textContent = finalOutput;
 
     const validation = currentEx.validate(finalOutput);

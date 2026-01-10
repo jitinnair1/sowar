@@ -1,3 +1,1 @@
-let greet () =
-  (* TODO: Print "Hello, World!" *)
-  ()
+print_endline "Hello, World!";;

@@ -1,63 +1,90 @@
 open Js_of_ocaml
 open Js_of_ocaml_toplevel
 
-(* --- 1. GLOBAL STATE --- *)
-(* We use ONE buffer for everything to ensure order is preserved *)
-let global_buffer = Buffer.create 1024
-let formatter = Format.formatter_of_buffer global_buffer
+(* --- 1. TYPED JS BINDINGS --- *)
+class type console = object
+  method log : Js.js_string Js.t -> unit Js.meth
+  method error : Js.js_string Js.t -> unit Js.meth
+end
+let console : console Js.t = Js.Unsafe.global##.console
+let log s = console##log (Js.string s)
 
-(* Track initialization state *)
+(* --- 2. STATE --- *)
+let stdout_buffer = Buffer.create 1024
+let stderr_buffer = Buffer.create 1024
+let formatter = Format.formatter_of_buffer stdout_buffer
 let initialized = ref false
 
-(* --- 2. INITIALIZATION ROUTINE --- *)
+(* --- 3. INIT --- *)
 let init_env () =
   if not !initialized then begin
-    (* FIX 1: Use Firebug.console for JS logging, not Console.log (which doesn't exist in OCaml) *)
-    Firebug.console##log (Js.string "OCaml: Initializing Toplevel Environment...");
-    
+    log "OCaml: Initializing...";
     JsooTop.initialize ();
-    
-    (* FIX 2: set_channel_flusher expects the channel to be flushed, NOT the stdout object directly *)
-    (* It hooks into the internal OCaml runtime system handling of channels *)
-    Sys_js.set_channel_flusher stdout (fun str ->
-      Buffer.add_string global_buffer str
-    );
-    Sys_js.set_channel_flusher stderr (fun str ->
-      Buffer.add_string global_buffer str
-    );
-    
-    (* Redirect standard formatters to our buffer *)
+
+    (* Separate stdout and stderr capture *)
+    Sys_js.set_channel_flusher stdout (Buffer.add_string stdout_buffer);
+    Sys_js.set_channel_flusher stderr (Buffer.add_string stderr_buffer);
+
     Format.set_formatter_out_channel stdout;
-    
+
     initialized := true;
-    Firebug.console##log (Js.string "OCaml: Ready.")
+    log "OCaml: Ready."
   end
 
-(* --- 3. EXECUTION LOGIC --- *)
-let execute code_js =
+  (* Define the return type explicitly *)
+  class type compiler_result = object
+  method out : Js.js_string Js.t Js.readonly_prop
+  method err : Js.js_string Js.t Js.readonly_prop
+  method success : bool Js.t Js.readonly_prop
+  end
+
+(* Helper to create the object *)
+let make_result o e s : compiler_result Js.t =
+  object%js
+  val out = Js.string o
+    val err = Js.string e
+    val success = Js.bool s
+  end
+
+(* --- 4. EXECUTION --- *)
+let execute code_js : compiler_result Js.t =
+  log "DEBUG: Starting execute..."; (* <--- ADD THIS *)
   init_env ();
-  let code_str = Js.to_string code_js in
+  let code = Js.to_string code_js in
   
-  (* Clear buffer for this run *)
-  Buffer.clear global_buffer;
+  Buffer.clear stdout_buffer;
+  Buffer.clear stderr_buffer;
 
-  (* A. Execute the code *)
-  (* JsooTop.execute returns a bool (success/failure), not unit *)
-  let _success = JsooTop.execute true formatter code_str in
+  try
+    log "DEBUG: About to call JsooTop.execute"; (* <--- ADD THIS *)
+    let () = JsooTop.execute true formatter code in
+    log "DEBUG: JsooTop.execute finished"; (* <--- ADD THIS *)
 
-  (* B. Force Flush to capture print_endline *)
-  (* Important: Flush the formatter first, then the channels *)
-  Format.pp_print_flush formatter ();
-  flush stdout;
-  flush stderr;
+    Format.pp_print_flush formatter ();
+    flush stdout;
+    flush stderr;
 
-  (* C. Return the result *)
-  Js.string (Buffer.contents global_buffer)
+    let out_str = Buffer.contents stdout_buffer in
+    let err_str = Buffer.contents stderr_buffer in
+    (* Determine success based on stderr emptiness *)
+    let is_success = (String.length err_str) = 0 in
 
-(* --- 4. EXPORT TO BROWSER --- *)
+    make_result out_str err_str is_success
+
+  with e ->
+    let msg = Printexc.to_string e in
+    log ("DEBUG: Exception caught: " ^ msg); (* <--- ADD THIS *)
+    object%js
+      val out = Js.string ""
+      val err = Js.string ("Compiler Crash: " ^ msg)
+      val success = Js.bool false
+    end
+
+(* --- 5. EXPORT --- *)
 let () =
   Js.export "ocaml"
     (object%js
-       method run code = execute code
+       (* Explicitly annotate the method return type *)
+       method run (code : Js.js_string Js.t) : compiler_result Js.t = 
+         execute code
     end)
-
