@@ -6,6 +6,8 @@
 - Build it on Ubuntu to check if the build is now consistent?
 - Remove all debug logs
 - ~~Add GH actions to build and deploy~~
+- ~~Remove Tailwind CDN~~
 - Streamline `index.html` for better UX as needed?
 - Add a code trim functionality in `evalOcaml()`
-- Add a favicon, README
+- ~~Add a favicon~~
+- Add a README
