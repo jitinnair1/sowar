@@ -51,7 +51,7 @@ let execute code_js : compiler_result Js.t =
   log "DEBUG: Starting execute..."; (* <--- ADD THIS *)
   init_env ();
   let code = Js.to_string code_js in
-  
+
   Buffer.clear stdout_buffer;
   Buffer.clear stderr_buffer;
 
@@ -85,6 +85,6 @@ let () =
   Js.export "ocaml"
     (object%js
        (* Explicitly annotate the method return type *)
-       method run (code : Js.js_string Js.t) : compiler_result Js.t = 
+       method run (code : Js.js_string Js.t) : compiler_result Js.t =
          execute code
     end)
