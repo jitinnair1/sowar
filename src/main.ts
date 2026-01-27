@@ -75,8 +75,6 @@ async function runCode() {
         const userCode = getCode();
         const result = await evaluateOCaml(userCode);
 
-        console.log("FINAL OBJECT:", result);
-
         if (result.success) {
           finalOutput = result.out;
         } else {

@@ -3,6 +3,7 @@ import { Exercise } from '../core/types';
 // 1. Explicitly import each exercise module
 // This guarantees the bundler includes the files and Typescript checks them.
 import helloWorld from './01_hello_world/index';
+import intsVsFloats from './02_ints_vs_floats/index';
 // import variables from './02_variables/index'; // Example for later
 
 // 2. Add them to the array manually

@@ -35,7 +35,6 @@ But in OCaml, you could define a function like this:
 ```ocaml
 let sum a b = a +. b;;
 ```
-
 Here `let` is the keyword that defines a function. Then, `sum` is the name of the function. Right after that, we have the arguments of the function i.e. `a` and `b` here.
 
 So one way to read the function would be, the function `sum` takes two arguments `a` and `b` and the expression used to calculate the result is the one to the right of the `=` sign.
