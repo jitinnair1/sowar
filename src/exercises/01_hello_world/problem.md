@@ -1,0 +1,14 @@
+Hi, this series of exercises takes you through the basic syntax and concepts of OCaml. All exercies can be run right here in your browser.
+
+We start with the basics and build up to the more advanced concepts. The objective is to write a (very simple) clone of FFTW in OCaml. Fun fact, while FFTW is a C library, the core `genfft` part is written in OCaml. If you're coming from C-styled languages, the functional style might take some time to get used to. But no worries, we'll get there. For now, let's start with the classic "Hello World" program.
+
+In OCaml, the `print_endline` function is used to print to the console. So, to print a message you would use something like:
+
+```ocaml
+print_endline "some message";;
+```
+Now, when writing in a script, you generally use a single semicolon (;) to sequence commands or simply rely on the compiler's structure. However, in the in-browser environment (like we're using here), you must use double semicolons (;;) to signal to the interpreter that you have finished your expression and want it evaluated.
+
+BTW, this is just for you to keep in mind. For exerices here, ypou can simply use a single semicolon and skip the double semicolons (since we add them before running the code automatically for you).
+
+Now, check if the code in the exercise window looks alright and fix it if needed. Then, you can user the `Run` button to run the code.

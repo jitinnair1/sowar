@@ -8,8 +8,9 @@ const exercise: Exercise = {
     description: description,
     initialCode: initialCode,
     validate: (output: string) => {
-        if (output.includes("Hello, World!")) return true;
-        return "Expected output to contain: Hello, World!";
+      const lowercaseOutput = output.toLowerCase();
+      if (lowercaseOutput.includes("hello") && lowercaseOutput.includes("world")) return true;
+      return "Expected output to contain: hello and world";
     }
 };
 
