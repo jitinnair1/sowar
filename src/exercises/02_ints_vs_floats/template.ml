@@ -1,1 +1,1 @@
-let average a b = (a + b);;
+let average a b = (a + b);

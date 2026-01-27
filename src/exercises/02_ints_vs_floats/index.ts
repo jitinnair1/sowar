@@ -8,6 +8,8 @@ const exercise: Exercise = {
     description: description,
     initialCode: initialCode,
     validate: (output: string) => {
+      const hasError = output.includes("Exception") || output.includes("Error");
+      return !hasError;
     }
 };
 
