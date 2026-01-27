@@ -8,7 +8,7 @@ import helloWorld from './01_hello_world/index';
 // 2. Add them to the array manually
 export const exercises: Exercise[] = [
     helloWorld,
-    // variables,
+    intsVsFloats,
 ];
 
 // Helper to find exercise by ID
