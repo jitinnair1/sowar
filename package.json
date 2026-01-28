@@ -7,7 +7,7 @@
     "clean": "rm -rf dist",
     "build:dist": "mkdir -p dist && cp -r public/* dist/",
     "build:ts": "bun build src/main.ts --outdir dist --target browser --minify --loader .md:text --loader .ml:text",
-    "build:css" : "bunx @tailwindcss/cli -i ./src/input.css -o ./public/style.css --minify",
+    "build:css": "bunx @tailwindcss/cli -i ./src/input.css -o ./public/style.css --minify",
     "build": "bun run clean && bun run build:ts && bun run build:css && bun run build:dist",
     "start": "bun run build && bun run serve",
     "dev": "bun run dev.ts",
@@ -17,10 +17,12 @@
     "@tailwindcss/cli": "^4.1.18",
     "canvas-confetti": "^1.9.4",
     "codejar": "^4.3.0",
+    "marked": "^17.0.1",
     "prismjs": "^1.30.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "tailwindcss": "^4.1.18"
   }
 }

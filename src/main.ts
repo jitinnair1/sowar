@@ -3,6 +3,7 @@ import { store } from './core/store';
 import { exercises } from './exercises/registry';
 import { initEditor, getCode } from './core/editor';
 import { evaluateOCaml, isCompilerReady } from './core/compiler';
+import { marked } from 'marked';
 import confetti from 'canvas-confetti';
 
 // 1. Select DOM Elements
@@ -14,13 +15,7 @@ const consoleEl = document.getElementById('console-output') as HTMLElement;
 
 // Markdown Parser
 const parseMarkdown = (text: string) => {
-    return text
-        .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mb-4 text-brand-500">$1</h1>') // Updated color to match brand
-        .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mb-3">$1</h2>')
-        .replace(/^### (.*$)/gim, '<h3 class="text-lg font-bold mt-4 mb-2 text-slate-300">$1</h3>')
-        .replace(/\`\`\`([\s\S]*?)\`\`\`/gim, '<pre class="bg-slate-800 p-3 rounded-md my-2 overflow-x-auto border border-slate-700"><code>$1</code></pre>')
-        .replace(/\`([^\`]+)\`/gim, '<code class="bg-slate-800 px-1.5 py-0.5 rounded text-sm text-yellow-200 font-mono">$1</code>')
-        .replace(/\n/gim, '<br />');
+    return marked.parse(text) as string
 };
 
 // --- 3. Render Function ---
@@ -33,7 +28,7 @@ function render() {
     // Header & Instructions
     const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-white">${currentEx.id} ${currentEx.title}</h1>`;
 
-    descEl.innerHTML = titleHtml + parseMarkdown(currentEx.description);
+    descEl.innerHTML = titleHtml + `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
 
     // Sidebar
     sidebarEl.innerHTML = exercises.map(e => {
