@@ -4,12 +4,14 @@ import { Exercise } from '../core/types';
 // This guarantees the bundler includes the files and Typescript checks them.
 import helloWorld from './01_hello_world/index';
 import intsVsFloats from './02_ints_vs_floats/index';
+import currying from './03_currying/index';
 // import variables from './02_variables/index'; // Example for later
 
 // 2. Add them to the array manually
 export const exercises: Exercise[] = [
     helloWorld,
     intsVsFloats,
+    currying
 ];
 
 // Helper to find exercise by ID
