@@ -55,7 +55,7 @@ If we already had `add` and `multiply` functions, we could we could create speci
 let add x y = x + y;;
 let multiply x y = x * y;;
 
-//now we can create specialized functions
+(* now we can create specialized functions *)
 let add_five = add 5;;
 let multiply_by_two = multiply 2;;
 ```
