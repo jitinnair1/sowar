@@ -52,7 +52,7 @@ process(arr, len, add_five);
 process(arr, len, add_ten);
 \`\`\`
 
-So what if you could build up to \`add_ten\` from \`add_five\`?
+So what if you could build up  \`add_ten\` and \`add_five\` from a general \`add\` function?
 
 ## Currying
 
