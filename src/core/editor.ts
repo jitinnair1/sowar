@@ -2,7 +2,7 @@ import { EditorView, basicSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
-import { oneDark } from '@codemirror/theme-one-dark';
+import { themeCompartment, getTheme } from './theme';
 
 let view: EditorView | null = null;
 
@@ -11,22 +11,18 @@ export function initEditor(initialCode: string) {
     if (!editorEl) return;
 
     if (!view) {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
         const state = EditorState.create({
             doc: initialCode,
             extensions: [
                 basicSetup,
                 StreamLanguage.define(oCaml),
-                oneDark,
+                themeCompartment.of(getTheme(isDark)),
+                EditorView.lineWrapping,
                 EditorView.theme({
-                    "&": { height: "100%", backgroundColor: "#1e1e1e", outline: "none !important" },
+                    "&": { height: "100%", backgroundColor: "var(--bg-app)", color: "var(--fg-primary)" },
                     ".cm-scroller": { overflow: "auto", fontFamily: "var(--font-mono)" },
-                    ".cm-content": {
-                        padding: "24px 16px",
-                        whiteSpace: "pre",
-                        flexShrink: "0"
-                    },
-                    ".cm-gutters": { backgroundColor: "#1e1e1e", borderRight: "1px solid #334155" },
-                    ".cm-gutterElement": { padding: "0 8px" }
                 })
             ]
         });
@@ -43,6 +39,14 @@ export function initEditor(initialCode: string) {
                 changes: { from: 0, to: currentCode.length, insert: initialCode }
             });
         }
+    }
+}
+
+export function updateEditorTheme(isDark: boolean) {
+    if (view) {
+        view.dispatch({
+            effects: themeCompartment.reconfigure(getTheme(isDark))
+        });
     }
 }
 

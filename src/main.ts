@@ -1,7 +1,7 @@
 // src/main.ts
 import { store } from './core/store';
 import { exercises } from './exercises/registry';
-import { initEditor, getCode } from './core/editor';
+import { initEditor, getCode, updateEditorTheme } from './core/editor';
 import { evaluateOCaml, isCompilerReady } from './core/compiler';
 import { marked } from 'marked';
 import confetti from 'canvas-confetti';
@@ -10,7 +10,7 @@ import { EditorState } from '@codemirror/state';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
 import { c } from '@codemirror/legacy-modes/mode/clike';
-import { oneDark } from '@codemirror/theme-one-dark';
+import { getTheme } from './core/theme';
 import { ICONS } from './ui/icons';
 
 //select DOM elements
@@ -35,10 +35,10 @@ function switchTab(tab: 'problem' | 'code') {
         codePane.classList.remove('flex'); // Remove flex when hidden
 
         //styles
-        tabProblem.classList.add('text-white', 'border-brand-500');
-        tabProblem.classList.remove('text-slate-500', 'border-transparent');
-        tabCode.classList.add('text-slate-500', 'border-transparent');
-        tabCode.classList.remove('text-white', 'border-brand-500');
+        tabProblem.classList.add('text-fg-primary', 'border-brand');
+        tabProblem.classList.remove('text-fg-muted', 'border-transparent');
+        tabCode.classList.add('text-fg-muted', 'border-transparent');
+        tabCode.classList.remove('text-fg-primary', 'border-brand');
     } else {
         //show code
         descEl.classList.add('hidden');
@@ -46,10 +46,10 @@ function switchTab(tab: 'problem' | 'code') {
         codePane.classList.add('flex'); // Add flex back
 
         //styles
-        tabCode.classList.add('text-white', 'border-brand-500');
-        tabCode.classList.remove('text-slate-500', 'border-transparent');
-        tabProblem.classList.add('text-slate-500', 'border-transparent');
-        tabProblem.classList.remove('text-white', 'border-brand-500');
+        tabCode.classList.add('text-fg-primary', 'border-brand');
+        tabCode.classList.remove('text-fg-muted', 'border-transparent');
+        tabProblem.classList.add('text-fg-muted', 'border-transparent');
+        tabProblem.classList.remove('text-fg-primary', 'border-brand');
     }
 }
 
@@ -72,6 +72,7 @@ const parseMarkdown = (text: string) => {
 };
 
 function highlightStaticBlocks() {
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const blocks = document.querySelectorAll('.cm-static-code');
     blocks.forEach(block => {
         const text = block.textContent || "";
@@ -85,12 +86,12 @@ function highlightStaticBlocks() {
                 extensions: [
                     EditorState.readOnly.of(true),
                     EditorView.editable.of(false),
-                    oneDark,
+                    getTheme(isDark),
                     lang === 'ocaml' || !lang ? StreamLanguage.define(oCaml) :
                         (lang === 'c' || lang === 'clike') ? StreamLanguage.define(c) : [],
                     EditorView.lineWrapping,
                     EditorView.theme({
-                        "&": { borderRadius: "4px", overflow: "hidden" },
+                        "&": { borderRadius: "4px", overflow: "hidden", backgroundColor: "var(--bg-app)" },
                         ".cm-scroller": { overflow: "visible" }
                     })
                 ]
@@ -100,6 +101,13 @@ function highlightStaticBlocks() {
     });
 }
 
+// System theme listener
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    const isDark = e.matches;
+    updateEditorTheme(isDark);
+    render(); // Re-render to update static block highlighting
+});
+
 //render function
 function render() {
     const { currentExerciseId, completedIds, userCode } = store.getState();
@@ -108,7 +116,7 @@ function render() {
     if (!currentEx) return;
 
     //header & instructions
-    const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-white">${currentEx.id} ${currentEx.title}</h1>`;
+    const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${currentEx.id} ${currentEx.title}</h1>`;
 
     descEl.innerHTML = titleHtml + `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
     highlightStaticBlocks();
@@ -116,7 +124,7 @@ function render() {
     //sidebar
     sidebarEl.innerHTML = exercises.map(e => {
         const isCompleted = completedIds.includes(e.id);
-        const active = e.id === currentExerciseId ? 'bg-slate-800 text-white border-l-2 border-yellow-500' : 'text-slate-400 hover:text-slate-300';
+        const active = e.id === currentExerciseId ? 'bg-bg-surface text-fg-primary border-l-2 border-brand' : 'text-fg-muted hover:text-fg-primary';
         const completed = isCompleted ? 'opacity-40' : '';
 
         return `<div class="nav-item cursor-pointer p-3 text-sm flex justify-between items-center transition-colors ${active} ${completed}"
