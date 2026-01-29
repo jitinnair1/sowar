@@ -15,4 +15,4 @@
      --disable=effects
      --export=export.txt
      ))
-   (javascript_files export.txt)));
+   (javascript_files export.txt)))
