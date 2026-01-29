@@ -8,13 +8,17 @@ interface AppState {
   completedIds: string[];
   markComplete: (id: string) => void;
   setCurrent: (id: string) => void;
+  userCode: Record<string, string>;
+  saveUserCode: (id: string, code: string) => void;
 }
+
 export const store = createStore<AppState>()(
   persist(
     (set, get) => ({
       // Initial State
       currentExerciseId: exercises[0]?.id || "1.1",
       completedIds: [],
+      userCode: {},
 
       // Actions
       markComplete: (id) => {
@@ -24,7 +28,10 @@ export const store = createStore<AppState>()(
         }
       },
 
-      setCurrent: (id) => set({ currentExerciseId: id })
+      setCurrent: (id) => set({ currentExerciseId: id }),
+
+      saveUserCode: (id: string, code: string) => set({ userCode: { ...get().userCode, [id]: code } })
+
     }),
     {
       name: 'sowar-storage',

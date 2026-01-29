@@ -102,7 +102,7 @@ function highlightStaticBlocks() {
 
 //render function
 function render() {
-    const { currentExerciseId, completedIds } = store.getState();
+    const { currentExerciseId, completedIds, userCode } = store.getState();
     const currentEx = exercises.find(e => e.id === currentExerciseId);
 
     if (!currentEx) return;
@@ -127,7 +127,13 @@ function render() {
     }).join('');
 
     //initialize editor
-    initEditor(currentEx.initialCode);
+    let editorText = "";
+    if (!userCode[currentExerciseId]) {
+        editorText = currentEx.initialCode;
+    } else {
+        editorText = userCode[currentExerciseId];
+    }
+    initEditor(editorText);
 
     //clear console on exercise switch
     consoleEl.textContent = "// Ready...";
@@ -141,6 +147,7 @@ async function runCode() {
     }
 
     const { currentExerciseId } = store.getState();
+
     const currentEx = exercises.find(e => e.id === currentExerciseId);
     if (!currentEx) return;
 
@@ -153,6 +160,7 @@ async function runCode() {
 
     try {
         const userCode = getCode();
+        store.getState().saveUserCode(currentExerciseId, userCode);
         const fullCode = userCode + "\n" + (currentEx.testCode || "");
         const result = await evaluateOCaml(fullCode);
 
@@ -193,7 +201,6 @@ async function runCode() {
             spread: 70,
             origin: { y: 0.6 }
         });
-        render();
 
     } catch (e: any) {
         statusEl.textContent = "ERROR";
