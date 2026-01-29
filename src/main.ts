@@ -5,6 +5,11 @@ import { initEditor, getCode } from './core/editor';
 import { evaluateOCaml, isCompilerReady } from './core/compiler';
 import { marked } from 'marked';
 import confetti from 'canvas-confetti';
+import { EditorView } from 'codemirror';
+import { EditorState } from '@codemirror/state';
+import { StreamLanguage } from '@codemirror/language';
+import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
+import { oneDark } from '@codemirror/theme-one-dark';
 import { ICONS } from './ui/icons';
 
 //select DOM elements
@@ -13,11 +18,49 @@ const sidebarEl = document.getElementById('sidebar-list') as HTMLElement;
 const runBtn = document.getElementById('run-btn') as HTMLButtonElement;
 const statusEl = document.getElementById('status') as HTMLElement;
 const consoleEl = document.getElementById('console-output') as HTMLElement;
+const sidebarToggle = document.getElementById('sidebar-toggle') as HTMLButtonElement;
+const sidebarNav = document.getElementById('sidebar-nav') as HTMLElement;
 
 //markdown parser
+const renderer = {
+    code({ text, lang }: { text: string; lang?: string }) {
+        return `<div class="cm-static-code mb-4" data-lang="${lang || ''}">${text}</div>`;
+    }
+};
+
+marked.use({ renderer: renderer as any });
+
 const parseMarkdown = (text: string) => {
     return marked.parse(text) as string
 };
+
+function highlightStaticBlocks() {
+    const blocks = document.querySelectorAll('.cm-static-code');
+    blocks.forEach(block => {
+        const text = block.textContent || "";
+        const lang = block.getAttribute('data-lang');
+
+        block.textContent = "";
+
+        new EditorView({
+            state: EditorState.create({
+                doc: text,
+                extensions: [
+                    EditorState.readOnly.of(true),
+                    EditorView.editable.of(false),
+                    oneDark,
+                    lang === 'ocaml' || !lang ? StreamLanguage.define(oCaml) : [],
+                    EditorView.lineWrapping,
+                    EditorView.theme({
+                        "&": { borderRadius: "4px", overflow: "hidden" },
+                        ".cm-scroller": { overflow: "visible" }
+                    })
+                ]
+            }),
+            parent: block as HTMLElement
+        });
+    });
+}
 
 //render function
 function render() {
@@ -30,6 +73,7 @@ function render() {
     const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-white">${currentEx.id} ${currentEx.title}</h1>`;
 
     descEl.innerHTML = titleHtml + `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
+    highlightStaticBlocks();
 
     //sidebar
     sidebarEl.innerHTML = exercises.map(e => {
@@ -138,6 +182,15 @@ function waitForCompiler() {
 //event listeners
 store.subscribe(render);
 runBtn.addEventListener('click', runCode);
+
+if (sidebarToggle && sidebarNav) {
+    sidebarToggle.addEventListener('click', () => {
+        sidebarNav.classList.toggle('hidden');
+        sidebarNav.classList.toggle('flex');
+        sidebarNav.classList.toggle('lg:hidden');
+        sidebarNav.classList.toggle('lg:flex');
+    });
+}
 
 window.addEventListener('hashchange', () => {
     const id = window.location.hash.slice(1);

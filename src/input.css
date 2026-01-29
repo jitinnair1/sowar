@@ -5,5 +5,26 @@
   /* fonts */
   --font-sans: "Inter", "sans-serif";
   --font-mono: "JetBrains Mono", "monospace";
+  --color-brand-500: #eab308;
+}
 
+/* CodeMirror layout */
+#editor {
+  height: 100%;
+  background-color: #1e1e1e;
+}
+
+.cm-editor {
+  height: 100%;
+}
+
+.cm-scroller {
+  overflow: auto;
+}
+
+.cm-static-code {
+  border: 1px solid #334155;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #1e1e1e;
 }

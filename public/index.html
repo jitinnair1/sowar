@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +9,21 @@
     <!--//fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
 
     <!--//css post tailwind -->
     <link rel="stylesheet" href="./style.css">
 
     <!--//KaTeX -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaYGTAnNKSCpI/8SRouQsMYDHX4GkAeNfG5tyJwv/WnVOCS" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlVwcjNWFMgZHwExtensionsQ7MTCVYTffsRjKaOOgbaJPfnKjWjiV0KIl3BORwf" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURPiLLnucSUEQGzNMNjEBW3OrK5OKvDir/iQIY5CAncwYqtU3fSFEGD" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+        xintegrity="sha384-n8MVd4RsNIU0KOVEMeaYGTAnNKSCpI/8SRouQsMYDHX4GkAeNfG5tyJwv/WnVOCS" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+        xintegrity="sha384-XjKyOOlVwcjNWFMgZHwExtensionsQ7MTCVYTffsRjKaOOgbaJPfnKjWjiV0KIl3BORwf"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        xintegrity="sha384-+VBxd3r6XgURPiLLnucSUEQGzNMNjEBW3OrK5OKvDir/iQIY5CAncwYqtU3fSFEGD"
+        crossorigin="anonymous"></script>
 
     <!--//favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
@@ -28,14 +35,23 @@
     <script src="./sowar_toplevel.bc.js"></script>
 
 </head>
+
 <body class="bg-slate-950 text-slate-200 h-screen flex flex-col overflow-hidden font-sans selection:bg-yellow-500/30">
 
     <header class="h-14 border-b border-slate-800 bg-slate-900 flex items-center justify-between px-6 z-10 shrink-0">
         <div class="flex items-center gap-3">
+            <button id="sidebar-toggle" class="text-slate-500 hover:text-slate-300 transition-colors flex"
+                title="Toggle Sidebar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 3h18v18H3zM9 3v18" />
+                </svg>
+            </button>
             <div class="text-xl opacity-80">🐪</div>
             <div>
                 <h1 class="font-bold text-slate-100 tracking-tight text-lg leading-tight">sowar</h1>
-                <p class="text-[10px] text-slate-500 font-mono uppercase tracking-wider leading-none">OCaml Exercises</p>
+                <p class="text-[10px] text-slate-500 font-mono uppercase tracking-wider leading-none">OCaml Exercises
+                </p>
             </div>
         </div>
 
@@ -45,45 +61,53 @@
                 <span id="status" class="text-xs font-mono text-slate-500">Loading Compiler...</span>
             </div>
 
-            <button id="run-btn" class="bg-brand-500 hover:bg-yellow-500 text-white pl-3 pr-4 py-1.5 rounded-md text-sm font-bold transition-all shadow-lg shadow-yellow-900/20 flex items-center gap-2 opacity-50 cursor-not-allowed disabled:opacity-50">
+            <button id="run-btn"
+                class="bg-brand-500 hover:bg-yellow-500 text-white pl-3 pr-4 py-1.5 rounded-md text-sm font-bold transition-all shadow-lg shadow-yellow-900/20 flex items-center gap-2 opacity-50 cursor-not-allowed disabled:opacity-50">
                 <span>▶</span>
                 <span>Run</span>
             </button>
         </div>
     </header>
 
-    <div class="flex-1 flex overflow-hidden">
+    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
 
-        <nav class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col transition-all duration-300">
+        <nav id="sidebar-nav"
+            class="w-64 bg-slate-900 border-r border-slate-800 hidden flex-col transition-all duration-300 shrink-0 lg:flex">
             <div class="p-4 flex justify-between items-center border-b border-slate-800/50">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Exercises</span>
                 <span class="text-[10px] text-slate-600 bg-slate-800 px-1.5 py-0.5 rounded">v0.1</span>
             </div>
             <div id="sidebar-list" class="flex-1 overflow-y-auto p-2 space-y-1">
-                </div>
+            </div>
         </nav>
 
-        <div id="ex-desc" class="w-5/12 bg-slate-900 border-r border-slate-800 p-8 overflow-y-auto prose prose-invert prose-sm max-w-none">
-            </div>
+        <div id="ex-desc"
+            class="order-1 md:order-none w-full md:w-1/2 lg:w-5/12 h-1/2 md:h-auto bg-slate-900 border-r border-slate-800 p-8 overflow-y-auto prose prose-invert prose-sm max-w-none">
+        </div>
 
-        <div class="flex-1 flex flex-col bg-[#1e1e1e]">
+        <div class="flex-1 flex flex-col order-2 md:order-none h-1/2 md:h-auto bg-[#1e1e1e]">
 
-            <div class="flex-1 relative overflow-auto custom-scrollbar" id="editor-wrapper">
-                <div id="editor" class="prism-editor w-full h-full p-6 text-sm leading-relaxed outline-none" style="tab-size: 2;"></div>
+            <div class="flex-1 relative overflow-hidden" id="editor-wrapper">
+                <div id="editor" class="w-full h-full outline-none"></div>
             </div>
 
             <div class="h-48 bg-black border-t border-slate-700 flex flex-col shrink-0">
-                <div class="px-4 py-1.5 bg-slate-800 text-[10px] font-bold text-slate-400 uppercase tracking-wider flex justify-between select-none border-b border-slate-700">
+                <div
+                    class="px-4 py-1.5 bg-slate-800 text-[10px] font-bold text-slate-400 uppercase tracking-wider flex justify-between select-none border-b border-slate-700">
                     <span>Terminal</span>
-                    <button class="hover:text-white transition-colors" onclick="document.getElementById('console-output').textContent=''">
+                    <button class="hover:text-white transition-colors"
+                        onclick="document.getElementById('console-output').textContent=''">
                         Clear
                     </button>
                 </div>
-                <div id="console-output" class="flex-1 p-4 font-mono text-xs overflow-auto text-slate-300 whitespace-pre-wrap selection:bg-slate-700"></div>
+                <div id="console-output"
+                    class="flex-1 p-4 font-mono text-xs overflow-auto text-slate-300 whitespace-pre-wrap selection:bg-slate-700">
+                </div>
             </div>
         </div>
     </div>
 
     <script type="module" src="./main.js"></script>
 </body>
+
 </html>

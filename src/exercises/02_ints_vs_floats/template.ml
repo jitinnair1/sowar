@@ -1,4 +1,5 @@
-(* use the same function name and signature, but fix the implementation *)
+(* use the same function name and signature
+   but fix the implementation *)
 
 let average a b = (a + b);
 

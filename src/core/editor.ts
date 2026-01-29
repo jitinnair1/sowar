@@ -1,29 +1,47 @@
-import { CodeJar } from 'codejar';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-ocaml';
+import { EditorView, basicSetup } from 'codemirror';
+import { EditorState } from '@codemirror/state';
+import { StreamLanguage } from '@codemirror/language';
+import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
+import { oneDark } from '@codemirror/theme-one-dark';
 
-let jar: any;
+let view: EditorView | null = null;
 
 export function initEditor(initialCode: string) {
     const editorEl = document.getElementById('editor');
     if (!editorEl) return;
 
-    if (!jar) {
-        jar = CodeJar(editorEl, (editor: HTMLElement) => {
-            editor.innerHTML = Prism.highlight(
-                editor.textContent || "",
-                Prism.languages.ocaml,
-                'ocaml'
-            );
+    if (!view) {
+        const state = EditorState.create({
+            doc: initialCode,
+            extensions: [
+                basicSetup,
+                StreamLanguage.define(oCaml),
+                oneDark,
+                EditorView.theme({
+                    "&": { height: "100%", backgroundColor: "#1e1e1e" },
+                    ".cm-scroller": { overflow: "auto", fontFamily: "var(--font-mono)" },
+                    ".cm-content": { padding: "24px 0" },
+                    ".cm-gutters": { backgroundColor: "#1e1e1e", borderRight: "1px solid #334155" },
+                    ".cm-gutterElement": { padding: "0 8px" }
+                })
+            ]
         });
-    }
 
-    //update code only if it's strictly different
-    if (jar.toString() !== initialCode) {
-        jar.updateCode(initialCode);
+        view = new EditorView({
+            state,
+            parent: editorEl
+        });
+    } else {
+        // Update code only if it's strictly different
+        const currentCode = view.state.doc.toString();
+        if (currentCode !== initialCode) {
+            view.dispatch({
+                changes: { from: 0, to: currentCode.length, insert: initialCode }
+            });
+        }
     }
 }
 
 export function getCode(): string {
-    return jar ? jar.toString() : "";
+    return view ? view.state.doc.toString() : "";
 }
