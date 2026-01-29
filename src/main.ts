@@ -9,6 +9,7 @@ import { EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
+import { c } from '@codemirror/legacy-modes/mode/clike';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { ICONS } from './ui/icons';
 
@@ -85,7 +86,8 @@ function highlightStaticBlocks() {
                     EditorState.readOnly.of(true),
                     EditorView.editable.of(false),
                     oneDark,
-                    lang === 'ocaml' || !lang ? StreamLanguage.define(oCaml) : [],
+                    lang === 'ocaml' || !lang ? StreamLanguage.define(oCaml) :
+                        (lang === 'c' || lang === 'clike') ? StreamLanguage.define(c) : [],
                     EditorView.lineWrapping,
                     EditorView.theme({
                         "&": { borderRadius: "4px", overflow: "hidden" },
