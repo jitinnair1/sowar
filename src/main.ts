@@ -7,31 +7,31 @@ import { marked } from 'marked';
 import confetti from 'canvas-confetti';
 import { ICONS } from './ui/icons';
 
-// 1. Select DOM Elements
+//select DOM elements
 const descEl = document.getElementById('ex-desc') as HTMLElement;
 const sidebarEl = document.getElementById('sidebar-list') as HTMLElement;
 const runBtn = document.getElementById('run-btn') as HTMLButtonElement;
 const statusEl = document.getElementById('status') as HTMLElement;
 const consoleEl = document.getElementById('console-output') as HTMLElement;
 
-// Markdown Parser
+//markdown parser
 const parseMarkdown = (text: string) => {
     return marked.parse(text) as string
 };
 
-// --- 3. Render Function ---
+//render function
 function render() {
     const { currentExerciseId, completedIds } = store.getState();
     const currentEx = exercises.find(e => e.id === currentExerciseId);
 
     if (!currentEx) return;
 
-    // Header & Instructions
+    //header & instructions
     const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-white">${currentEx.id} ${currentEx.title}</h1>`;
 
     descEl.innerHTML = titleHtml + `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
 
-    // Sidebar
+    //sidebar
     sidebarEl.innerHTML = exercises.map(e => {
         const isCompleted = completedIds.includes(e.id);
         const active = e.id === currentExerciseId ? 'bg-slate-800 text-white border-l-2 border-yellow-500' : 'text-slate-400 hover:text-slate-300';
@@ -44,16 +44,15 @@ function render() {
                 </div>`;
     }).join('');
 
-    // Initialize Editor
+    //initialize editor
     initEditor(currentEx.initialCode);
 
-    // Clear console on exercise switch
+    //clear console on exercise switch
     consoleEl.textContent = "// Ready...";
 }
 
-// --- 4. Logic: Run Code ---
+//run code
 async function runCode() {
-  if (!isCompilerReady()) {
     if (!isCompilerReady()) {
         alert("Compiler is still loading... please wait.");
         return;
@@ -123,10 +122,9 @@ async function runCode() {
     }
 }
 
-// --- 5. Logic: Wait for Compiler ---
+//wait for compiler
 function waitForCompiler() {
     const check = setInterval(() => {
-        // USE THE HELPER: consistent check
         if (isCompilerReady()) {
             clearInterval(check);
             statusEl.textContent = "Compiler Ready";
@@ -137,18 +135,18 @@ function waitForCompiler() {
     }, 500);
 }
 
-// --- 6. Event Listeners ---
+//event listeners
 store.subscribe(render);
 runBtn.addEventListener('click', runCode);
 
 window.addEventListener('hashchange', () => {
     const id = window.location.hash.slice(1);
     if (exercises.find(e => e.id === id)) {
-      store.getState().setCurrent(id);
+        store.getState().setCurrent(id);
     }
 });
 
-// Init
+//init
 waitForCompiler();
 const initialId = window.location.hash.slice(1) || exercises[0].id;
 store.getState().setCurrent(initialId);
