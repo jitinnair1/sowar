@@ -32,7 +32,7 @@ function switchTab(tab: 'problem' | 'code') {
         //show problem
         descEl.classList.remove('hidden');
         codePane.classList.add('hidden');
-        codePane.classList.remove('flex'); // Remove flex when hidden
+        codePane.classList.remove('flex');
 
         //styles
         tabProblem.classList.add('text-fg-primary', 'border-brand');
@@ -43,7 +43,7 @@ function switchTab(tab: 'problem' | 'code') {
         //show code
         descEl.classList.add('hidden');
         codePane.classList.remove('hidden');
-        codePane.classList.add('flex'); // Add flex back
+        codePane.classList.add('flex');
 
         //styles
         tabCode.classList.add('text-fg-primary', 'border-brand');
