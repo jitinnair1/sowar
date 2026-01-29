@@ -325,6 +325,28 @@ if (sidebarToggle && sidebarNav) {
     });
 }
 
+//close sidebar when clicking outside on mobile
+document.addEventListener('click', (e) => {
+    if (!sidebarNav || !sidebarToggle) return;
+
+    const isMobileOpen = !sidebarNav.classList.contains('hidden');
+    const isMobile = window.innerWidth < 1024;
+
+    if (isMobile && isMobileOpen) {
+        const target = e.target as HTMLElement;
+        const clickedInside = sidebarNav.contains(target);
+        const clickedToggle = sidebarToggle.contains(target);
+
+        if (!clickedInside && !clickedToggle) {
+            sidebarNav.classList.toggle('hidden');
+            sidebarNav.classList.toggle('flex');
+            sidebarNav.classList.toggle('lg:hidden');
+            sidebarNav.classList.toggle('lg:flex');
+        }
+    }
+});
+
+
 window.addEventListener('hashchange', () => {
     const id = window.location.hash.slice(1);
     if (exercises.find(e => e.id === id)) {
