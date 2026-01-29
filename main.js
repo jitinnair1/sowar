@@ -15,8 +15,6 @@ Now, when writing code in an OCaml script, you generally use a single semicolon 
 
 However, in the in-browser environment (like we're using here), you must use double semicolons (;;) to signal to the interpreter that you have finished your expression and want it evaluated.
 
-For exerices here though, you can simply use a single semicolon and skip the double semicolons (since we add them before running the code automatically for you). This bit of information was just for you to keep in mind for later.
-
 Now, check if the code in the exercise window looks alright and fix it if needed. Then, you can user the \`Run\` button to run the code.
 
 # Problem Statement
