@@ -1,5 +1,4 @@
 // src/core/compiler.ts
-
 export interface CompilerResult {
   out: string;
   err: string;
