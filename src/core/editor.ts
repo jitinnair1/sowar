@@ -18,9 +18,13 @@ export function initEditor(initialCode: string) {
                 StreamLanguage.define(oCaml),
                 oneDark,
                 EditorView.theme({
-                    "&": { height: "100%", backgroundColor: "#1e1e1e" },
+                    "&": { height: "100%", backgroundColor: "#1e1e1e", outline: "none !important" },
                     ".cm-scroller": { overflow: "auto", fontFamily: "var(--font-mono)" },
-                    ".cm-content": { padding: "24px 0" },
+                    ".cm-content": {
+                        padding: "24px 16px",
+                        whiteSpace: "pre",
+                        flexShrink: "0"
+                    },
                     ".cm-gutters": { backgroundColor: "#1e1e1e", borderRight: "1px solid #334155" },
                     ".cm-gutterElement": { padding: "0 8px" }
                 })

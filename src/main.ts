@@ -21,6 +21,42 @@ const consoleEl = document.getElementById('console-output') as HTMLElement;
 const sidebarToggle = document.getElementById('sidebar-toggle') as HTMLButtonElement;
 const sidebarNav = document.getElementById('sidebar-nav') as HTMLElement;
 
+//tabs
+const tabProblem = document.getElementById('tab-problem') as HTMLButtonElement;
+const tabCode = document.getElementById('tab-code') as HTMLButtonElement;
+const codePane = document.getElementById('code-pane') as HTMLElement;
+
+function switchTab(tab: 'problem' | 'code') {
+    if (tab === 'problem') {
+        //show problem
+        descEl.classList.remove('hidden');
+        codePane.classList.add('hidden');
+        codePane.classList.remove('flex'); // Remove flex when hidden
+
+        //styles
+        tabProblem.classList.add('text-white', 'border-brand-500');
+        tabProblem.classList.remove('text-slate-500', 'border-transparent');
+        tabCode.classList.add('text-slate-500', 'border-transparent');
+        tabCode.classList.remove('text-white', 'border-brand-500');
+    } else {
+        //show code
+        descEl.classList.add('hidden');
+        codePane.classList.remove('hidden');
+        codePane.classList.add('flex'); // Add flex back
+
+        //styles
+        tabCode.classList.add('text-white', 'border-brand-500');
+        tabCode.classList.remove('text-slate-500', 'border-transparent');
+        tabProblem.classList.add('text-slate-500', 'border-transparent');
+        tabProblem.classList.remove('text-white', 'border-brand-500');
+    }
+}
+
+if (tabProblem && tabCode) {
+    tabProblem.addEventListener('click', () => switchTab('problem'));
+    tabCode.addEventListener('click', () => switchTab('code'));
+}
+
 //markdown parser
 const renderer = {
     code({ text, lang }: { text: string; lang?: string }) {
