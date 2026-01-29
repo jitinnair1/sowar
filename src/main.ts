@@ -51,6 +51,7 @@ function render() {
 // --- 4. Logic: Run Code ---
 async function runCode() {
   if (!isCompilerReady()) {
+    if (!isCompilerReady()) {
         alert("Compiler is still loading... please wait.");
         return;
     }
@@ -68,38 +69,54 @@ async function runCode() {
 
     try {
         const userCode = getCode();
-        const result = await evaluateOCaml(userCode);
+        const fullCode = userCode + "\n" + (currentEx.testCode || "");
+        const result = await evaluateOCaml(fullCode);
 
-        if (result.success) {
-          finalOutput = result.out;
-        } else {
-          finalOutput = result.err || "Unknown Error";
+        //check for runtime/compiler errors
+        if (!result.success) {
+            statusEl.textContent = "FAILED";
+            statusEl.className = "text-red-500 font-bold text-xs";
+            consoleEl.textContent = result.err || "Compilation/Runtime Error";
+            return;
         }
 
-    } catch (e: any) {
-        finalOutput = "Runtime Error: " + e.message;
-    } finally {
-        runBtn.disabled = false;
-    }
+        finalOutput = result.out;
+        consoleEl.textContent = finalOutput;
 
-    consoleEl.textContent = finalOutput;
+        //check for explicit test failures in output
+        if (finalOutput.includes("Test failed") || finalOutput.includes("Failure")) {
+            statusEl.textContent = "FAILED";
+            statusEl.className = "text-red-500 font-bold text-xs";
+            return;
+        }
 
-    const validation = currentEx.validate(finalOutput);
+        //run custom validation (hints/structural checks)
+        const validation = currentEx.validate(userCode, result.out);
+        if (validation !== true) {
+            statusEl.textContent = "FAILED";
+            statusEl.className = "text-red-500 font-bold text-xs";
+            consoleEl.textContent += `\n\n${validation}`;
+            return;
+        }
 
-    if (validation === true) {
+        //success!
         statusEl.textContent = "PASSED";
         statusEl.className = "text-green-500 font-bold text-xs";
-        store.getState().markComplete(currentEx.id); // Ensure getState() is used if using Zustand
+        store.getState().markComplete(currentEx.id);
+
         confetti({
             particleCount: 100,
             spread: 70,
             origin: { y: 0.6 }
         });
         render();
-    } else {
-        statusEl.textContent = "FAILED";
-        statusEl.className = "text-red-500 font-bold text-xs";
-        consoleEl.textContent += `\n\n ${validation}`;
+
+    } catch (e: any) {
+        statusEl.textContent = "ERROR";
+        statusEl.className = "text-red-600 font-bold text-xs";
+        consoleEl.textContent = "Runtime Error: " + e.message;
+    } finally {
+        runBtn.disabled = false;
     }
 }
 
