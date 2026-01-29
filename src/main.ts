@@ -14,7 +14,12 @@ import { getTheme } from './core/theme';
 import { ICONS } from './ui/icons';
 
 //select DOM elements
-const descEl = document.getElementById('ex-desc') as HTMLElement;
+const descElDesktop = document.getElementById('ex-desc') as HTMLElement;
+const descElMobile = document.getElementById('ex-desc-mobile') as HTMLElement;
+const problemHeaderEl = document.getElementById('problem-header') as HTMLElement;
+
+// Helper to get currently visible description element or both
+const getDescEls = () => [descElDesktop, descElMobile];
 const sidebarEl = document.getElementById('sidebar-list') as HTMLElement;
 const runBtn = document.getElementById('run-btn') as HTMLButtonElement;
 const statusEl = document.getElementById('status') as HTMLElement;
@@ -25,12 +30,15 @@ const sidebarNav = document.getElementById('sidebar-nav') as HTMLElement;
 //tabs
 const tabProblem = document.getElementById('tab-problem') as HTMLButtonElement;
 const tabCode = document.getElementById('tab-code') as HTMLButtonElement;
+const tabPrev = document.getElementById('tab-prev') as HTMLButtonElement;
+const tabNext = document.getElementById('tab-next') as HTMLButtonElement;
 const codePane = document.getElementById('code-pane') as HTMLElement;
 
 function switchTab(tab: 'problem' | 'code') {
     if (tab === 'problem') {
         //show problem
-        descEl.classList.remove('hidden');
+        //show problem
+        descElMobile.classList.remove('hidden');
         codePane.classList.add('hidden');
         codePane.classList.remove('flex');
 
@@ -41,7 +49,7 @@ function switchTab(tab: 'problem' | 'code') {
         tabCode.classList.remove('text-fg-primary', 'border-brand');
     } else {
         //show code
-        descEl.classList.add('hidden');
+        descElMobile.classList.add('hidden');
         codePane.classList.remove('hidden');
         codePane.classList.add('flex');
 
@@ -57,6 +65,43 @@ if (tabProblem && tabCode) {
     tabProblem.addEventListener('click', () => switchTab('problem'));
     tabCode.addEventListener('click', () => switchTab('code'));
 }
+
+function goToNext() {
+    const { currentExerciseId } = store.getState();
+    const idx = exercises.findIndex(e => e.id === currentExerciseId);
+    if (idx < exercises.length - 1) {
+        window.location.hash = '#' + exercises[idx + 1].id;
+    }
+}
+
+function goToPrev() {
+    const { currentExerciseId } = store.getState();
+    const idx = exercises.findIndex(e => e.id === currentExerciseId);
+    if (idx > 0) {
+        window.location.hash = '#' + exercises[idx - 1].id;
+    }
+}
+
+if (tabPrev && tabNext) {
+    tabPrev.addEventListener('click', goToPrev);
+    tabNext.addEventListener('click', goToNext);
+}
+
+//desktop nav listeners logic moved to render
+
+document.addEventListener('keydown', (e) => {
+    // Only navigate if not typing in editor
+    if ((e.target as HTMLElement).closest('.cm-content')) return;
+
+    if (e.altKey && e.key === 'ArrowRight') {
+        e.preventDefault();
+        goToNext();
+    }
+    if (e.altKey && e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goToPrev();
+    }
+});
 
 //markdown parser
 const renderer = {
@@ -105,7 +150,7 @@ function highlightStaticBlocks() {
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
     const isDark = e.matches;
     updateEditorTheme(isDark);
-    render(); // Re-render to update static block highlighting
+    render();
 });
 
 //render function
@@ -116,9 +161,44 @@ function render() {
     if (!currentEx) return;
 
     //header & instructions
-    const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${currentEx.id} ${currentEx.title}</h1>`;
+    const idx = exercises.findIndex(e => e.id === currentExerciseId);
+    const hasPrev = idx > 0;
+    const hasNext = idx < exercises.length - 1;
 
-    descEl.innerHTML = titleHtml + `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
+    //update mobile nav state
+    if (tabPrev) tabPrev.disabled = !hasPrev;
+    if (tabNext) tabNext.disabled = !hasNext;
+
+    // Render description to both mobile and desktop containers
+    const descHtml = `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
+
+    // Title is now in the body for both mobile and desktop
+    const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${currentEx.id} ${currentEx.title}</h1>`;
+    const fullContent = titleHtml + descHtml;
+
+    if (descElDesktop) descElDesktop.innerHTML = fullContent;
+    if (descElMobile) descElMobile.innerHTML = fullContent;
+
+    // Update sticky header (inject buttons)
+    if (problemHeaderEl) {
+        problemHeaderEl.innerHTML = `
+            <button class="nav-prev-d px-4 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
+                ${!hasPrev ? 'disabled' : ''} title="Previous (Alt + Left)">
+                ${ICONS.LEFT_ARROW}
+            </button>
+            <div class="flex-1"></div>
+            <button class="nav-next-d px-4 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
+                ${!hasNext ? 'disabled' : ''} title="Next (Alt + Right)">
+                ${ICONS.RIGHT_ARROW}
+            </button>
+        `;
+
+        // Attach listeners to new elements
+        problemHeaderEl.querySelector('.nav-prev-d')?.addEventListener('click', goToPrev);
+        problemHeaderEl.querySelector('.nav-next-d')?.addEventListener('click', goToNext);
+    }
+    // So we can remove the descEl event listener logic.
+
     highlightStaticBlocks();
 
     //sidebar
