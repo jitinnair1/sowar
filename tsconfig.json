@@ -4,26 +4,27 @@
     "module": "Preserve",
     "outDir": "./dist",
     "rootDir": "./src",
-    "lib": ["ESNext","DOM"],
-
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     /* type-checking */
     "strict": true,
     "noImplicitAny": true,
     "noEmit": true,
     "noFallthroughCasesInSwitch": true, //forces explicit exit in switch
-
     /* module resolution options */
     "moduleResolution": "bundler",
     "moduleDetection": "force", //so that TS treats files as modules even without import/export
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
-
     /* other options */
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
     /* bun-specific */
-    "types": ["bun"]
+    "types": [
+      "bun-types"
+    ]
   },
   "include": [
     "src/**/*"
