@@ -5,6 +5,7 @@ import { initEditor, getCode } from './core/editor';
 import { evaluateOCaml, isCompilerReady } from './core/compiler';
 import { marked } from 'marked';
 import confetti from 'canvas-confetti';
+import { ICONS } from './ui/icons';
 
 // 1. Select DOM Elements
 const descEl = document.getElementById('ex-desc') as HTMLElement;
@@ -32,12 +33,14 @@ function render() {
 
     // Sidebar
     sidebarEl.innerHTML = exercises.map(e => {
+        const isCompleted = completedIds.includes(e.id);
         const active = e.id === currentExerciseId ? 'bg-slate-800 text-white border-l-2 border-yellow-500' : 'text-slate-400 hover:text-slate-300';
-        const check = completedIds.includes(e.id) ? '<span class="text-green-500 font-bold">✓</span>' : '';
-        return `<div class="nav-item cursor-pointer p-3 text-sm flex justify-between items-center transition-colors ${active}"
+        const completed = isCompleted ? 'opacity-40' : '';
+
+        return `<div class="nav-item cursor-pointer p-3 text-sm flex justify-between items-center transition-colors ${active} ${completed}"
                     onclick="location.hash='#${e.id}'">
                   <span>${e.id} ${e.title}</span>
-                  ${check}
+                  ${isCompleted ? ICONS.CHECK : ''}
                 </div>`;
     }).join('');
 
