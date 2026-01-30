@@ -25,6 +25,8 @@ const statusEl = document.getElementById('status') as HTMLElement;
 const consoleEl = document.getElementById('console-output') as HTMLElement;
 const sidebarToggle = document.getElementById('sidebar-toggle') as HTMLButtonElement;
 const sidebarNav = document.getElementById('sidebar-nav') as HTMLElement;
+const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement;
+const clearConsoleBtn = document.getElementById('clear-console-btn') as HTMLButtonElement;
 
 //tabs
 const tabProblem = document.getElementById('tab-problem') as HTMLButtonElement;
@@ -298,6 +300,27 @@ function waitForCompiler() {
 //event listeners
 store.subscribe(render);
 runBtn.addEventListener('click', runCode);
+
+if (resetBtn) {
+    resetBtn.innerHTML = ICONS.TRASH;
+    resetBtn.addEventListener('click', () => {
+        const { currentExerciseId } = store.getState();
+        const currentEx = exercises.find(e => e.id === currentExerciseId);
+        if (!currentEx) return;
+
+        if (confirm("Reset current exercise to initial code? Your changes will be lost.")) {
+            store.getState().saveUserCode(currentExerciseId, currentEx.initialCode);
+        }
+    });
+}
+if (clearConsoleBtn) {
+    clearConsoleBtn.innerHTML = ICONS.TRASH;
+    clearConsoleBtn.addEventListener('click', () => {
+        if (consoleEl) {
+            consoleEl.textContent = "";
+        }
+    });
+}
 
 if (sidebarToggle && sidebarNav) {
     sidebarToggle.addEventListener('click', () => {

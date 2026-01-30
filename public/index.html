@@ -63,7 +63,7 @@
             </div>
 
             <button id="run-btn"
-                class="bg-brand hover:opacity-90 text-white pl-3 pr-4 py-1.5 rounded-md text-sm font-bold transition-all flex items-center gap-2 opacity-50 cursor-not-allowed disabled:opacity-50">
+                class="bg-brand hover:opacity-90 hover:cursor-pointer text-white pl-3 pr-4 py-1.5 rounded-md text-sm font-bold transition-all flex items-center gap-2 opacity-50 cursor-not-allowed disabled:opacity-50">
             </button>
         </div>
     </header>
@@ -124,6 +124,9 @@
                     <div
                         class="h-10 px-4 bg-bg-surface text-[10px] font-bold text-fg-muted uppercase tracking-wider flex items-center justify-between select-none border-b border-border-default shrink-0">
                         <span>Editor</span>
+                        <button id="reset-btn" class="hover:text-white hover:cursor-pointer uppercase transition-colors"
+                            title="Reset">
+                        </button>
                     </div>
 
                     <div class="flex-1 relative" id="editor-wrapper">
@@ -135,9 +138,8 @@
                     <div
                         class="h-10 px-4 bg-bg-surface text-[10px] font-bold text-fg-muted uppercase tracking-wider flex items-center justify-between select-none border-b border-border-default">
                         <span>Console</span>
-                        <button class="hover:text-white transition-colors"
-                            onclick="document.getElementById('console-output').textContent=''">
-                            Clear
+                        <button id="clear-console-btn" class="hover:text-white hover:cursor-pointer transition-colors"
+                            title="Clear Console">
                         </button>
                     </div>
                     <div id="console-output"
