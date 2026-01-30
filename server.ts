@@ -4,7 +4,7 @@ const server = serve({
   port: 8080,
   development: true,
 
-  async fetch(req) {
+  async fetch(req: Request) {
     const url = new URL(req.url);
     let filePath = url.pathname;
 
@@ -26,3 +26,5 @@ const server = serve({
 });
 
 console.log(`Server running at http://localhost:${server.port}`);
+const baseDir = (import.meta as any).dir || process.cwd();
+console.log(`Serving files from ${baseDir}/dist`);

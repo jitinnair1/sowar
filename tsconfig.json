@@ -3,7 +3,6 @@
     "target": "ESNext",
     "module": "Preserve",
     "outDir": "./dist",
-    "rootDir": "./src",
     "lib": [
       "ESNext",
       "DOM"
@@ -27,6 +26,8 @@
     ]
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "dev.ts",
+    "server.ts"
   ]
 }

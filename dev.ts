@@ -1,12 +1,35 @@
-// scripts/dev.ts
 import { $ } from "bun";
+import { watch } from "node:fs";
+import { cp } from "node:fs/promises";
+import { join } from "node:path";
 
-await $`bun run build:dist`;
+const PUBLIC_DIR = "public";
+const DIST_DIR = "dist";
 
-//run watchers in parallel
+async function syncFile(filename: string) {
+  try {
+    await cp(join(PUBLIC_DIR, filename), join(DIST_DIR, filename), { recursive: true });
+    console.log(`[sync] ${filename} -> ${DIST_DIR}`);
+  } catch (err) {
+    // file might be temporarily locked or deleted
+  }
+}
+
+// 1. Initial Clean & Sync
+console.log("🚀 Initializing dev build...");
+await $`rm -rf ${DIST_DIR} && mkdir -p ${DIST_DIR}`;
+await $`cp -r ${PUBLIC_DIR}/* ${DIST_DIR}/`;
+
+// 2. Watch public directory for changes
+watch(PUBLIC_DIR, { recursive: true }, (event, filename) => {
+  if (filename) syncFile(filename);
+});
+
+// 3. Run watchers and server in parallel
+console.log("👀 Watching for changes...");
 await Promise.all([
-  $`bun run build:ts --watch`,
-  $`bunx @tailwindcss/cli -i ./src/input.css -o ./dist/style.css --watch`,
-  $`bun run serve`
+  $`bun build src/main.ts --outdir ${DIST_DIR} --target browser --loader .md:text --loader .ml:text --watch`,
+  $`bunx @tailwindcss/cli -i ./src/input.css -o ./${DIST_DIR}/style.css --watch`,
+  $`bun run server.ts`
 ]);
 
