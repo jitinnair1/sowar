@@ -6,7 +6,7 @@
   --font-sans: "Inter", "sans-serif";
   --font-mono: "JetBrains Mono", "monospace";
 
-  /* Semantic Colors - mapped to variables */
+  /* theme variables */
   --color-brand: var(--color-brand);
   --color-bg-app: var(--bg-app);
   --color-bg-surface: var(--bg-surface);
@@ -15,6 +15,7 @@
   --color-border-default: var(--border-default);
 }
 
+/* catpuccin colours */
 :root {
   /* Brand - Peach */
   --color-brand: #fe640b;
@@ -58,7 +59,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Typography Overrides */
+/* text uses theme colors */
 .prose {
   --tw-prose-body: var(--fg-primary);
   --tw-prose-headings: var(--fg-primary);
@@ -78,7 +79,7 @@ body {
   --tw-prose-td-borders: var(--border-default);
 }
 
-/* CodeMirror layout - use variables to match theme */
+/* CodeMirror uses theme variables */
 #editor {
   height: 100%;
   background-color: var(--bg-app);
