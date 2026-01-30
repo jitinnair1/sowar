@@ -11,22 +11,18 @@ async function syncFile(filename: string) {
     await cp(join(PUBLIC_DIR, filename), join(DIST_DIR, filename), { recursive: true });
     console.log(`[sync] ${filename} -> ${DIST_DIR}`);
   } catch (err) {
-    // file might be temporarily locked or deleted
   }
 }
 
-// 1. Initial Clean & Sync
-console.log("🚀 Initializing dev build...");
+console.log("Initializing dev build...");
 await $`rm -rf ${DIST_DIR} && mkdir -p ${DIST_DIR}`;
 await $`cp -r ${PUBLIC_DIR}/* ${DIST_DIR}/`;
 
-// 2. Watch public directory for changes
 watch(PUBLIC_DIR, { recursive: true }, (event, filename) => {
   if (filename) syncFile(filename);
 });
 
-// 3. Run watchers and server in parallel
-console.log("👀 Watching for changes...");
+console.log("Watching for changes...");
 await Promise.all([
   $`bun build src/main.ts --outdir ${DIST_DIR} --target browser --loader .md:text --loader .ml:text --watch`,
   $`bunx @tailwindcss/cli -i ./src/input.css -o ./${DIST_DIR}/style.css --watch`,
