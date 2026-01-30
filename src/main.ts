@@ -18,8 +18,7 @@ const descElDesktop = document.getElementById('ex-desc') as HTMLElement;
 const descElMobile = document.getElementById('ex-desc-mobile') as HTMLElement;
 const problemHeaderEl = document.getElementById('problem-header') as HTMLElement;
 
-// Helper to get currently visible description element or both
-const getDescEls = () => [descElDesktop, descElMobile];
+//get currently visible description element or both
 const sidebarEl = document.getElementById('sidebar-list') as HTMLElement;
 const runBtn = document.getElementById('run-btn') as HTMLButtonElement;
 const statusEl = document.getElementById('status') as HTMLElement;
@@ -36,24 +35,19 @@ const codePane = document.getElementById('code-pane') as HTMLElement;
 
 function switchTab(tab: 'problem' | 'code') {
     if (tab === 'problem') {
-        //show problem
-        //show problem
         descElMobile.classList.remove('hidden');
         codePane.classList.add('hidden');
         codePane.classList.remove('flex');
 
-        //styles
         tabProblem.classList.add('text-fg-primary', 'border-brand');
         tabProblem.classList.remove('text-fg-muted', 'border-transparent');
         tabCode.classList.add('text-fg-muted', 'border-transparent');
         tabCode.classList.remove('text-fg-primary', 'border-brand');
     } else {
-        //show code
         descElMobile.classList.add('hidden');
         codePane.classList.remove('hidden');
         codePane.classList.add('flex');
 
-        //styles
         tabCode.classList.add('text-fg-primary', 'border-brand');
         tabCode.classList.remove('text-fg-muted', 'border-transparent');
         tabProblem.classList.add('text-fg-muted', 'border-transparent');
@@ -86,22 +80,6 @@ if (tabPrev && tabNext) {
     tabPrev.addEventListener('click', goToPrev);
     tabNext.addEventListener('click', goToNext);
 }
-
-//desktop nav listeners logic moved to render
-
-document.addEventListener('keydown', (e) => {
-    // Only navigate if not typing in editor
-    if ((e.target as HTMLElement).closest('.cm-content')) return;
-
-    if (e.altKey && e.key === 'ArrowRight') {
-        e.preventDefault();
-        goToNext();
-    }
-    if (e.altKey && e.key === 'ArrowLeft') {
-        e.preventDefault();
-        goToPrev();
-    }
-});
 
 //markdown parser
 const renderer = {
@@ -146,7 +124,7 @@ function highlightStaticBlocks() {
     });
 }
 
-// System theme listener
+//theme switcher
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
     const isDark = e.matches;
     updateEditorTheme(isDark);
@@ -169,17 +147,15 @@ function render() {
     if (tabPrev) tabPrev.disabled = !hasPrev;
     if (tabNext) tabNext.disabled = !hasNext;
 
-    // Render description to both mobile and desktop containers
+    //render description to both mobile and desktop containers
     const descHtml = `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
-
-    // Title is now in the body for both mobile and desktop
     const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${currentEx.id} ${currentEx.title}</h1>`;
     const fullContent = titleHtml + descHtml;
 
     if (descElDesktop) descElDesktop.innerHTML = fullContent;
     if (descElMobile) descElMobile.innerHTML = fullContent;
 
-    // Update sticky header (inject buttons)
+    //update sticky header
     if (problemHeaderEl) {
         problemHeaderEl.innerHTML = `
             <button class="nav-prev-d px-4 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
@@ -193,12 +169,14 @@ function render() {
             </button>
         `;
 
-        // Attach listeners to new elements
+        //attach listeners to new elements
         problemHeaderEl.querySelector('.nav-prev-d')?.addEventListener('click', goToPrev);
         problemHeaderEl.querySelector('.nav-next-d')?.addEventListener('click', goToNext);
     }
-    // So we can remove the descEl event listener logic.
 
+    //JN: Right now, codemirror essentially "injects" a read only editor in the markdown codeblocks using this
+    //function. So all codeblocks in the problem description are effectively read-only editors. Does this add 
+    //an overhead as the number of code blocks across all exercises scales?
     highlightStaticBlocks();
 
     //sidebar
