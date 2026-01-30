@@ -3,17 +3,17 @@
 - Clean up all source code files
 - ~~Why is the JS file 40 MBs? How do I get it to be a reasonable size?~~
 - Review the architecture of the `CompilerResult` based design? Does error reporting work as expected?
-- Build it on Ubuntu to check if the build is now consistent?
-- Remove all debug logs
+- ~~Build it on Ubuntu to check if the build is now consistent~~
+- ~~Remove all debug logs~~
 - ~~Add GH actions to build and deploy~~
 - ~~Remove Tailwind CDN~~
-- Remove regex parsing for markdown exercies descriptions
-- Streamline `index.html` for better UX as needed?
-  - Split Run and Submit buttons
+- ~~Remove regex parsing for markdown exercies descriptions~~
+- ~~Streamline `index.html` for better UX as needed~~
+  - ~~Wontfix:Split Run and Submit buttons~~
   - Add a progress bar maybe?
-  - Remove shading from Run button
-  - Add a light theme (argh!)
-- Add a code trim functionality in `evalOcaml()`
+  - ~~Remove shading from Run button~~
+  - ~~Add a light theme~~
+- ~~Wontfix: Add a code trim functionality in `evalOcaml()`~~
 - ~~Add a favicon~~
 - Add a README
 
