@@ -21,6 +21,10 @@ export async function evaluateOCaml(code: string): Promise<CompilerResult> {
   if (!window.ocaml || !window.ocaml.run) {
     throw new Error("Compiler not ready yet.");
   }
-  return window.ocaml.run(code);
+  const result = window.ocaml.run(code);
+
+  //remove test harness from output
+  result.out = result.out.replace(/module Tests :[\s\S]*?end\n/g, "");
+  return result;
 }
 

@@ -2,8 +2,9 @@
 import { store } from './core/store';
 import { exercises } from './exercises/registry';
 
-//code runner
+//code runner and tests
 import { evaluateOCaml, isCompilerReady } from './core/compiler';
+import { testHarness } from './exercises/tests';
 
 //editor and syntax highlighting
 import { initEditor, getCode, updateEditorTheme } from './core/editor';
@@ -270,7 +271,7 @@ async function runCode() {
     try {
         const userCode = getCode();
         store.getState().saveUserCode(currentExerciseId, userCode);
-        const fullCode = userCode + "\n" + (currentEx.testCode || "");
+        const fullCode = testHarness + userCode + (currentEx.testCode || "");
         const result = await evaluateOCaml(fullCode);
 
         //check for runtime/compiler errors
@@ -303,7 +304,7 @@ async function runCode() {
         //success!
         statusEl.textContent = "PASSED";
         statusEl.className = "text-green-500 font-bold text-xs";
-        consoleEl.textContent += "\n\nALL TESTS PASSED!";
+        consoleEl.textContent += "\nALL TESTS PASSED!";
         store.getState().markComplete(currentEx.id);
 
         confetti({
