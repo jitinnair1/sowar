@@ -1,5 +1,4 @@
 module Tests = struct
-  Printf.printf "\n";;
   let bool_check msg b =
     if b then
       Printf.printf "Test passed: %s\n" msg
