@@ -2,7 +2,7 @@ import { EditorView, basicSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
-import { themeCompartment, getTheme } from './theme';
+import { themeCompartment, getTheme } from '../ui/theme';
 
 let view: EditorView | null = null;
 

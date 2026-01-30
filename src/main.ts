@@ -1,17 +1,23 @@
 // src/main.ts
 import { store } from './core/store';
 import { exercises } from './exercises/registry';
-import { initEditor, getCode, updateEditorTheme } from './core/editor';
+
+//code runner
 import { evaluateOCaml, isCompilerReady } from './core/compiler';
-import { marked } from 'marked';
-import confetti from 'canvas-confetti';
+
+//editor and syntax highlighting
+import { initEditor, getCode, updateEditorTheme } from './core/editor';
 import { EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
 import { c } from '@codemirror/legacy-modes/mode/clike';
-import { getTheme } from './core/theme';
+
+//ui
+import { getTheme } from './ui/theme';
 import { ICONS } from './ui/icons';
+import confetti from 'canvas-confetti';
+import { marked } from 'marked';
 
 //select DOM elements
 const descElDesktop = document.getElementById('ex-desc') as HTMLElement;
