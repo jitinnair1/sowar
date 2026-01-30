@@ -249,10 +249,14 @@ async function runCode() {
         return;
     }
 
+    runBtn.classList.add("progress");
     const { currentExerciseId } = store.getState();
 
     const currentEx = exercises.find(e => e.id === currentExerciseId);
-    if (!currentEx) return;
+    if (!currentEx) {
+        runBtn.classList.remove("progress");
+        return;
+    }
 
     statusEl.textContent = "Running...";
     statusEl.className = "text-yellow-500 text-xs font-mono animate-pulse";
@@ -312,6 +316,7 @@ async function runCode() {
         consoleEl.textContent = "Runtime Error: " + e.message;
     } finally {
         toggleRunButton(true);
+        runBtn.classList.remove("progress");
     }
 }
 function toggleRunButton(running: boolean) {

@@ -99,3 +99,43 @@ body {
   overflow: hidden;
   background-color: var(--bg-app);
 }
+
+/* run button progress effect */
+#run-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+#run-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+#run-btn.progress::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.15);
+  animation: progress 3s ease-out forwards;
+  z-index: 0;
+}
+
+/* ensure button content is above the progress background */
+#run-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* the progress animation might not be visible at all for short exec times */
+@keyframes progress {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
