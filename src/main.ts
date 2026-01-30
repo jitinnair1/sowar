@@ -73,6 +73,7 @@ function goToNext() {
     const idx = exercises.findIndex(e => e.id === currentExerciseId);
     if (idx < exercises.length - 1) {
         window.location.hash = '#' + exercises[idx + 1].id;
+        switchTab('problem');
     }
 }
 
@@ -81,6 +82,7 @@ function goToPrev() {
     const idx = exercises.findIndex(e => e.id === currentExerciseId);
     if (idx > 0) {
         window.location.hash = '#' + exercises[idx - 1].id;
+        switchTab('problem');
     }
 }
 
