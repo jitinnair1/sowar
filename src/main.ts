@@ -83,6 +83,33 @@ if (tabPrev && tabNext) {
     tabNext.addEventListener('click', goToNext);
 }
 
+function attachConfirmation(btn: HTMLButtonElement, originalIcon: string, onConfirm: () => void) {
+    let confirmTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    btn.innerHTML = originalIcon;
+
+    btn.addEventListener('click', () => {
+        if (confirmTimeout) {
+            //confirmed
+            clearTimeout(confirmTimeout);
+            confirmTimeout = null;
+            btn.innerHTML = originalIcon;
+            btn.classList.remove('text-red-500');
+            onConfirm();
+        } else {
+            //first click
+            btn.innerHTML = `<span class="text-xs font-bold tracking-wider">Discard changes? Click again to confirm.</span>`;
+            btn.classList.add('text-red-500');
+
+            confirmTimeout = setTimeout(() => {
+                confirmTimeout = null;
+                btn.innerHTML = originalIcon;
+                btn.classList.remove('text-red-500');
+            }, 5000);
+        }
+    });
+}
+
 //markdown parser
 const renderer = {
     code({ text, lang }: { text: string; lang?: string }) {
@@ -302,15 +329,11 @@ store.subscribe(render);
 runBtn.addEventListener('click', runCode);
 
 if (resetBtn) {
-    resetBtn.innerHTML = ICONS.TRASH;
-    resetBtn.addEventListener('click', () => {
+    attachConfirmation(resetBtn, ICONS.TRASH, () => {
         const { currentExerciseId } = store.getState();
         const currentEx = exercises.find(e => e.id === currentExerciseId);
         if (!currentEx) return;
-
-        if (confirm("Reset current exercise to initial code? Your changes will be lost.")) {
-            store.getState().saveUserCode(currentExerciseId, currentEx.initialCode);
-        }
+        store.getState().saveUserCode(currentExerciseId, currentEx.initialCode);
     });
 }
 if (clearConsoleBtn) {
