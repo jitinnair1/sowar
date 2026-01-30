@@ -164,6 +164,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 });
 
 //render function
+let lastRenderedExerciseId: string | null = null;
 function render() {
     const { currentExerciseId, completedIds, userCode } = store.getState();
     const currentEx = exercises.find(e => e.id === currentExerciseId);
@@ -234,7 +235,11 @@ function render() {
     initEditor(editorText);
 
     //clear console on exercise switch
-    consoleEl.textContent = "// Ready...";
+    //clear console on exercise switch
+    if (currentExerciseId !== lastRenderedExerciseId) {
+        consoleEl.textContent = "// Ready...";
+        lastRenderedExerciseId = currentExerciseId;
+    }
 }
 
 //run code
