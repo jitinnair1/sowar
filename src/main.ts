@@ -94,17 +94,14 @@ function attachConfirmation(btn: HTMLButtonElement, originalIcon: string, onConf
             clearTimeout(confirmTimeout);
             confirmTimeout = null;
             btn.innerHTML = originalIcon;
-            btn.classList.remove('text-red-500');
             onConfirm();
         } else {
             //first click
-            btn.innerHTML = `<span class="text-xs font-bold tracking-wider">Discard changes? Click again to confirm.</span>`;
-            btn.classList.add('text-red-500');
+            btn.innerHTML = `<span class="text-xs font-bold tracking-wider">Discard changes? Click to confirm.</span>`;
 
             confirmTimeout = setTimeout(() => {
                 confirmTimeout = null;
                 btn.innerHTML = originalIcon;
-                btn.classList.remove('text-red-500');
             }, 5000);
         }
     });
@@ -204,7 +201,7 @@ function render() {
     }
 
     //JN: Right now, codemirror essentially "injects" a read only editor in the markdown codeblocks using this
-    //function. So all codeblocks in the problem description are effectively read-only editors. Does this add 
+    //function. So all codeblocks in the problem description are effectively read-only editors. Does this add
     //an overhead as the number of code blocks across all exercises scales?
     highlightStaticBlocks();
 
