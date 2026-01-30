@@ -219,7 +219,7 @@ async function runCode() {
 
     statusEl.textContent = "Running...";
     statusEl.className = "text-yellow-500 text-xs font-mono animate-pulse";
-    runBtn.disabled = true;
+    toggleRunButton(false);
     consoleEl.textContent = "";
 
     let finalOutput = "";
@@ -273,8 +273,12 @@ async function runCode() {
         statusEl.className = "text-red-600 font-bold text-xs";
         consoleEl.textContent = "Runtime Error: " + e.message;
     } finally {
-        runBtn.disabled = false;
+        toggleRunButton(true);
     }
+}
+function toggleRunButton(running: boolean) {
+    runBtn.disabled = !running;
+    runBtn.innerHTML = `<span>${running ? ICONS.PLAY : ICONS.STOP}</span><span>Run</span>`;
 }
 
 //wait for compiler
@@ -285,7 +289,7 @@ function waitForCompiler() {
             statusEl.textContent = "Compiler Ready";
             statusEl.className = "text-green-600 text-xs font-mono";
             runBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            runBtn.disabled = false;
+            toggleRunButton(true);
         }
     }, 500);
 }
@@ -336,5 +340,6 @@ window.addEventListener('hashchange', () => {
 waitForCompiler();
 const initialId = window.location.hash.slice(1) || exercises[0].id;
 store.getState().setCurrent(initialId);
+toggleRunButton(false);
 
 render();
