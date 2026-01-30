@@ -115,7 +115,6 @@ let num2 =  multiply_by_17 17;;
   Tests.string_check string_of_int "add_thirteen 7 = 20" 20 (add_thirteen 7);
   Tests.string_check string_of_int "multiply_by_17 2 = 34" 34 (multiply_by_17 2);;
 `;var SQ={id:"1.3",title:"Currying",description:r4,initialCode:a4,testCode:o4,validate:()=>!0},t4=SQ;var x0=[d4,i4,t4];var J1=m4()(g4((Z,$)=>({currentExerciseId:x0[0]?.id||"1.1",completedIds:[],userCode:{},markComplete:(J)=>{let{completedIds:X}=$();if(!X.includes(J))Z({completedIds:[...X,J]})},setCurrent:(J)=>Z({currentExerciseId:J}),saveUserCode:(J,X)=>Z({userCode:{...$().userCode,[J]:X}})}),{name:"sowar-storage"}));function t9(){return!!(window.ocaml&&window.ocaml.run)}async function e4(Z){if(!window.ocaml||!window.ocaml.run)throw Error("Compiler not ready yet.");let $=window.ocaml.run(Z);return $.out=$.out.replace(/module Tests :[\s\S]*?end\n/g,""),$}var e9=`module Tests = struct
-  Printf.printf "\\n";;
   let bool_check msg b =
     if b then
       Printf.printf "Test passed: %s\\n" msg
