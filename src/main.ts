@@ -260,6 +260,7 @@ async function runCode() {
         //success!
         statusEl.textContent = "PASSED";
         statusEl.className = "text-green-500 font-bold text-xs";
+        consoleEl.textContent += "\n\nALL TESTS PASSED!";
         store.getState().markComplete(currentEx.id);
 
         confetti({
