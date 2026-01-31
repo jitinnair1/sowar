@@ -59,6 +59,7 @@
             </div>
         </div>
 
+        <!--  run button -->
         <div class="flex items-center gap-4">
             <div class="flex items-center gap-2">
                 <div id="status-dot" class="w-2 h-2 rounded-full bg-fg-muted animate-pulse"></div>
@@ -93,8 +94,10 @@
             </button>
         </div>
 
+        <!-- main layout -->
         <div class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
 
+            <!-- sidebar -->
             <nav id="sidebar-nav"
                 class="absolute inset-y-0 left-0 z-50 w-64 bg-bg-surface border-r border-border-default hidden flex-col transition-all duration-300 shadow-xl lg:static lg:flex lg:shadow-none">
                 <div
@@ -120,7 +123,8 @@
                 class="md:hidden order-1 w-full h-full bg-bg-surface p-8 overflow-y-auto prose prose-invert prose-sm max-w-none">
             </div>
 
-            <div id="code-pane"
+            <!-- code editor -->
+            <div id="code-editor"
                 class="hidden md:flex flex-col order-2 md:order-0 w-full h-full md:flex-1 md:h-auto bg-bg-app min-h-0 min-w-0">
 
                 <div class="flex flex-col h-[60%] md:h-auto md:flex-1 relative min-h-0">
@@ -136,6 +140,7 @@
                     </div>
                 </div>
 
+                <!-- console -->
                 <div class="h-[40%] md:h-48 bg-bg-app border-t border-border-default flex flex-col shrink-0 min-h-0">
                     <div
                         class="h-10 px-4 bg-bg-surface text-[10px] font-bold text-fg-muted uppercase tracking-wider flex items-center justify-between select-none border-b border-border-default">

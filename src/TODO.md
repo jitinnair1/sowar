@@ -12,6 +12,7 @@
   - ~~Remove shading from Run button~~
   - ~~Add a light theme~~
 - ~~Add a favicon~~
+- Fix selction highlight colours in code editor
 - Split Run and Submit buttons
 - Add a progress bar maybe?
 - Add a README
