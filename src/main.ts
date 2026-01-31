@@ -41,7 +41,7 @@ const navNext = document.getElementById('nav-next') as HTMLButtonElement;
 const editorConsolePanel = document.getElementById('editor-and-console-panel') as HTMLElement;
 
 //resize handles
-const paneProblem = document.getElementById('pane-problem') as HTMLElement;
+const paneProblem = document.getElementById('ex-desc-desktop') as HTMLElement;
 const paneConsole = document.getElementById('pane-console') as HTMLElement;
 const dragHDesktop = document.getElementById('drag-h-desktop') as HTMLElement;
 const dragVConsole = document.getElementById('drag-v-console') as HTMLElement;
