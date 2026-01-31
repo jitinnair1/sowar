@@ -244,7 +244,7 @@ function render() {
 
                 if (isCompleted) {
                     circleClass = 'border border-brand bg-brand';
-                    content = `<svg class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+                    content = ICONS.WHITE_CHECK;
                 }
 
                 //connection logic
