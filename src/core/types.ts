@@ -6,3 +6,9 @@ export interface Exercise {
     testCode: string;
     validate: (code: string, output: string) => true | string;
 }
+
+export interface Chapter {
+    id: string;
+    title: string;
+    exercises: Exercise[];
+}
