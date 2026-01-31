@@ -15,20 +15,20 @@
 - ~~Fix selction highlight colours in code editor~~
 - ~~Figure out a better pattern to replace the sidebar (dropdown? modal?)~~
 - ~~Fix page end of exercise page~~
-- Add a excercise progress bar
+- ~~Fix tab indent in editor~~
+- ~~Add a excercise progress bar~~
 - Split Run and Submit buttons
 - Add a README
 
 # Later
 - Add Vim mode
 - Add keyboard shortcuts
-- Fix tab indent in editor
 - Line by line `;;` vs once at the end of block appended manually?
 
 # Even Later
 - Reduce the size of the toplevel from the current ~4MB. How is OCaml Playground doing it via `playground.min.js` in ~400KB?
 - Do an accessibility audit and fix issues (insufficient contrast, missing labels)
-- Remove confetti and other dependencies which could be implemented easily
+- Remove any dependencies which could be implemented easily
 - Should the rerender on submit/navigating between exercises be refactored? Can this be done without using a complicated framework?
 - Extract the core code workbook to a code-agnostic, template repo
 - What happens to existing completion status if the exercises numbers change? Should the version history be maintained?
