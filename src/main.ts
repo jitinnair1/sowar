@@ -1,6 +1,6 @@
 // src/main.ts
 import { store } from './core/store';
-import { exercises } from './exercises/registry';
+import { exercises, curriculum } from './exercises/registry';
 
 //code runner and tests
 import { evaluateOCaml, isCompilerReady } from './core/compiler';
@@ -45,6 +45,7 @@ const paneProblem = document.getElementById('ex-desc-desktop') as HTMLElement;
 const paneConsole = document.getElementById('pane-console') as HTMLElement;
 const dragHDesktop = document.getElementById('drag-h-desktop') as HTMLElement;
 const dragVConsole = document.getElementById('drag-v-console') as HTMLElement;
+const progressContainer = document.getElementById('progress-container') as HTMLElement;
 
 function switchTab(tab: 'problem' | 'code') {
     if (tab === 'problem') {
@@ -203,17 +204,71 @@ function render() {
     highlightStaticBlocks();
 
     //sidebar
-    sidebarEl.innerHTML = exercises.map(e => {
-        const isCompleted = completedIds.includes(e.id);
-        const active = e.id === currentExerciseId ? 'bg-bg-surface text-fg-primary border-l-2 border-brand' : 'text-fg-muted hover:text-fg-primary';
-        const completed = isCompleted ? 'opacity-40' : '';
+    sidebarEl.innerHTML = curriculum.map(chapter => {
+        const chapterHeader = `<div class="px-2 py-1 pb-0 text-[10px] font-bold text-fg-muted uppercase">${chapter.title}</div>`;
 
-        return `<div class="nav-item cursor-pointer p-3 text-sm flex justify-between items-center transition-colors ${active} ${completed}"
-                    onclick="location.hash='#${e.id}'">
-                  <span>${e.id} ${e.title}</span>
-                  ${isCompleted ? ICONS.CHECK : ''}
-                </div>`;
+        const chapterExercises = chapter.exercises.map(e => {
+            const isCompleted = completedIds.includes(e.id);
+            const active = e.id === currentExerciseId ? 'bg-bg-surface text-fg-primary border-l-2 border-brand' : 'text-fg-muted hover:text-fg-primary';
+            const completed = isCompleted ? 'opacity-40' : '';
+
+            return `<div class="nav-item cursor-pointer p-2 pl-4 text-sm flex justify-between items-center transition-colors ${active} ${completed}"
+                        onclick="location.hash='#${e.id}'">
+                      <span>${e.id} ${e.title}</span>
+                      ${isCompleted ? ICONS.CHECK : ''}
+                    </div>`;
+        }).join('');
+
+        return chapterHeader + chapterExercises;
     }).join('');
+
+    //progress bar (stepper)
+    if (progressContainer) {
+        const currentChapter = curriculum.find(c => c.exercises.some(e => e.id === currentExerciseId));
+        if (currentChapter) {
+            const total = currentChapter.exercises.length;
+            const nextUncompletedIndex = currentChapter.exercises.findIndex(e => !completedIds.includes(e.id));
+
+            progressContainer.innerHTML = currentChapter.exercises.map((e, idx) => {
+                const isCompleted = completedIds.includes(e.id);
+                const isNext = idx === nextUncompletedIndex || (nextUncompletedIndex === -1 && false);
+                const isLast = idx === total - 1;
+
+                //circle style
+                let circleClass = 'border border-border-default bg-bg-surface';
+                let content = '';
+
+                if (isNext) {
+                    circleClass = 'border border-brand bg-bg-surface';
+                }
+
+                if (isCompleted) {
+                    circleClass = 'border border-brand bg-brand';
+                    content = `<svg class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+                }
+
+                //connection logic
+                let line = '';
+                if (!isLast) {
+                    const lineClass = isCompleted ? 'bg-brand' : 'bg-border-default opacity-50';
+                    line = `<div class="w-8 h-0.5 mx-0.5 rounded ${lineClass}"></div>`;
+                }
+
+                return `
+                    <div class="relative flex items-center group cursor-pointer" onclick="location.hash='#${e.id}'" title="${e.title}">
+                        <div class="w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 z-10 ${circleClass}">
+                            ${content}
+                        </div>
+                        ${line}
+                        <!-- tooltip on hover -->
+                        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-bg-surface border border-border-default px-2 py-1 rounded text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-20 pointer-events-none">
+                            ${e.title}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    }
 
     //initialize editor
     let editorText = "";
@@ -224,7 +279,6 @@ function render() {
     }
     initEditor(editorText);
 
-    //clear console on exercise switch
     //clear console on exercise switch
     if (currentExerciseId !== lastRenderedExerciseId) {
         consoleEl.textContent = "// Ready...";
