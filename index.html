@@ -38,6 +38,7 @@
 
 <body class="bg-bg-app text-fg-primary h-dvh flex flex-col overflow-hidden font-sans selection:bg-brand/30">
 
+    <!-- site header -->
     <header
         class="h-14 border-b border-border-default bg-bg-surface flex items-center justify-between px-6 z-10 shrink-0">
         <div class="flex items-center gap-3">
@@ -49,18 +50,6 @@
                 </p>
             </div>
         </div>
-
-        <!--  run button -->
-        <div class="flex items-center gap-4">
-            <div class="flex items-center gap-2">
-                <div id="status-dot" class="w-2 h-2 rounded-full bg-fg-muted animate-pulse"></div>
-                <span id="status" class="text-xs font-mono text-fg-muted">Loading Compiler...</span>
-            </div>
-
-            <button id="run-btn"
-                class="bg-brand hover:opacity-90 hover:cursor-pointer text-white pl-3 pr-4 py-1.5 rounded-md text-sm font-bold transition-all flex items-center gap-2 opacity-50 cursor-not-allowed disabled:opacity-50">
-            </button>
-        </div>
     </header>
 
     <div class="flex-1 flex flex-col overflow-hidden relative">
@@ -71,20 +60,40 @@
             <button id="sidebar-toggle" class="text-fg-muted hover:text-fg-primary transition-colors flex"
                 title="Toggle Sidebar">
             </button>
-            <button id="nav-prev"
-                class="px-4 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
-                title="Previous">
-            </button>
 
             <!-- progress bar -->
             <div class="hidden md:flex flex-1 max-w-md mx-auto items-center justify-center" id="progress-container">
             </div>
 
             <div class="flex-1 md:hidden"></div>
-            <button id="nav-next"
-                class="px-4 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
-                title="Next">
-            </button>
+
+            <div class="flex items-center gap-4 pl-4 border-l border-border-default ml-2 relative">
+
+                <!-- status messages (note: set to absolute to prevent flex resize on status) -->
+                <div class="absolute right-full mr-6 flex items-center gap-2 whitespace-nowrap">
+                    <div id="status-dot" class="w-2 h-2 rounded-full bg-fg-muted animate-pulse"></div>
+                    <span id="status"
+                        class="text-xs font-mono text-fg-muted text-right max-w-24 md:max-w-40 truncate">Loading
+                        Compiler...</span>
+                </div>
+
+                <!-- next and prev buttons -->
+                <div class="flex items-center gap-1">
+                    <button id="nav-prev"
+                        class="px-3 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
+                        title="Previous">
+                    </button>
+                    <button id="nav-next"
+                        class="px-3 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
+                        title="Next">
+                    </button>
+                </div>
+
+                <!-- run button -->
+                <button id="run-btn"
+                    class="bg-brand hover:opacity-90 hover:cursor-pointer text-white pl-3 pr-4 py-1.5 rounded-md text-sm font-bold transition-all flex items-center gap-2 opacity-50 cursor-not-allowed disabled:opacity-50">
+                </button>
+            </div>
         </div>
 
         <!-- mobile only tab bar -->
@@ -168,6 +177,7 @@
             </div>
         </div>
 
+        <!-- main app script -->
         <script type="module" src="./main.js"></script>
 </body>
 
