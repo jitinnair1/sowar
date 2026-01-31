@@ -1,12 +1,14 @@
-import { EditorView, basicSetup } from 'codemirror';
+import { EditorView, keymap } from '@codemirror/view';
+import { basicSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
+import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
 import { themeCompartment, getTheme } from '../ui/theme';
 
 let view: EditorView | null = null;
 
-export function initEditor(initialCode: string) {
+export function initEditor(initialCode: string, onSave?: () => void) {
     const editorEl = document.getElementById('editor');
     if (!editorEl) return;
 
@@ -17,6 +19,18 @@ export function initEditor(initialCode: string) {
             doc: initialCode,
             extensions: [
                 basicSetup,
+                keymap.of([
+                    ...defaultKeymap,
+                    indentWithTab,
+                    {
+                        key: "Mod-s",
+                        run: () => {
+                            if (onSave) onSave();
+                            return true;
+                        },
+                        preventDefault: true
+                    }
+                ]),
                 StreamLanguage.define(oCaml),
                 themeCompartment.of(getTheme(isDark)),
                 EditorView.lineWrapping,

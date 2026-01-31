@@ -277,7 +277,18 @@ function render() {
     } else {
         editorText = userCode[currentExerciseId];
     }
-    initEditor(editorText);
+
+    initEditor(editorText, () => {
+        const code = getCode();
+        store.getState().saveUserCode(currentExerciseId, code);
+
+        //pop-up on save
+        const saveBtn = document.createElement('div');
+        saveBtn.className = 'fixed bottom-4 right-4 bg-fg-primary text-bg-app px-4 py-2 rounded shadow-lg text-xs font-bold z-50';
+        saveBtn.textContent = 'Saved!';
+        document.body.appendChild(saveBtn);
+        setTimeout(() => saveBtn.remove(), 1000);
+    });
 
     //clear console on exercise switch
     if (currentExerciseId !== lastRenderedExerciseId) {
