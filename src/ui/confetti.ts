@@ -1,5 +1,3 @@
-import canvasConfetti from 'canvas-confetti';
-
 function randomInRange(min: number, max: number) {
     return Math.random() * (max - min) + min;
 }
