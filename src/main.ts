@@ -40,13 +40,13 @@ const tabProblem = document.getElementById('tab-problem') as HTMLButtonElement;
 const tabCode = document.getElementById('tab-code') as HTMLButtonElement;
 const tabPrev = document.getElementById('tab-prev') as HTMLButtonElement;
 const tabNext = document.getElementById('tab-next') as HTMLButtonElement;
-const codePane = document.getElementById('code-pane') as HTMLElement;
+const codeEditor = document.getElementById('code-editor') as HTMLElement;
 
 function switchTab(tab: 'problem' | 'code') {
     if (tab === 'problem') {
         descElMobile.classList.remove('hidden');
-        codePane.classList.add('hidden');
-        codePane.classList.remove('flex');
+        codeEditor.classList.add('hidden');
+        codeEditor.classList.remove('flex');
 
         tabProblem.classList.add('text-fg-primary', 'border-brand');
         tabProblem.classList.remove('text-fg-muted', 'border-transparent');
@@ -54,8 +54,8 @@ function switchTab(tab: 'problem' | 'code') {
         tabCode.classList.remove('text-fg-primary', 'border-brand');
     } else {
         descElMobile.classList.add('hidden');
-        codePane.classList.remove('hidden');
-        codePane.classList.add('flex');
+        codeEditor.classList.remove('hidden');
+        codeEditor.classList.add('flex');
 
         tabCode.classList.add('text-fg-primary', 'border-brand');
         tabCode.classList.remove('text-fg-muted', 'border-transparent');
