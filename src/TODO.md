@@ -12,14 +12,15 @@
   - ~~Remove shading from Run button~~
   - ~~Add a light theme~~
 - ~~Add a favicon~~
-- Fix selction highlight colours in code editor
+- ~~Fix selction highlight colours in code editor~~
+- ~~Figure out a better pattern to replace the sidebar (dropdown? modal?)~~
+- ~~Fix page end of exercise page~~
+- Add a excercise progress bar
 - Split Run and Submit buttons
-- Add a progress bar maybe?
 - Add a README
 
 # Later
 - Add Vim mode
-- Figure out a better pattern to replace the sidebar (dropdown? modal?)
 - Add keyboard shortcuts
 - Fix tab indent in editor
 - Line by line `;;` vs once at the end of block appended manually?

@@ -21,7 +21,7 @@ import confetti from 'canvas-confetti';
 import { marked } from 'marked';
 
 //select DOM elements
-const descElDesktop = document.getElementById('ex-desc') as HTMLElement;
+const descElDesktop = document.getElementById('ex-desc-desktop') as HTMLElement;
 const descElMobile = document.getElementById('ex-desc-mobile') as HTMLElement;
 
 const sidebarEl = document.getElementById('sidebar-list') as HTMLElement;
@@ -181,7 +181,7 @@ function render() {
     if (!currentEx) return;
 
     //render description to both mobile and desktop containers
-    const descHtml = `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
+    const descHtml = parseMarkdown(currentEx.description);
     const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${currentEx.id} ${currentEx.title}</h1>`;
     const fullContent = titleHtml + descHtml;
 
