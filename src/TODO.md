@@ -1,25 +1,34 @@
 # Pre-public checklist
 
-- Clean up all source code files
+- ~~Clean up all source code files~~
 - ~~Why is the JS file 40 MBs? How do I get it to be a reasonable size?~~
-- Review the architecture of the `CompilerResult` based design? Does error reporting work as expected?
+- ~~Review the architecture of the `CompilerResult`-based design? Does error reporting work as expected?~~
 - ~~Build it on Ubuntu to check if the build is now consistent~~
 - ~~Remove all debug logs~~
 - ~~Add GH actions to build and deploy~~
 - ~~Remove Tailwind CDN~~
-- ~~Remove regex parsing for markdown exercies descriptions~~
+- ~~Remove regex parsing for markdown exercises descriptions~~
 - ~~Streamline `index.html` for better UX as needed~~
-  - ~~Wontfix:Split Run and Submit buttons~~
-  - Add a progress bar maybe?
   - ~~Remove shading from Run button~~
   - ~~Add a light theme~~
-- ~~Wontfix: Add a code trim functionality in `evalOcaml()`~~
 - ~~Add a favicon~~
+- Split Run and Submit buttons
+- Add a progress bar maybe?
 - Add a README
 
 # Later
-- Remove confetti and other deps which can be added implemented easily
-- Should the rerender on submit/navigating between exerices be refactored? Can this be done without using a complicated framework?
-- What happens to existing completion status if the exercies numbers change? Should the version history be mainted?
+- Add Vim mode
+- Figure out a better pattern to replace the sidebar (dropdown? modal?)
+- Add keyboard shortcuts
+- Fix tab indent in editor
+- Line by line `;;` vs once at the end of block appended manually?
+
+# Even Later
+- Reduce the size of the toplevel from the current ~4MB. How is OCaml Playground doing it via `playground.min.js` in ~400KB?
+- Do an accessibility audit and fix issues (insufficient contrast, missing labels)
+- Remove confetti and other dependencies which could be implemented easily
+- Should the rerender on submit/navigating between exercises be refactored? Can this be done without using a complicated framework?
+- Extract the core code workbook to a code-agnostic, template repo
+- What happens to existing completion status if the exercises numbers change? Should the version history be maintained?
 - Check for formatting issues with longer programs?
-- For C binding of the FFTW implemetation project, would addional libraries be required? How will the logistics of this work?
+- For C binding of the FFTW implementation project, would additional libraries be required? How will the logistics of this work?
