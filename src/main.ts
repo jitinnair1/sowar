@@ -362,6 +362,7 @@ if (clearConsoleBtn) {
 }
 
 if (sidebarToggle && sidebarNav) {
+    sidebarToggle.innerHTML = ICONS.MENU; // Inject menu icon
     sidebarToggle.addEventListener('click', () => {
         sidebarNav.classList.toggle('hidden');
         sidebarNav.classList.toggle('flex');

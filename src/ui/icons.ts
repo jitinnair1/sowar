@@ -8,16 +8,16 @@ export const ICONS = {
   class="text-green-500">
   <polyline points="20 6 9 17 4 12"></polyline></svg>`,
 
-    LEFT_ARROW: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+  LEFT_ARROW: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <path d="m15 18-6-6 6-6" /></svg>`,
 
 
-    RIGHT_ARROW: `<svg width="18" height="18" style="display: block; transform: scale(-1,1)" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+  RIGHT_ARROW: `<svg width="18" height="18" style="display: block; transform: scale(-1,1)" viewBox="0 0 24 24" fill="none" stroke="currentColor"
   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <path d="m15 18-6-6 6-6" /></svg>`,
 
-    PLAY: `<svg fill="currentColor" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  PLAY: `<svg fill="currentColor" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/>
   </svg>`,
 
@@ -35,4 +35,12 @@ export const ICONS = {
   <line fill="none" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" x1="21" y1="23" x2="21" y2="12"/>
   <line fill="none" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" x1="13" y1="23" x2="13" y2="12"/>
   </svg>`,
+
+  MENU: `<svg fill="var(--fg-primary)" width="20" height="20" viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>icn/menu</title>
+                    <path
+                        d="M2 3h12a1 1 0 0 1 0 2H2a1 1 0 1 1 0-2zm0 4h12a1 1 0 0 1 0 2H2a1 1 0 1 1 0-2zm0 4h12a1 1 0 0 1 0 2H2a1 1 0 0 1 0-2z"
+                        id="a" />
+                </svg>`,
 };
