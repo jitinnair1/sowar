@@ -17,7 +17,7 @@ import { c } from '@codemirror/legacy-modes/mode/clike';
 //ui
 import { getTheme } from './ui/theme';
 import { ICONS } from './ui/icons';
-import confetti from 'canvas-confetti';
+import { confetti } from './ui/confetti';
 import { marked } from 'marked';
 
 //select DOM elements
@@ -359,11 +359,7 @@ async function runCode() {
         consoleEl.textContent += "\nALL TESTS PASSED!";
         store.getState().markComplete(currentEx.id);
 
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
+        confetti();
 
     } catch (e: any) {
         statusEl.textContent = "ERROR";
