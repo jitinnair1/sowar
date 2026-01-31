@@ -148,9 +148,9 @@ end;;`;var Z7=[],J5=[];(()=>{let Z="lc,34,7n,7,7b,19,,,,2,,2,,,20,b,1c,l,g,,2t,7
   stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
   class="text-green-500">
   <polyline points="20 6 9 17 4 12"></polyline></svg>`,LEFT_ARROW:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
   <path d="m15 18-6-6 6-6" /></svg>`,RIGHT_ARROW:`<svg width="18" height="18" style="display: block; transform: scale(-1,1)" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
   <path d="m15 18-6-6 6-6" /></svg>`,PLAY:`<svg fill="currentColor" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/>
   </svg>`,STOP:`<svg fill="currentColor" width="16" height="16" viewBox="-1 0 19 19" xmlns="http://www.w3.org/2000/svg"
