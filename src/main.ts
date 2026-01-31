@@ -23,9 +23,7 @@ import { marked } from 'marked';
 //select DOM elements
 const descElDesktop = document.getElementById('ex-desc') as HTMLElement;
 const descElMobile = document.getElementById('ex-desc-mobile') as HTMLElement;
-const problemHeaderEl = document.getElementById('problem-header') as HTMLElement;
 
-//get currently visible description element or both
 const sidebarEl = document.getElementById('sidebar-list') as HTMLElement;
 const runBtn = document.getElementById('run-btn') as HTMLButtonElement;
 const statusEl = document.getElementById('status') as HTMLElement;
@@ -38,8 +36,8 @@ const clearConsoleBtn = document.getElementById('clear-console-btn') as HTMLButt
 //tabs
 const tabProblem = document.getElementById('tab-problem') as HTMLButtonElement;
 const tabCode = document.getElementById('tab-code') as HTMLButtonElement;
-const tabPrev = document.getElementById('tab-prev') as HTMLButtonElement;
-const tabNext = document.getElementById('tab-next') as HTMLButtonElement;
+const navPrev = document.getElementById('nav-prev') as HTMLButtonElement;
+const navNext = document.getElementById('nav-next') as HTMLButtonElement;
 const codeEditor = document.getElementById('code-editor') as HTMLElement;
 
 function switchTab(tab: 'problem' | 'code') {
@@ -87,9 +85,11 @@ function goToPrev() {
     }
 }
 
-if (tabPrev && tabNext) {
-    tabPrev.addEventListener('click', goToPrev);
-    tabNext.addEventListener('click', goToNext);
+if (navPrev && navNext) {
+    navPrev.innerHTML = ICONS.LEFT_ARROW;
+    navNext.innerHTML = ICONS.RIGHT_ARROW;
+    navPrev.addEventListener('click', goToPrev);
+    navNext.addEventListener('click', goToNext);
 }
 
 function attachConfirmation(btn: HTMLButtonElement, originalIcon: string, onConfirm: () => void) {
@@ -174,15 +174,6 @@ function render() {
 
     if (!currentEx) return;
 
-    //header & instructions
-    const idx = exercises.findIndex(e => e.id === currentExerciseId);
-    const hasPrev = idx > 0;
-    const hasNext = idx < exercises.length - 1;
-
-    //update mobile nav state
-    if (tabPrev) tabPrev.disabled = !hasPrev;
-    if (tabNext) tabNext.disabled = !hasNext;
-
     //render description to both mobile and desktop containers
     const descHtml = `<div class="markdown-body">${parseMarkdown(currentEx.description)}</div>`;
     const titleHtml = `<h1 class="text-3xl font-bold mb-6 text-fg-primary">${currentEx.id} ${currentEx.title}</h1>`;
@@ -191,24 +182,14 @@ function render() {
     if (descElDesktop) descElDesktop.innerHTML = fullContent;
     if (descElMobile) descElMobile.innerHTML = fullContent;
 
-    //update sticky header
-    if (problemHeaderEl) {
-        problemHeaderEl.innerHTML = `
-            <button class="nav-prev-d px-4 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
-                ${!hasPrev ? 'disabled' : ''} title="Previous (Alt + Left)">
-                ${ICONS.LEFT_ARROW}
-            </button>
-            <div class="flex-1"></div>
-            <button class="nav-next-d px-4 py-1.5 hover:bg-bg-app rounded text-fg-muted hover:text-fg-primary transition-colors disabled:opacity-30 disabled:hover:text-fg-muted"
-                ${!hasNext ? 'disabled' : ''} title="Next (Alt + Right)">
-                ${ICONS.RIGHT_ARROW}
-            </button>
-        `;
+    //prep for prev and next buttons
+    const idx = exercises.findIndex(e => e.id === currentExerciseId);
+    const hasPrev = idx > 0;
+    const hasNext = idx < exercises.length - 1;
 
-        //attach listeners to new elements
-        problemHeaderEl.querySelector('.nav-prev-d')?.addEventListener('click', goToPrev);
-        problemHeaderEl.querySelector('.nav-next-d')?.addEventListener('click', goToNext);
-    }
+    //update nav state
+    if (navPrev) navPrev.disabled = !hasPrev;
+    if (navNext) navNext.disabled = !hasNext;
 
     //JN: Right now, codemirror essentially "injects" a read only editor in the markdown codeblocks using this
     //function. So all codeblocks in the problem description are effectively read-only editors. Does this add
