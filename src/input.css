@@ -78,7 +78,7 @@ body {
   --tw-prose-td-borders: var(--border-default);
 }
 
-/* CodeMirror uses theme variables */
+/* editor and related */
 #editor {
   height: 100%;
   background-color: var(--bg-app);
@@ -86,6 +86,10 @@ body {
 
 .cm-editor {
   height: 100%;
+}
+
+.cm-editor.cm-focused {
+  outline: none;
 }
 
 .cm-scroller {
@@ -99,7 +103,22 @@ body {
   background-color: var(--bg-app);
 }
 
-/* run button progress effect */
+/* override default selection color */
+.cm-selectionBackground,
+.cm-content ::selection,
+.cm-line ::selection {
+  background-color: color-mix(in srgb, var(--color-brand) 15%, transparent) !important;
+}
+
+/* remove active line highlight */
+.cm-activeLine,
+.cm-activeLineGutter {
+  background-color: transparent !important;
+}
+
+/* run button*/
+
+/* progress effect */
 #run-btn {
   position: relative;
   overflow: hidden;
@@ -137,4 +156,14 @@ body {
   100% {
     left: 0%;
   }
+}
+
+
+/* scroll behavior during resize */
+body.resizing * {
+  scrollbar-width: none !important;
+}
+
+body.resizing *::-webkit-scrollbar {
+  display: none !important;
 }
