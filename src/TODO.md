@@ -17,11 +17,11 @@
 - ~~Fix page end of exercise page~~
 - ~~Fix tab indent in editor~~
 - ~~Add a excercise progress bar~~
-- Split Run and Submit buttons
-- Add a README
+- ~~Add a README~~
 
 # Later
 - Add Vim mode
+- Split Run and Submit buttons
 - Add keyboard shortcuts
 - Line by line `;;` vs once at the end of block appended manually?
 
