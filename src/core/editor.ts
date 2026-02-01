@@ -5,24 +5,11 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
 import { themeCompartment, getTheme } from '../ui/theme';
+import { showPopup } from '../ui/popup';
 
 let view: EditorView | null = null;
 let tabCount = 0;
 let lastTabTime = 0;
-
-function showTabHintToast() {
-    const existing = document.getElementById('tab-hint-toast');
-    if (existing) existing.remove();
-
-    const toast = document.createElement('div');
-    toast.id = 'tab-hint-toast';
-    toast.className = 'fixed bottom-4 right-4 bg-fg-primary text-bg-app px-4 py-2 rounded shadow-lg text-xs font-bold z-50';
-    toast.textContent = 'Press Esc + Tab to move focus out of editor';
-    document.body.appendChild(toast);
-    setTimeout(() => {
-        if (toast.parentElement) toast.remove();
-    }, 3000);
-}
 
 export function initEditor(initialCode: string, onSave?: () => void) {
     const editorEl = document.getElementById('editor');
@@ -49,7 +36,7 @@ export function initEditor(initialCode: string, onSave?: () => void) {
                             lastTabTime = now;
 
                             if (tabCount >= 3) {
-                                showTabHintToast();
+                                showPopup('Press Esc + Tab to move focus out of editor', 3000);
                                 tabCount = 0;
                             }
                             return false;

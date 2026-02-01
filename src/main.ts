@@ -18,6 +18,7 @@ import { c } from '@codemirror/legacy-modes/mode/clike';
 import { getTheme } from './ui/theme';
 import { ICONS } from './ui/icons';
 import { confetti } from './ui/confetti';
+import { showPopup } from './ui/popup';
 import { marked } from 'marked';
 
 //select DOM elements
@@ -283,11 +284,7 @@ function render() {
         store.getState().saveUserCode(currentExerciseId, code);
 
         //pop-up on save
-        const saveBtn = document.createElement('div');
-        saveBtn.className = 'fixed bottom-4 right-4 bg-fg-primary text-bg-app px-4 py-2 rounded shadow-lg text-xs font-bold z-50';
-        saveBtn.textContent = 'Saved!';
-        document.body.appendChild(saveBtn);
-        setTimeout(() => saveBtn.remove(), 1000);
+        showPopup('Saved!');
     });
 
     //clear console on exercise switch
