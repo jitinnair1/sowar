@@ -354,9 +354,15 @@ async function runCode() {
         statusEl.textContent = "PASSED";
         statusEl.className = "text-green-500 font-bold text-xs";
         consoleEl.textContent += "\nALL TESTS PASSED!";
-        store.getState().markComplete(currentEx.id);
 
-        confetti();
+        const alreadyCompleted = store.getState().completedIds.includes(currentEx.id);
+        store.getState().markComplete(currentEx.id);
+        if (!alreadyCompleted) {
+            confetti();
+        } else {
+            //pop-up on save
+            showPopup('Passed!');
+        }
 
     } catch (e: any) {
         statusEl.textContent = "ERROR";
