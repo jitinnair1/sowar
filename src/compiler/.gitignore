@@ -30,6 +30,3 @@ main
 *.swp
 *.swo
 .DS_Store
-
-# Opam local switch
-_opam/
