@@ -234,6 +234,7 @@ function render() {
                 const isCompleted = completedIds.includes(e.id);
                 const isNext = idx === nextUncompletedIndex || (nextUncompletedIndex === -1 && false);
                 const isLast = idx === total - 1;
+                const isActive = e.id === currentExerciseId;
 
                 //circle style
                 let circleClass = 'border border-border-default bg-bg-surface';
@@ -246,6 +247,11 @@ function render() {
                 if (isCompleted) {
                     circleClass = 'border border-brand bg-brand';
                     content = ICONS.WHITE_CHECK;
+                }
+
+                if (isActive) {
+                    const baseBg = isCompleted ? 'bg-brand' : 'bg-bg-surface';
+                    circleClass = `border border-brand ${baseBg} shadow-[0_0_6px_3px_color-mix(in_srgb,var(--color-brand)_30%,transparent)]`;
                 }
 
                 //connection logic
