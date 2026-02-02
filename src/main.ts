@@ -297,7 +297,7 @@ function render() {
 //run code
 async function runCode() {
     if (!isCompilerReady()) {
-        alert("Compiler is still loading... please wait.");
+        alert("Loading... please wait.");
         return;
     }
 
@@ -383,7 +383,7 @@ function waitForCompiler() {
     const check = setInterval(() => {
         if (isCompilerReady()) {
             clearInterval(check);
-            statusEl.textContent = "Compiler Ready";
+            statusEl.textContent = "Ready";
             statusEl.className = "text-green-600 text-xs font-mono";
             runBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             toggleRunButton(true);
