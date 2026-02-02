@@ -8,18 +8,20 @@ import { testHarness } from './exercises/tests';
 
 //editor and syntax highlighting
 import { initEditor, getCode, updateEditorTheme } from './core/editor';
-import { EditorView } from 'codemirror';
-import { EditorState } from '@codemirror/state';
-import { StreamLanguage } from '@codemirror/language';
-import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
-import { c } from '@codemirror/legacy-modes/mode/clike';
 
 //ui
-import { getTheme } from './ui/theme';
 import { ICONS } from './ui/icons';
 import { confetti } from './ui/confetti';
 import { showPopup } from './ui/popup';
-import { marked } from 'marked';
+import { renderSidebar, initSidebarToggle } from './ui/sidebar';
+import { renderProgressBar } from './ui/progressBar';
+import { setupResize } from './ui/resize';
+import { initTabs } from './ui/tabs';
+import { initNavigation } from './ui/navigation';
+import { clearConfirmation } from './ui/clearConfirmation';
+
+//core
+import { configureMarkdown, parseMarkdown, highlightStaticBlocks } from './core/markdown';
 
 //select DOM elements
 const descElDesktop = document.getElementById('ex-desc-desktop') as HTMLElement;
@@ -48,124 +50,11 @@ const dragHDesktop = document.getElementById('drag-h-desktop') as HTMLElement;
 const dragVConsole = document.getElementById('drag-v-console') as HTMLElement;
 const progressContainer = document.getElementById('progress-container') as HTMLElement;
 
-function switchTab(tab: 'problem' | 'code') {
-    if (tab === 'problem') {
-        descElMobile.classList.remove('hidden');
-        editorConsolePanel.classList.add('hidden');
-        editorConsolePanel.classList.remove('flex');
-
-        tabProblem.classList.add('text-fg-primary', 'border-brand');
-        tabProblem.classList.remove('text-fg-muted', 'border-transparent');
-        tabCode.classList.add('text-fg-muted', 'border-transparent');
-        tabCode.classList.remove('text-fg-primary', 'border-brand');
-    } else {
-        descElMobile.classList.add('hidden');
-        editorConsolePanel.classList.remove('hidden');
-        editorConsolePanel.classList.add('flex');
-
-        tabCode.classList.add('text-fg-primary', 'border-brand');
-        tabCode.classList.remove('text-fg-muted', 'border-transparent');
-        tabProblem.classList.add('text-fg-muted', 'border-transparent');
-        tabProblem.classList.remove('text-fg-primary', 'border-brand');
-    }
-}
-
-if (tabProblem && tabCode) {
-    tabProblem.addEventListener('click', () => switchTab('problem'));
-    tabCode.addEventListener('click', () => switchTab('code'));
-}
-
-function goToNext() {
-    const { currentExerciseId } = store.getState();
-    const idx = exercises.findIndex(e => e.id === currentExerciseId);
-    if (idx < exercises.length - 1) {
-        window.location.hash = '#' + exercises[idx + 1].id;
-        switchTab('problem');
-    }
-}
-
-function goToPrev() {
-    const { currentExerciseId } = store.getState();
-    const idx = exercises.findIndex(e => e.id === currentExerciseId);
-    if (idx > 0) {
-        window.location.hash = '#' + exercises[idx - 1].id;
-        switchTab('problem');
-    }
-}
-
-if (navPrev && navNext) {
-    navPrev.innerHTML = ICONS.LEFT_ARROW;
-    navNext.innerHTML = ICONS.RIGHT_ARROW;
-    navPrev.addEventListener('click', goToPrev);
-    navNext.addEventListener('click', goToNext);
-}
-
-function attachConfirmation(btn: HTMLButtonElement, originalIcon: string, onConfirm: () => void) {
-    let confirmTimeout: ReturnType<typeof setTimeout> | null = null;
-
-    btn.innerHTML = originalIcon;
-
-    btn.addEventListener('click', () => {
-        if (confirmTimeout) {
-            //confirmed
-            clearTimeout(confirmTimeout);
-            confirmTimeout = null;
-            btn.innerHTML = originalIcon;
-            onConfirm();
-        } else {
-            //first click
-            btn.innerHTML = `<span class="text-xs font-bold tracking-wider">Discard changes? Click to confirm.</span>`;
-
-            confirmTimeout = setTimeout(() => {
-                confirmTimeout = null;
-                btn.innerHTML = originalIcon;
-            }, 5000);
-        }
-    });
-}
-
-//markdown parser
-const renderer = {
-    code({ text, lang }: { text: string; lang?: string }) {
-        return `<div class="cm-static-code mb-4" data-lang="${lang || ''}">${text}</div>`;
-    }
-};
-
-marked.use({ renderer: renderer as any });
-
-const parseMarkdown = (text: string) => {
-    return marked.parse(text) as string
-};
-
-function highlightStaticBlocks() {
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const blocks = document.querySelectorAll('.cm-static-code');
-    blocks.forEach(block => {
-        const text = block.textContent || "";
-        const lang = block.getAttribute('data-lang');
-
-        block.textContent = "";
-
-        new EditorView({
-            state: EditorState.create({
-                doc: text,
-                extensions: [
-                    EditorState.readOnly.of(true),
-                    EditorView.editable.of(false),
-                    getTheme(isDark),
-                    lang === 'ocaml' || !lang ? StreamLanguage.define(oCaml) :
-                        (lang === 'c' || lang === 'clike') ? StreamLanguage.define(c) : [],
-                    EditorView.lineWrapping,
-                    EditorView.theme({
-                        "&": { borderRadius: "4px", overflow: "hidden", backgroundColor: "var(--bg-app)" },
-                        ".cm-scroller": { overflow: "visible" }
-                    })
-                ]
-            }),
-            parent: block as HTMLElement
-        });
-    });
-}
+// Initialize components
+configureMarkdown();
+const switchTab = initTabs(tabProblem, tabCode, descElMobile, editorConsolePanel);
+const navActions = initNavigation(navPrev, navNext, store, switchTab);
+initSidebarToggle(sidebarToggle, sidebarNav);
 
 //theme switcher
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
@@ -190,14 +79,8 @@ function render() {
     if (descElDesktop) descElDesktop.innerHTML = fullContent;
     if (descElMobile) descElMobile.innerHTML = fullContent;
 
-    //prep for prev and next buttons
-    const idx = exercises.findIndex(e => e.id === currentExerciseId);
-    const hasPrev = idx > 0;
-    const hasNext = idx < exercises.length - 1;
-
     //update nav state
-    if (navPrev) navPrev.disabled = !hasPrev;
-    if (navNext) navNext.disabled = !hasNext;
+    if (navActions) navActions.updateNavState(currentExerciseId);
 
     //JN: Right now, codemirror essentially "injects" a read only editor in the markdown codeblocks using this
     //function. So all codeblocks in the problem description are effectively read-only editors. Does this add
@@ -205,77 +88,10 @@ function render() {
     highlightStaticBlocks();
 
     //sidebar
-    sidebarEl.innerHTML = curriculum.map(chapter => {
-        const chapterHeader = `<div class="px-2 py-1 pb-0 text-[10px] font-bold text-fg-muted uppercase">${chapter.title}</div>`;
-
-        const chapterExercises = chapter.exercises.map(e => {
-            const isCompleted = completedIds.includes(e.id);
-            const active = e.id === currentExerciseId ? 'bg-bg-surface text-fg-primary border-l-2 border-brand' : 'text-fg-muted hover:text-fg-primary';
-            const completed = isCompleted ? 'opacity-40' : '';
-
-            return `<div class="nav-item cursor-pointer p-2 pl-4 text-sm flex justify-between items-center transition-colors ${active} ${completed}"
-                        onclick="location.hash='#${e.id}'">
-                      <span>${e.id} ${e.title}</span>
-                      ${isCompleted ? ICONS.CHECK : ''}
-                    </div>`;
-        }).join('');
-
-        return chapterHeader + chapterExercises;
-    }).join('');
+    renderSidebar(sidebarEl, curriculum, currentExerciseId, completedIds);
 
     //progress bar (stepper)
-    if (progressContainer) {
-        const currentChapter = curriculum.find(c => c.exercises.some(e => e.id === currentExerciseId));
-        if (currentChapter) {
-            const total = currentChapter.exercises.length;
-            const nextUncompletedIndex = currentChapter.exercises.findIndex(e => !completedIds.includes(e.id));
-
-            progressContainer.innerHTML = currentChapter.exercises.map((e, idx) => {
-                const isCompleted = completedIds.includes(e.id);
-                const isNext = idx === nextUncompletedIndex || (nextUncompletedIndex === -1 && false);
-                const isLast = idx === total - 1;
-                const isActive = e.id === currentExerciseId;
-
-                //circle style
-                let circleClass = 'border border-border-default bg-bg-surface';
-                let content = '';
-
-                if (isNext) {
-                    circleClass = 'border border-brand bg-bg-surface';
-                }
-
-                if (isCompleted) {
-                    circleClass = 'border border-brand bg-brand';
-                    content = ICONS.WHITE_CHECK;
-                }
-
-                if (isActive) {
-                    const baseBg = isCompleted ? 'bg-brand' : 'bg-bg-surface';
-                    circleClass = `border border-brand ${baseBg} shadow-[0_0_6px_3px_color-mix(in_srgb,var(--color-brand)_30%,transparent)]`;
-                }
-
-                //connection logic
-                let line = '';
-                if (!isLast) {
-                    const lineClass = isCompleted ? 'bg-brand' : 'bg-border-default opacity-50';
-                    line = `<div class="w-8 h-0.5 mx-0.5 rounded ${lineClass}"></div>`;
-                }
-
-                return `
-                    <div class="relative flex items-center group cursor-pointer" onclick="location.hash='#${e.id}'" title="${e.title}">
-                        <div class="w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 z-10 ${circleClass}">
-                            ${content}
-                        </div>
-                        ${line}
-                        <!-- tooltip on hover -->
-                        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-bg-surface border border-border-default px-2 py-1 rounded text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-20 pointer-events-none">
-                            ${e.title}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-    }
+    renderProgressBar(progressContainer, curriculum, currentExerciseId, completedIds);
 
     //initialize editor
     let editorText = "";
@@ -402,7 +218,7 @@ store.subscribe(render);
 runBtn.addEventListener('click', runCode);
 
 if (resetBtn) {
-    attachConfirmation(resetBtn, ICONS.TRASH, () => {
+    clearConfirmation(resetBtn, ICONS.TRASH, () => {
         const { currentExerciseId } = store.getState();
         const currentEx = exercises.find(e => e.id === currentExerciseId);
         if (!currentEx) return;
@@ -418,96 +234,7 @@ if (clearConsoleBtn) {
     });
 }
 
-if (sidebarToggle && sidebarNav) {
-    sidebarToggle.innerHTML = ICONS.MENU; // Inject menu icon
-    sidebarToggle.addEventListener('click', () => {
-        sidebarNav.classList.toggle('hidden');
-        sidebarNav.classList.toggle('flex');
-        sidebarNav.classList.toggle('lg:hidden');
-        sidebarNav.classList.toggle('lg:flex');
-    });
-}
-
-//close sidebar when clicking outside on mobile
-document.addEventListener('click', (e) => {
-    if (!sidebarNav || !sidebarToggle) return;
-
-    const isMobileOpen = !sidebarNav.classList.contains('hidden');
-    const isMobile = window.innerWidth < 1024;
-
-    if (isMobile && isMobileOpen) {
-        const target = e.target as HTMLElement;
-        const clickedInside = sidebarNav.contains(target);
-        const clickedToggle = sidebarToggle.contains(target);
-
-        if (!clickedInside && !clickedToggle) {
-            sidebarNav.classList.toggle('hidden');
-            sidebarNav.classList.toggle('flex');
-            sidebarNav.classList.toggle('lg:hidden');
-            sidebarNav.classList.toggle('lg:flex');
-        }
-    }
-});
-
 //resize logic
-function setupResize(
-    handle: HTMLElement,
-    targetPane: HTMLElement,
-    direction: 'horizontal' | 'vertical',
-    isReversed: boolean = false
-) {
-    if (!handle || !targetPane) return;
-
-    let isDragging = false;
-    let startVal = 0;
-    let startSize = 0;
-
-    handle.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        document.body.classList.add('resizing');
-        startVal = direction === 'horizontal' ? e.clientX : e.clientY;
-        startSize = direction === 'horizontal' ? targetPane.offsetWidth : targetPane.offsetHeight;
-
-        document.body.style.userSelect = 'none';
-        document.body.style.cursor = direction === 'horizontal' ? 'col-resize' : 'row-resize';
-        handle.classList.add('bg-brand');
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-
-        const currentVal = direction === 'horizontal' ? e.clientX : e.clientY;
-        const delta = isReversed ? startVal - currentVal : currentVal - startVal;
-        const newSize = startSize + delta;
-
-        if (direction === 'horizontal') {
-            //min width 200px, max width 70% of screen
-            if (newSize > 200 && newSize < window.innerWidth * 0.7) {
-                targetPane.style.width = `${newSize}px`;
-                targetPane.style.flex = 'none';
-            }
-        } else {
-            //min height 100px, max height 80% of container
-            const containerHeight = targetPane.parentElement?.offsetHeight || window.innerHeight;
-            if (newSize > 100 && newSize < containerHeight * 0.8) {
-                targetPane.style.height = `${newSize}px`;
-                targetPane.style.flex = 'none';
-            }
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        if (isDragging) {
-            isDragging = false;
-            document.body.classList.remove('resizing');
-            document.body.style.userSelect = '';
-            document.body.style.cursor = '';
-            handle.classList.remove('bg-brand');
-        }
-    });
-}
-
-//init resize handles
 setupResize(dragHDesktop, paneProblem, 'horizontal');
 setupResize(dragVConsole, paneConsole, 'vertical', true);
 
