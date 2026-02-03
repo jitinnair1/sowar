@@ -50,7 +50,7 @@ const dragHDesktop = document.getElementById('drag-h-desktop') as HTMLElement;
 const dragVConsole = document.getElementById('drag-v-console') as HTMLElement;
 const progressContainer = document.getElementById('progress-container') as HTMLElement;
 
-// Initialize components
+//initialize components
 configureMarkdown();
 const switchTab = initTabs(tabProblem, tabCode, descElMobile, editorConsolePanel);
 const navActions = initNavigation(navPrev, navNext, store, switchTab);
