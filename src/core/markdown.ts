@@ -20,6 +20,10 @@ export const parseMarkdown = (text: string) => {
     return marked.parse(text) as string;
 };
 
+
+//JN: Right now, codemirror essentially "injects" a read only editor in the markdown codeblocks using this
+//function. So all codeblocks in the problem description are effectively read-only editors. Does this add
+//an overhead as the number of code blocks across all exercises scales?
 export function highlightStaticBlocks() {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const blocks = document.querySelectorAll('.cm-static-code');
