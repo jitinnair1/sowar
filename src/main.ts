@@ -18,7 +18,7 @@ import { renderProgressBar } from './ui/progressBar';
 import { setupResize } from './ui/resize';
 import { initTabs } from './ui/tabs';
 import { initNavigation } from './ui/navigation';
-import { clearConfirmation } from './ui/clearConfirmation';
+import { resetEditorText } from './ui/resetEditorText';
 
 //core
 import { configureMarkdown, parseMarkdown, highlightStaticBlocks } from './core/markdown';
@@ -218,7 +218,7 @@ store.subscribe(render);
 runBtn.addEventListener('click', runCode);
 
 if (resetBtn) {
-    clearConfirmation(resetBtn, ICONS.TRASH, () => {
+    resetEditorText(resetBtn, ICONS.TRASH, () => {
         const { currentExerciseId } = store.getState();
         const currentEx = exercises.find(e => e.id === currentExerciseId);
         if (!currentEx) return;

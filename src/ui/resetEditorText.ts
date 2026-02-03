@@ -1,4 +1,4 @@
-export function clearConfirmation(btn: HTMLButtonElement, originalIcon: string, onConfirm: () => void) {
+export function resetEditorText(btn: HTMLButtonElement, originalIcon: string, onConfirm: () => void) {
     let confirmTimeout: ReturnType<typeof setTimeout> | null = null;
 
     btn.innerHTML = originalIcon;
