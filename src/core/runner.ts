@@ -10,6 +10,14 @@ import { ICONS } from '../ui/icons';
 
 class Orchestrator {
     private isRunning = false;
+    private isReady = false;
+
+    constructor() {
+        //set running state as true so that run button is disabled until the page loads
+        //disable progress (run button fill effect) until the page loads
+        this.setRunningState(true);
+        elements.runBtn.classList.remove("run-btn-fill");
+    }
 
     async run() {
         if (this.isRunning) return;
@@ -36,6 +44,7 @@ class Orchestrator {
             store.getState().saveUserCode(currentExerciseId, userCode);
 
             //run via adapter
+            await new Promise(r => setTimeout(r, 2000));
             const finalTestCode = currentEx.testCode || "";
             const result = await activeRunner.run(userCode, finalTestCode);
 
@@ -97,20 +106,21 @@ class Orchestrator {
 
     private setRunningState(running: boolean) {
         this.isRunning = running;
-        elements.runBtn.disabled = running;
-        const icon = running ? ICONS.STOP : ICONS.PLAY;
-        elements.runBtn.innerHTML = `<span>${icon}</span><span>Run</span>`;
+        elements.runBtn.disabled = running || !this.isReady;
 
         if (running) {
-            elements.runBtn.classList.add("progress");
+            elements.runBtn.classList.add("run-btn-fill");
+            elements.runBtn.innerHTML = `<span>${ICONS.STOP}</span><span>Run</span>`;
         } else {
-            elements.runBtn.classList.remove("progress");
+            elements.runBtn.classList.remove("run-btn-fill");
+            elements.runBtn.innerHTML = `<span>${ICONS.PLAY}</span><span>Run</span>`;
         }
     }
 
     waitForCompiler() {
         const check = setInterval(async () => {
             if (await activeRunner.isReady()) {
+                this.isReady = true;
                 clearInterval(check);
                 status.setReady();
                 elements.runBtn.classList.remove('opacity-50', 'cursor-not-allowed');
