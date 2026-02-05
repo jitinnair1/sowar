@@ -18,6 +18,7 @@ class Orchestrator {
         //this does require the default run SVG to be hardcoded in the index.html file
         //which might not be the best way to do this, might fix it later  ¯\_(ツ)_/¯ 
         this.setRunningState(false);
+        elements.runBtn.innerHTML = `<span>${ICONS.STOP}</span><span>Run</span>`;
     }
 
     async run() {
