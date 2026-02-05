@@ -120,7 +120,7 @@ body {
 
 /* run button*/
 
-/* progress effect */
+/* button fill progess bar effect */
 #run-btn {
   position: relative;
   overflow: hidden;
@@ -131,7 +131,7 @@ body {
   transform: scale(0.95);
 }
 
-#run-btn.progress::before {
+#run-btn.run-btn-fill::before {
   content: "";
   position: absolute;
   top: 0;

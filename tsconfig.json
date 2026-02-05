@@ -28,6 +28,7 @@
   "include": [
     "src/**/*",
     "dev.ts",
-    "server.ts"
+    "server.ts",
+    "scripts/**/*"
   ]
 }

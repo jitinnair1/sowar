@@ -10,5 +10,19 @@ export interface Exercise {
 export interface Chapter {
     id: string;
     title: string;
+
     exercises: Exercise[];
+}
+
+export interface ExecutionResult {
+
+    success: boolean;
+    output: string;
+    error?: string;
+}
+
+export interface CodeRunner {
+    name: string;
+    isReady(): Promise<boolean>;
+    run(userCode: string, testCode?: string): Promise<ExecutionResult>;
 }
