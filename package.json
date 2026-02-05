@@ -7,7 +7,7 @@
     "clean": "rm -rf dist",
     "build:dist": "mkdir -p dist && cp -r public/* dist/",
     "build:ts": "bun build src/main.ts --outdir dist --target browser --minify --loader .md:text --loader .ml:text --loader .toml:toml",
-    "build:css": "bunx @tailwindcss/cli -i ./src/input.css -o ./dist/style.css --minify",
+    "build:css": "bunx --bun @tailwindcss/cli -i ./src/input.css -o ./dist/style.css --minify",
     "build:html": "bun scripts/inject-meta.ts",
     "build": "bun run clean && bun run build:dist && bun run build:ts && bun run build:css && bun run build:html",
     "dev": "bun run dev.ts",

@@ -25,7 +25,7 @@ watch(PUBLIC_DIR, { recursive: true }, (event, filename) => {
 console.log("Watching for changes...");
 await Promise.all([
   $`bun build src/main.ts --outdir ${DIST_DIR} --target browser --loader .md:text --loader .ml:text --watch`,
-  $`bunx @tailwindcss/cli -i ./src/input.css -o ./${DIST_DIR}/style.css --watch`,
+  $`bunx --bun @tailwindcss/cli -i ./src/input.css -o ./${DIST_DIR}/style.css --watch`,
   $`bun run server.ts`
 ]);
 
