@@ -13,10 +13,11 @@ class Orchestrator {
     private isReady = false;
 
     constructor() {
-        //set running state as true so that run button is disabled until the page loads
-        //disable progress (run button fill effect) until the page loads
-        this.setRunningState(true);
-        elements.runBtn.classList.remove("run-btn-fill");
+        //JN: setting runningState as false so that run button is disabled until 
+        //the page loads. This also injects the stop icon into the run button. However,
+        //this does require the default run SVG to be hardcoded in the index.html file
+        //which might not be the best way to do this, might fix it later  ¯\_(ツ)_/¯ 
+        this.setRunningState(false);
     }
 
     async run() {
@@ -44,7 +45,6 @@ class Orchestrator {
             store.getState().saveUserCode(currentExerciseId, userCode);
 
             //run via adapter
-            await new Promise(r => setTimeout(r, 2000));
             const finalTestCode = currentEx.testCode || "";
             const result = await activeRunner.run(userCode, finalTestCode);
 
