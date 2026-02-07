@@ -2,6 +2,9 @@ title = "Sowar"
 subtitle = "OCaml Exercises"
 version = "v0.1"
 
+project_url = "https://github.com/jitinnair1/sowar"
+author_url = "https://github.com/jitinnair1"
+
 # if 'logo_image' (value is path to image) is provided (uncommented), it replaces the emoji with an <img> tag.
 logo_emoji = "🐪" 
 

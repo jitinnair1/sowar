@@ -18,9 +18,11 @@ import { setupResize } from './ui/resize';
 import { initTabs } from './ui/tabs';
 import { initNavigation } from './ui/navigation';
 import { resetEditorText } from './ui/resetEditorText';
+import { renderFooter } from './ui/footer';
 
 //initialisation
 initBranding();
+renderFooter();
 configureMarkdown();
 
 const switchTab = initTabs(
