@@ -22,10 +22,15 @@ watch(PUBLIC_DIR, { recursive: true }, (event, filename) => {
   if (filename) syncFile(filename);
 });
 
+const buildDate = JSON.stringify(new Date().toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "2-digit",
+}));
+
 console.log("Watching for changes...");
 await Promise.all([
-  $`bun build src/main.ts --outdir ${DIST_DIR} --target browser --loader .md:text --loader .ml:text --watch`,
+  $`bun build src/main.ts --outdir ${DIST_DIR} --target browser --define BUILD_DATE=${buildDate} --loader .md:text --loader .ml:text --watch`,
   $`bunx --bun @tailwindcss/cli -i ./src/input.css -o ./${DIST_DIR}/style.css --watch`,
   $`bun run server.ts`
 ]);
-
