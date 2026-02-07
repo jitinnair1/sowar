@@ -22,7 +22,7 @@ watch(PUBLIC_DIR, { recursive: true }, (event, filename) => {
   if (filename) syncFile(filename);
 });
 
-const buildDate = JSON.stringify(new Date().toLocaleDateString("en-US", {
+const buildDate = JSON.stringify(new Date().toLocaleDateString(undefined, {
   year: "numeric",
   month: "long",
   day: "2-digit",

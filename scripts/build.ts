@@ -1,6 +1,6 @@
 import { build } from "bun";
 
-const buildDate = new Date().toLocaleDateString("en-IN", {
+const buildDate = new Date().toLocaleDateString(undefined, {
     year: "numeric",
     month: "long",
     day: "2-digit",
