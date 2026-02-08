@@ -5,7 +5,8 @@ import { Chapter } from '../core/types';
 import helloWorld from './01_hello_world/index';
 import intsVsFloats from './02_ints_vs_floats/index';
 import functions from './03_functions/index';
-import currying from './04_currying/index';
+import conditionals from './04_conditionals/index';
+import currying from './05_currying/index';
 
 export const curriculum: Chapter[] = [
     {
@@ -15,6 +16,7 @@ export const curriculum: Chapter[] = [
             helloWorld,
             intsVsFloats,
             functions,
+            conditionals,
         ]
     },
     {
