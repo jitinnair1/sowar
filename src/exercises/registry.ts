@@ -17,6 +17,10 @@ export const curriculum: Chapter[] = [
             intsVsFloats,
             functions,
             conditionals,
+            //strings,
+            //tuples,
+            //arrays,
+            //lists,
         ]
     },
     {
@@ -24,8 +28,26 @@ export const curriculum: Chapter[] = [
         title: 'Key Concepts',
         exercises: [
             currying,
+            //pureFunctions,
+            //immutability,
+            //sideEffects,
+            //recursion,
+            //patternMatching,
+            //map,
+            //filter,
+            //reduce,
+            //functionComposition,
         ]
-    }
+    },
+    // {
+    //     id: 'intermediateConcepts',
+    //     title: 'Intermediate Concepts',
+    //     exercises: [
+    //         //memoization,
+    //         //tailRecursion,
+    //         //referenceVsValue,
+    //     ]
+    // }
 ];
 
 export const exercises: Exercise[] = curriculum.flatMap(c => c.exercises);
