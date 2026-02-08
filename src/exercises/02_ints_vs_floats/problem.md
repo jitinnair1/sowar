@@ -1,6 +1,6 @@
 Like most (good) languages, OCaml is a statically typed language. This means the compiler checks for type errors before your code ever runs. But unlike C or Java, instead of manually declaring the type of each variable, in OCaml, you can let the compiler infer the type of the variable for you.
 
-## Ints vs. Floats
+## Integers vs. Floats
 
 Ocaml does this by a smart use of operators. For example, if you were adding two integers, you would use the standard operator:
 

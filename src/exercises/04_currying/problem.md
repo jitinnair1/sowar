@@ -1,32 +1,9 @@
-We looked at the `let` keyword earlier. But there's something fundamentally different about how OCaml treats functions compared to C-style languages.
+We looked at function signatures before like:
 
-Say you want to process a list of numbers - add 5 to some, multiply by 2 for others. In C with function pointers, you might write something like:
-
-```c
-int add_five(int x) { return x + 5; }
-int add_ten(int x) { return x + 10; }
-
-void process(int* arr, int len, int (*fn)(int)) {
-    for(int i = 0; i < len; i++) {
-        arr[i] = fn(arr[i]);
-    }
-}
-
-process(arr, len, add_five);
+```ocaml
+float -> float -> float
 ```
-But now, say you wanted to process the list with additional similar functions (likesay `add_ten`). For this, you'd have to write a new function that does this and then call it with `process` like this:
-
-```c
-...
-process(arr, len, add_five);
-
-//now add ten
-process(arr, len, add_ten);
-```
-
-So what if you could build up  `add_ten` and `add_five` from a general `add` function?
-
-## Currying
+and how functiosn could be passed to other functions. Let's look under the food to how OCaml puts together functions. 
 
 In OCaml, when you write something like:
 
@@ -37,7 +14,7 @@ Here, technically, `sum` is not a function that takes two arguments. It builds u
 
 Now, that new function is immediately called with `2` as its argument which gives the result `3`.
 
-This is called currying (names after Haskell Curry) and what this means is technically, every function in Ocaml takes exactly one argument. So multi-argument functions are essentially just syntactic sugar.
+This is called currying (named after Haskell Curry) and what this means is technically, every function in Ocaml takes exactly one argument. So multi-argument functions are essentially just syntactic sugar.
 
 But why do this? What benefits does this give us?
 

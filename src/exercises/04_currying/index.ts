@@ -4,7 +4,7 @@ import initialCode from "./template.ml" with { type: "text" };
 import testCode from "./test.ml" with { type: "text" };
 
 const exercise: Exercise = {
-  id: "1.3",
+  id: "2.1",
   title: "Currying",
   description: description,
   initialCode: initialCode,

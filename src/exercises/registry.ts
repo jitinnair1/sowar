@@ -4,7 +4,8 @@ import { Chapter } from '../core/types';
 //individual exercises
 import helloWorld from './01_hello_world/index';
 import intsVsFloats from './02_ints_vs_floats/index';
-import currying from './03_currying/index';
+import functions from './03_functions/index';
+import currying from './04_currying/index';
 
 export const curriculum: Chapter[] = [
     {
@@ -13,7 +14,14 @@ export const curriculum: Chapter[] = [
         exercises: [
             helloWorld,
             intsVsFloats,
-            currying
+            functions,
+        ]
+    },
+    {
+        id: 'keyConcepts',
+        title: 'Key Concepts',
+        exercises: [
+            currying,
         ]
     }
 ];
