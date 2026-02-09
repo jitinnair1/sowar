@@ -135,4 +135,3 @@ store.getState().setCurrent(initialId);
 
 //initial render
 render();
-

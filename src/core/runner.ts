@@ -13,10 +13,10 @@ class Orchestrator {
     private isReady = false;
 
     constructor() {
-        //JN: setting runningState as false so that run button is disabled until 
+        //JN: setting runningState as false so that run button is disabled until
         //the page loads. This also injects the stop icon into the run button. However,
         //this does require the default run SVG to be hardcoded in the index.html file
-        //which might not be the best way to do this, might fix it later  ¯\_(ツ)_/¯ 
+        //which might not be the best way to do this, might fix it later  ¯\_(ツ)_/¯
         this.setRunningState(false);
         elements.runBtn.innerHTML = `<span>${ICONS.STOP}</span><span>Run</span>`;
     }

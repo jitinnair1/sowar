@@ -65,7 +65,7 @@ export function initEditor(initialCode: string, onSave?: () => void) {
                     ".cm-scroller": { overflow: "auto", fontFamily: "var(--font-mono)" },
                 }),
 
-                //adding domEventHandlers here ensure the Tab is not overriden by the indentWithTab 
+                //adding domEventHandlers here ensure the Tab is not overriden by the indentWithTab
                 EditorView.domEventHandlers({
                     keydown: (event) => {
                         if (event.key !== 'Tab') {
