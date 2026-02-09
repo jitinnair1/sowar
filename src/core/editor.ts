@@ -4,6 +4,7 @@ import { EditorState } from '@codemirror/state';
 import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { StreamLanguage } from '@codemirror/language';
 import { oCaml } from '@codemirror/legacy-modes/mode/mllike';
+import { autocompletion, acceptCompletion } from '@codemirror/autocomplete';
 import { themeCompartment, getTheme } from '../ui/theme';
 import { showPopup } from '../ui/popup';
 
@@ -22,8 +23,11 @@ export function initEditor(initialCode: string, onSave?: () => void) {
             doc: initialCode,
             extensions: [
                 basicSetup,
+                autocompletion(),
                 keymap.of([
-                    //if user presses tab 3 times, show a toast indicating 
+                    { key: "Tab", run: acceptCompletion },
+
+                    //if user presses tab 3 times, show a toast indicating
                     //that they can focus out with Esc + Tab
                     {
                         key: "Tab",
