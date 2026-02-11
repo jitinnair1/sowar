@@ -30,7 +30,7 @@ let average a b = (a + b);;
 (* do not edit below this line *)
 
 let x = average 1. 2.;;`;var d8=`let () =
-  Tests.string_check string_of_float "average 2. 5. = 3.5" 3.5 (average 2. 5.);;`;var sQ={id:"1.2",title:"Integers and Floats",description:p8,initialCode:l8,testCode:d8,validate:()=>{return!0}},c8=sQ;var s8=`We looked a little bit at functions earlier. If you had been following along closely in the console window you may have noticed functions signatures being displayed.
+  Tests.string_check string_of_float "average 2. 5. = 3.5" 3.5 (average 2. 5.);;`;var sQ={id:"1.2",title:"Integers and Floats",description:p8,initialCode:l8,testCode:d8,validate:()=>{return!0}},c8=sQ;var s8=`We looked a little bit at functions earlier. If you had been following along closely in the console window, you may have noticed the functions signatures being displayed.
 
 Things like:
 
@@ -38,21 +38,22 @@ Things like:
 val average : float -> float -> float
 \`\`\`
 
-In a C-style language, the function signature would have looked something like this:
+In a C-style languages, the function signatures might look like this:
 
 \`\`\`c
 float average(float a, float b);
 \`\`\`
 
-So we know for sure that the function takes two inputs and returns a single output. But the same function when represented in OCaml has just a bunch of arrows pointing outwards. Why? This brings us to how OCaml, and broadly how functional programming languages view functions. 
+So we know for sure that the function takes two inputs and returns a single output. But the same function when represented in OCaml has just a bunch of arrows pointing outwards. Why? This brings us to how OCaml, and broadly how functional programming languages view functions.
 
 In OCaml, functions are first class citizens. This means that functions can be treated as values. So you can pass a function into another function or return a function from a function. We will get back to this idea in detail in the coming lessons.
 
 # Problem Statement
 
-You're given a \`square\` function. Your task is to complete the \`sum_of_squares\` function that reuses the square function to calculate the sum of the squares of two numbers.  
+You're given a \`square\` function. Your task is to complete the \`sum_of_squares\` function that reuses the square function to calculate the sum of the squares of two numbers.
 
-(Don't forget to use the dot operator \`.\`)`;var n8=`let square x = x *. x
+(Don't forget to use the dot operator \`.\`)
+`;var n8=`let square x = x *. x
 
 (* do not edit above this line *)
 
@@ -63,7 +64,7 @@ let sum_of_squares a b =
 (* do not edit below this line *)
 
 let hypotenuse a b = sqrt (sum_of_squares a b)`;var i8=`let () =
-  Tests.string_check string_of_float "hypotenuse 3. 4. = 5." 5.0 (hypotenuse 3. 4.);;`;var aQ={id:"1.3",title:"Functions",description:s8,initialCode:n8,testCode:i8,validate:()=>{return!0}},r8=aQ;var a8="Conditionals are a stndard control structure where we want a `if...then...else` like behaviour.\n\nThe Ocaml syntax for this is as follows:\n\n```ocaml\nif (condition) then  (expression_if_true) else (expression_if_false)\n```\n\nAlso, as with most things in OCaml, `if...then...else` is an expression, not a statement. This means it evaluates to a value. \n\nFor example:\n\n```ocaml\nlet is_even x = if x mod 2 = 0 then true else false\n```\n\nThe `is_even` function here is evaluating the expression so if it's result is assigned to a new variable with `let` it would be a `true` or `false`. So `is_even` will have a function signature of `int -> bool`.\n\n(Note: In OCaml, `mod` is the modulo operator. It is used to find the remainder of a division. You may have encountered it as the `%` operator in some other languages.)\n\n# Problem Statement\n\nWrite a function `abs_int` that takes an integer `x` and returns `-x` if `x` is negative and `x` otherwise.";var o8=`(* complete this function using conditionals *)
+  Tests.string_check string_of_float "hypotenuse 3. 4. = 5." 5.0 (hypotenuse 3. 4.);;`;var aQ={id:"1.3",title:"Functions",description:s8,initialCode:n8,testCode:i8,validate:()=>{return!0}},r8=aQ;var a8="Conditionals are a standard control structure where we want a `if...then...else` like behaviour.\n\nThe Ocaml syntax for this is as follows:\n\n```ocaml\nif (condition) then  (expression_if_true) else (expression_if_false)\n```\n\nAlso, as with most things in OCaml, the `if...then...else` is an expression, not a statement. This means it evaluates to a value.\n\nFor example:\n\n```ocaml\nlet is_even x = if x mod 2 = 0 then true else false\n```\n\nThe `is_even` function here is evaluating the expression so if its result is assigned to a new variable with `let` it would be  `true` or `false`. So `is_even` will have a function signature of `int -> bool`.\n\n(Note: In OCaml, `mod` is the modulo operator. It is used to find the remainder of a division. You may have encountered it as the `%` operator in some other languages.)\n\n# Problem Statement\n\nWrite a function `abs_int` that takes an integer `x` and returns `-x` if `x` is negative and `x` otherwise.\n";var o8=`(* complete this function using conditionals *)
 
 let abs_int x = 
 
@@ -76,7 +77,7 @@ let y = abs_int (-5);;`;var t8=`let () =
 \`\`\`ocaml
 float -> float -> float
 \`\`\`
-and how functiosn could be passed to other functions. Let's look under the food to how OCaml puts together functions. 
+and how functions could be passed to other functions. Let's look under the hood to see how OCaml puts together functions.
 
 In OCaml, when you write something like:
 
@@ -278,7 +279,7 @@ ALL TESTS PASSED!`;let J=$.includes(Z);if(i0.getState().markComplete(Z),!J)VQ();
                 <a href="${z1.project_url}/issues" target="_blank">Report an Error</a>
             </span>
             <span id="build-date" class="w-full sm:w-auto text-xs text-fg-muted order-last text-center">
-              Last updated on February 09, 2026
+              Last updated on February 11, 2026
             </span>
         </div>
     `}FQ();EQ();jQ();var h_=LQ(f.tabs.problem,f.tabs.code,f.description.mobile,f.editorConsolePanel),PQ=AQ(f.nav.prev,f.nav.next,i0,h_);DQ(f.sidebar.toggle,f.sidebar.nav);window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",(Z)=>{hX(Z.matches),y8()});var CQ=null;function y8(){let{currentExerciseId:Z,completedIds:$,userCode:J}=i0.getState(),Y=y0.find((q)=>q.id===Z);if(!Y)return;let X=_Q(Y.description),K=`<h1 class="text-3xl font-bold mb-6 text-fg-primary">${Y.id} ${Y.title}</h1>`+X;if(f.description.desktop)f.description.desktop.innerHTML=K;if(f.description.mobile)f.description.mobile.innerHTML=K;if(PQ)PQ.updateNavState(Z);zQ(),IQ(f.sidebar.list,q6,Z,$),MQ(f.progressContainer,q6,Z,$);let U=J[Z]||Y.initialCode;if(xX(U,()=>{i0.getState().saveUserCode(Z,x9()),Q3("Saved!")}),Z!==CQ)f.console.textContent="// Ready...",CQ=Z}i0.subscribe(y8);f.runBtn.addEventListener("click",()=>C8.run());if(f.resetBtn)BQ(f.resetBtn,l0.TRASH,()=>{let{currentExerciseId:Z}=i0.getState(),$=y0.find((J)=>J.id===Z);if(!$)return;i0.getState().saveUserCode(Z,$.initialCode)});if(f.clearConsoleBtn)f.clearConsoleBtn.innerHTML=l0.TRASH,f.clearConsoleBtn.addEventListener("click",()=>{if(f.console)f.console.textContent=""});window.addEventListener("hashchange",()=>{let Z=window.location.hash.slice(1);if(y0.find(($)=>$.id===Z))i0.getState().setCurrent(Z)});T8(f.resize.dragHDesktop,f.resize.paneProblem,"horizontal");T8(f.resize.dragVConsole,f.resize.paneConsole,"vertical",!0);C8.waitForCompiler();var w_=window.location.hash.slice(1)||y0[0].id;i0.getState().setCurrent(w_);y8();
