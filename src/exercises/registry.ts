@@ -27,10 +27,10 @@ export const curriculum: Chapter[] = [
         id: 'keyConcepts',
         title: 'Key Concepts',
         exercises: [
-            currying,
-            //pureFunctions,
             //immutability,
             //sideEffects,
+            //pureFunctions,
+            currying,
             //recursion,
             //patternMatching,
             //map,
