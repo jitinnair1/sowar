@@ -3,7 +3,7 @@ We looked at function signatures before like:
 ```ocaml
 float -> float -> float
 ```
-and how functiosn could be passed to other functions. Let's look under the food to how OCaml puts together functions. 
+and how functions could be passed to other functions. Let's look under the hood to see how OCaml puts together functions.
 
 In OCaml, when you write something like:
 
