@@ -21,6 +21,14 @@ export const elements = {
     runBtn: document.getElementById('run-btn') as HTMLButtonElement,
     resetBtn: document.getElementById('reset-btn') as HTMLButtonElement,
     clearConsoleBtn: document.getElementById('clear-console-btn') as HTMLButtonElement,
+    shortcutsBtn: document.getElementById('shortcuts-btn') as HTMLButtonElement,
+
+    //shortcuts modal
+    shortcuts: {
+        modal: document.getElementById('shortcuts-modal') as HTMLElement,
+        closeBtn: document.getElementById('close-shortcuts-btn') as HTMLButtonElement,
+        list: document.getElementById('shortcuts-list') as HTMLElement,
+    },
 
     //navigation and tabs
     nav: {

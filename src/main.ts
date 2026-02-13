@@ -19,9 +19,11 @@ import { initTabs } from './ui/tabs';
 import { initNavigation } from './ui/navigation';
 import { resetEditorText } from './ui/resetEditorText';
 import { renderFooter } from './ui/footer';
+import { initShortcuts } from './ui/shortcuts';
 
 //initialisation
 initBranding();
+initShortcuts();
 renderFooter();
 configureMarkdown();
 
