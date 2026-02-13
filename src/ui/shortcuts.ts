@@ -160,8 +160,10 @@ function renderShortcuts() {
 
 function openModal() {
     elements.shortcuts.modal?.classList.remove('hidden');
+    elements.shortcuts.modal?.classList.add('flex');
 }
 
 function closeModal() {
     elements.shortcuts.modal?.classList.add('hidden');
+    elements.shortcuts.modal?.classList.remove('flex');
 }
