@@ -1,10 +1,12 @@
+import { StoreApi } from 'zustand/vanilla';
+import { AppState } from '../core/store';
 import { ICONS } from './icons';
 import { exercises } from '../exercises/registry';
 
 export function initNavigation(
     navPrev: HTMLButtonElement | null,
     navNext: HTMLButtonElement | null,
-    store: any, // Using any for store to avoid circular dependency issues if store types are complex, but ideally should be typed
+    store: StoreApi<AppState>,
     switchTabCallback: (tab: 'problem' | 'code') => void
 ) {
     if (!navPrev || !navNext) return;

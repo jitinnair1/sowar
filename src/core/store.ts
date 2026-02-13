@@ -3,7 +3,7 @@ import { createStore } from 'zustand/vanilla';
 import { persist } from 'zustand/middleware';
 import { exercises } from '../exercises/registry';
 
-interface AppState {
+export interface AppState {
   currentExerciseId: string;
   completedIds: string[];
   markComplete: (id: string) => void;
@@ -15,12 +15,12 @@ interface AppState {
 export const store = createStore<AppState>()(
   persist(
     (set, get) => ({
-      // Initial State
+      //initial state
       currentExerciseId: exercises[0]?.id || "1.1",
       completedIds: [],
       userCode: {},
 
-      // Actions
+      //actions
       markComplete: (id) => {
         const { completedIds } = get();
         if (!completedIds.includes(id)) {
