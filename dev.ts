@@ -32,5 +32,6 @@ console.log("Watching for changes...");
 await Promise.all([
   $`bun build src/main.ts --outdir ${DIST_DIR} --target browser --define BUILD_DATE=${buildDate} --loader .md:text --loader .ml:text --watch`,
   $`bunx --bun @tailwindcss/cli -i ./src/input.css -o ./${DIST_DIR}/style.css --watch`,
+  $`tsgo --noEmit --watch`,
   $`bun run server.ts`
 ]);
