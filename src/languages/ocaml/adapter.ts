@@ -25,7 +25,7 @@ export const ocamlRunner: CodeRunner = {
             };
         }
 
-        const fullCode = harness + "\n" + userCode + "\n" + testCode;
+        const fullCode = harness + "\n" + userCode + "\n" + testCode + ";;";
 
         try {
             const result = window.ocaml.run(fullCode);
