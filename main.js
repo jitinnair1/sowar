@@ -1,8 +1,6 @@
 var v8=(Z)=>{let $,J=new Set,Y=(G,W)=>{let j=typeof G==="function"?G($):G;if(!Object.is(j,$)){let _=$;$=(W!=null?W:typeof j!=="object"||j===null)?j:Object.assign({},$,j),J.forEach((z)=>z($,_))}},X=()=>$,U={setState:Y,getState:X,getInitialState:()=>q,subscribe:(G)=>{return J.add(G),()=>J.delete(G)}},q=$=Z(Y,X,U);return U},u8=(Z)=>Z?v8(Z):v8;function dQ(Z,$){let J;try{J=Z()}catch(X){return}return{getItem:(X)=>{var Q;let K=(q)=>{if(q===null)return null;return JSON.parse(q,$==null?void 0:$.reviver)},U=(Q=J.getItem(X))!=null?Q:null;if(U instanceof Promise)return U.then(K);return K(U)},setItem:(X,Q)=>J.setItem(X,JSON.stringify(Q,$==null?void 0:$.replacer)),removeItem:(X)=>J.removeItem(X)}}var r9=(Z)=>($)=>{try{let J=Z($);if(J instanceof Promise)return J;return{then(Y){return r9(Y)(J)},catch(Y){return this}}}catch(J){return{then(Y){return this},catch(Y){return r9(Y)(J)}}}},cQ=(Z,$)=>(J,Y,X)=>{let Q={storage:dQ(()=>localStorage),partialize:(O)=>O,version:0,merge:(O,H)=>({...H,...O}),...$},K=!1,U=new Set,q=new Set,G=Q.storage;if(!G)return Z((...O)=>{console.warn(`[zustand persist middleware] Unable to update item '${Q.name}', the given storage is currently unavailable.`),J(...O)},Y,X);let W=()=>{let O=Q.partialize({...Y()});return G.setItem(Q.name,{state:O,version:Q.version})},j=X.setState;X.setState=(O,H)=>{return j(O,H),W()};let _=Z((...O)=>{return J(...O),W()},Y,X);X.getInitialState=()=>_;let z,V=()=>{var O,H;if(!G)return;K=!1,U.forEach((D)=>{var M;return D((M=Y())!=null?M:_)});let F=((H=Q.onRehydrateStorage)==null?void 0:H.call(Q,(O=Y())!=null?O:_))||void 0;return r9(G.getItem.bind(G))(Q.name).then((D)=>{if(D)if(typeof D.version==="number"&&D.version!==Q.version){if(Q.migrate){let M=Q.migrate(D.state,D.version);if(M instanceof Promise)return M.then((A)=>[!0,A]);return[!0,M]}console.error("State loaded from storage couldn't be migrated since no migrate function was provided")}else return[!1,D.state];return[!1,void 0]}).then((D)=>{var M;let[A,B]=D;if(z=Q.merge(B,(M=Y())!=null?M:_),J(z,!0),A)return W()}).then(()=>{F==null||F(z,void 0),z=Y(),K=!0,q.forEach((D)=>D(z))}).catch((D)=>{F==null||F(void 0,D)})};if(X.persist={setOptions:(O)=>{if(Q={...Q,...O},O.storage)G=O.storage},clearStorage:()=>{G==null||G.removeItem(Q.name)},getOptions:()=>Q,rehydrate:()=>V(),hasHydrated:()=>K,onHydrate:(O)=>{return U.add(O),()=>{U.delete(O)}},onFinishHydration:(O)=>{return q.add(O),()=>{q.delete(O)}}},!Q.skipHydration)V();return z||_},m8=cQ;var g8=`This series of exercises takes you through the basic syntax and concepts of OCaml. All exercies can be run right here in your browser.
 
-We start with the basics and build up to the more advanced concepts. The objective is to write a (very simple) clone of FFTW[^1] in OCaml.
-
-[^1]: Fastest Fourier Transform in the West!
+We start with the basics and build up to the more advanced concepts. The objective is to write a (very simple) clone of FFTW in OCaml.
 
 (Fun fact, while FFTW is a C library, the core \`genfft\` part is written in OCaml)
 
@@ -11,28 +9,23 @@ If you're coming from C-styled languages, the functional style might take some t
 In OCaml, the \`print_endline\` function is used to print to the console. So, to print a message you would use something like:
 
 \`\`\`ocaml
-print_endline "some message";;
+print_endline "some message"
 \`\`\`
-Now, when writing code in an OCaml script, you generally use a single semicolon (;) to sequence commands or simply rely on the compiler's structure.
-
-However, in the in-browser environment (like we're using here), you must use double semicolons (;;) to signal to the interpreter that you have finished your expression and want it evaluated.
 
 Now, check if the code in the exercise window looks alright and fix it if needed. Then, you can user the \`Run\` button to run the code.
 
 # Problem Statement
 
-Use \`print_endline\` to print out "Hello, world!"
-
-`;var f8=`print_endline "some message";;
+Use \`print_endline\` to print out "Hello, world!"`;var f8=`print_endline "some message"
 `;var p8=`(* no tests needed here *)
 `;var rQ={id:"1.1",title:"Hello World",description:g8,initialCode:f8,testCode:p8,validate:(Z,$)=>{let J=$.toLowerCase();if(J.includes("hello")&&J.includes("world"))return!0;return"Expected output to contain: hello and world"}},l8=rQ;var d8="Like most (good) languages, OCaml is a statically typed language. This means the compiler checks for type errors before your code ever runs. But unlike C or Java, instead of manually declaring the type of each variable, in OCaml, you can let the compiler infer the type of the variable for you.\n\n## Integers vs. Floats\n\nOcaml does this by a smart use of operators. For example, if you were adding two integers, you would use the standard operator:\n\n```ocaml\n1 + 2;;\n```\nBut, if you were adding an two floating point numbers, you would use the floating point operator:\n\n```ocaml\n1. +. 2.;;\n```\nNotice the `.` after the `+` operator. It tells the compiler that the operation is a floating point operation. f you try to use + with floats, or +. with ints, the compiler will complain.\n\nNow, to assign the result of such operation to a variable, we would use the let keyword. For example:\n\n```ocaml\nlet x = 1 + 2;;\n```\nSo think of the right hand side to be be an expression or a function that is evalauted and the result is then assigned to the variable on the left hand side (x in this case).\n\n## Functions\n\nThe `let` keyword can also be used to define functions. Typically in C-style languages you would define a function like this:\n\n```c\nfloat sum(float a, float b) {\n    return a + b;\n}\n```\nBut in OCaml, you could define a function like this:\n\n```ocaml\nlet sum a b = a +. b;;\n```\nHere `let` is the keyword that defines a function. Then, `sum` is the name of the function. Right after that, we have the arguments of the function i.e. `a` and `b` here.\n\nSo one way to read the function would be, the function `sum` takes two arguments `a` and `b` and the expression used to calculate the result is the one to the right of the `=` sign.\n\nOnce we define the function, we can use it like this:\n\n```ocaml\nlet x = sum 1. 2.;;\n```\nSo here, what we're doing is evaluate the function sum, which takes two arguments `1.` and `2.` and assigns the result to the variable `x`.\n\n# Problem Statement\n\nImplement a function average that takes two floating-point numbers and returns their average as a float.";var c8=`(* use the same function name and signature but fix the implementation *)
 
-let average a b = (a + b);;
+let average a b = (a + b)
 
 (* do not edit below this line *)
 
-let x = average 1. 2.;;`;var s8=`let () =
-  Tests.string_check string_of_float "average 2. 5. = 3.5" 3.5 (average 2. 5.);;`;var eQ={id:"1.2",title:"Integers and Floats",description:d8,initialCode:c8,testCode:s8,validate:()=>{return!0}},n8=eQ;var i8=`We looked a little bit at functions earlier. If you had been following along closely in the console window, you may have noticed the functions signatures being displayed.
+let x = average 1. 2.`;var s8=`let () =
+  Tests.string_check string_of_float "average 2. 5. = 3.5" 3.5 (average 2. 5.)`;var eQ={id:"1.2",title:"Integers and Floats",description:d8,initialCode:c8,testCode:s8,validate:()=>{return!0}},n8=eQ;var i8=`We looked a little bit at functions earlier. If you had been following along closely in the console window, you may have noticed the functions signatures being displayed.
 
 Things like:
 
@@ -66,15 +59,15 @@ let sum_of_squares a b =
 (* do not edit below this line *)
 
 let hypotenuse a b = sqrt (sum_of_squares a b)`;var a8=`let () =
-  Tests.string_check string_of_float "hypotenuse 3. 4. = 5." 5.0 (hypotenuse 3. 4.);;`;var YK={id:"1.3",title:"Functions",description:i8,initialCode:r8,testCode:a8,validate:()=>{return!0}},o8=YK;var t8="Conditionals are a standard control structure where we want a `if...then...else` like behaviour.\n\nThe Ocaml syntax for this is as follows:\n\n```ocaml\nif (condition) then  (expression_if_true) else (expression_if_false)\n```\n\nAlso, as with most things in OCaml, the `if...then...else` is an expression, not a statement. This means it evaluates to a value.\n\nFor example:\n\n```ocaml\nlet is_even x = if x mod 2 = 0 then true else false\n```\n\nThe `is_even` function here is evaluating the expression so if its result is assigned to a new variable with `let` it would be  `true` or `false`. So `is_even` will have a function signature of `int -> bool`.\n\n(Note: In OCaml, `mod` is the modulo operator. It is used to find the remainder of a division. You may have encountered it as the `%` operator in some other languages.)\n\n# Problem Statement\n\nWrite a function `abs_int` that takes an integer `x` and returns `-x` if `x` is negative and `x` otherwise.\n";var e8=`(* complete this function using conditionals *)
+  Tests.string_check string_of_float "hypotenuse 3. 4. = 5." 5.0 (hypotenuse 3. 4.)`;var YK={id:"1.3",title:"Functions",description:i8,initialCode:r8,testCode:a8,validate:()=>{return!0}},o8=YK;var t8="Conditionals are a standard control structure where we want a `if...then...else` like behaviour.\n\nThe Ocaml syntax for this is as follows:\n\n```ocaml\nif (condition) then  (expression_if_true) else (expression_if_false)\n```\n\nAlso, as with most things in OCaml, the `if...then...else` is an expression, not a statement. This means it evaluates to a value.\n\nFor example:\n\n```ocaml\nlet is_even x = if x mod 2 = 0 then true else false\n```\n\nThe `is_even` function here is evaluating the expression so if its result is assigned to a new variable with `let` it would be  `true` or `false`. So `is_even` will have a function signature of `int -> bool`.\n\n(Note: In OCaml, `mod` is the modulo operator. It is used to find the remainder of a division. You may have encountered it as the `%` operator in some other languages.)\n\n# Problem Statement\n\nWrite a function `abs_int` that takes an integer `x` and returns `-x` if `x` is negative and `x` otherwise.\n";var e8=`(* complete this function using conditionals *)
 
 let abs_int x = 
 
 
 (* do not edit below this line *)
 
-let y = abs_int (-5);;`;var Z5=`let () =
-  Tests.string_check string_of_int "abs_int (-25) = 25" 25 (abs_int (-25));;`;var UK={id:"1.4",title:"Conditionals",description:t8,initialCode:e8,testCode:Z5,validate:()=>{return!0}},$5=UK;var J5=`We often want to group related things together to make it easy to work with them. There are multiple ways to do this grouping in programming: lists, arrays, tuples, structs, objects, classes etc. There are variations in which programming languages and styles use these. For now, lets start with tuples.
+let y = abs_int (-5)`;var Z5=`let () =
+  Tests.string_check string_of_int "abs_int (-25) = 25" 25 (abs_int (-25))`;var UK={id:"1.4",title:"Conditionals",description:t8,initialCode:e8,testCode:Z5,validate:()=>{return!0}},$5=UK;var J5=`We often want to group related things together to make it easy to work with them. There are multiple ways to do this grouping in programming: lists, arrays, tuples, structs, objects, classes etc. There are variations in which programming languages and styles use these. For now, lets start with tuples.
 
 A good use case for tuples is when the different things you group have some shared attributes or relationships. For example a point is a tuple of two numbers (x, y). Same logic works for a complex number (real, imaginary) or even RGB colour which is a tuple of three numbers (r, g, b) each between 0 and 255.
 
@@ -103,12 +96,12 @@ let cadd ((a, b), (c, d)) : complex = (a +. c, b +. d)
 let sum = cadd (z1, z2)
 
 `;var X5=`let string_of_float_pair (x, y) =
-  Printf.sprintf "(%f, %f)" x y;;
+  Printf.sprintf "(%f, %f)" x y
 
 let () =
   Tests.string_check string_of_float_pair
   "cadd ((1.0, -2.0), (3.0, -1.0)) = (4.0, -3.0)"
-  (4.0, -3.0) (cadd ((1.0, -2.0), (3.0, -1.0)));;
+  (4.0, -3.0) (cadd ((1.0, -2.0), (3.0, -1.0)))
 `;var jK={id:"1.5",title:"Tuples",description:J5,initialCode:Y5,testCode:X5,validate:()=>{return!0}},Q5=jK;var K5=`We looked at function signatures before like:
 
 \`\`\`ocaml
@@ -154,8 +147,8 @@ While this example is a bit silly, the point was to intoduce the way in which cu
 # Problem Statement
 
 Given two functions, \`add\` and \`multiply\`, create a function \`add_thirteen\` and a function \`multiply_by_17\`
-`;var U5=`let add x y = x + y;;
-let multiply x y = x * y;;
+`;var U5=`let add x y = x + y
+let multiply x y = x * y
 
 (* do not edit above *)
 
@@ -165,11 +158,11 @@ let multiply x y = x * y;;
 
 (* do not edit below *)
 
-let num1 = add_thirteen 13;;
-let num2 =  multiply_by_17 17;;
+let num1 = add_thirteen 13
+let num2 =  multiply_by_17 17
 `;var q5=`let () =
   Tests.string_check string_of_int "add_thirteen 7 = 20" 20 (add_thirteen 7);
-  Tests.string_check string_of_int "multiply_by_17 2 = 34" 34 (multiply_by_17 2);;
+  Tests.string_check string_of_int "multiply_by_17 2 = 34" 34 (multiply_by_17 2)
 `;var VK={id:"2.1",title:"Currying",description:K5,initialCode:U5,testCode:q5,validate:()=>!0},G5=VK;var W6=[{id:"basics",title:"Basics",exercises:[l8,n8,o8,$5,Q5]},{id:"keyConcepts",title:"Key Concepts",exercises:[G5]}],b0=W6.flatMap((Z)=>Z.exercises);var i0=u8()(m8((Z,$)=>({currentExerciseId:b0[0]?.id||"1.1",completedIds:[],userCode:{},markComplete:(J)=>{let{completedIds:Y}=$();if(!Y.includes(J))Z({completedIds:[...Y,J]})},setCurrent:(J)=>Z({currentExerciseId:J}),saveUserCode:(J,Y)=>Z({userCode:{...$().userCode,[J]:Y}})}),{name:"sowar-storage"}));var o9=[],z5=[];(()=>{let Z="lc,34,7n,7,7b,19,,,,2,,2,,,20,b,1c,l,g,,2t,7,2,6,2,2,,4,z,,u,r,2j,b,1m,9,9,,o,4,,9,,3,,5,17,3,3b,f,,w,1j,,,,4,8,4,,3,7,a,2,t,,1m,,,,2,4,8,,9,,a,2,q,,2,2,1l,,4,2,4,2,2,3,3,,u,2,3,,b,2,1l,,4,5,,2,4,,k,2,m,6,,,1m,,,2,,4,8,,7,3,a,2,u,,1n,,,,c,,9,,14,,3,,1l,3,5,3,,4,7,2,b,2,t,,1m,,2,,2,,3,,5,2,7,2,b,2,s,2,1l,2,,,2,4,8,,9,,a,2,t,,20,,4,,2,3,,,8,,29,,2,7,c,8,2q,,2,9,b,6,22,2,r,,,,,,1j,e,,5,,2,5,b,,10,9,,2u,4,,6,,2,2,2,p,2,4,3,g,4,d,,2,2,6,,f,,jj,3,qa,3,t,3,t,2,u,2,1s,2,,7,8,,2,b,9,,19,3,3b,2,y,,3a,3,4,2,9,,6,3,63,2,2,,1m,,,7,,,,,2,8,6,a,2,,1c,h,1r,4,1c,7,,,5,,14,9,c,2,w,4,2,2,,3,1k,,,2,3,,,3,1m,8,2,2,48,3,,d,,7,4,,6,,3,2,5i,1m,,5,ek,,5f,x,2da,3,3x,,2o,w,fe,6,2x,2,n9w,4,,a,w,2,28,2,7k,,3,,4,,p,2,5,,47,2,q,i,d,,12,8,p,b,1a,3,1c,,2,4,2,2,13,,1v,6,2,2,2,2,c,,8,,1b,,1f,,,3,2,2,5,2,,,16,2,8,,6m,,2,,4,,fn4,,kh,g,g,g,a6,2,gt,,6a,,45,5,1ae,3,,2,5,4,14,3,4,,4l,2,fx,4,ar,2,49,b,4w,,1i,f,1k,3,1d,4,2,2,1x,3,10,5,,8,1q,,c,2,1g,9,a,4,2,,2n,3,2,,,2,6,,4g,,3,8,l,2,1l,2,,,,,m,,e,7,3,5,5f,8,2,3,,,n,,29,,2,6,,,2,,,2,,2,6j,,2,4,6,2,,2,r,2,2d,8,2,,,2,2y,,,,2,6,,,2t,3,2,4,,5,77,9,,2,6t,,a,2,,,4,,40,4,2,2,4,,w,a,14,6,2,4,8,,9,6,2,3,1a,d,,2,ba,7,,6,,,2a,m,2,7,,2,,2,3e,6,3,,,2,,7,,,20,2,3,,,,9n,2,f0b,5,1n,7,t4,,1r,4,29,,f5k,2,43q,,,3,4,5,8,8,2,7,u,4,44,3,1iz,1j,4,1e,8,,e,,m,5,,f,11s,7,,h,2,7,,2,,5,79,7,c5,4,15s,7,31,7,240,5,gx7k,2o,3k,6o".split(",").map(($)=>$?parseInt($,36):1);for(let $=0,J=0;$<Z.length;$++)($%2?z5:o9).push(J=J+Z[$])})();function HK(Z){if(Z<768)return!1;for(let $=0,J=o9.length;;){let Y=$+J>>1;if(Z<o9[Y])J=Y;else if(Z>=z5[Y])$=Y+1;else return!0;if($==J)return!1}}function W5(Z){return Z>=127462&&Z<=127487}var j5=8205;function O5(Z,$,J=!0,Y=!0){return(J?V5:NK)(Z,$,Y)}function V5(Z,$,J){if($==Z.length)return $;if($&&H5(Z.charCodeAt($))&&N5(Z.charCodeAt($-1)))$--;let Y=a9(Z,$);$+=_5(Y);while($<Z.length){let X=a9(Z,$);if(Y==j5||X==j5||J&&HK(X))$+=_5(X),Y=X;else if(W5(X)){let Q=0,K=$-2;while(K>=0&&W5(a9(Z,K)))Q++,K-=2;if(Q%2==0)break;else $+=2}else break}return $}function NK(Z,$,J){while($>0){let Y=V5(Z,$-2,J);if(Y<$)return Y;$--}return 0}function a9(Z,$){let J=Z.charCodeAt($);if(!N5(J)||$+1==Z.length)return J;let Y=Z.charCodeAt($+1);if(!H5(Y))return J;return(J-55296<<10)+(Y-56320)+65536}function H5(Z){return Z>=56320&&Z<57344}function N5(Z){return Z>=55296&&Z<56320}function _5(Z){return Z<65536?1:2}class Z0{lineAt(Z){if(Z<0||Z>this.length)throw RangeError(`Invalid position ${Z} in document of length ${this.length}`);return this.lineInner(Z,!1,1,0)}line(Z){if(Z<1||Z>this.lines)throw RangeError(`Invalid line number ${Z} in ${this.lines}-line document`);return this.lineInner(Z,!0,1,0)}replace(Z,$,J){[Z,$]=y2(this,Z,$);let Y=[];if(this.decompose(0,Z,Y,2),J.length)J.decompose(0,J.length,Y,3);return this.decompose($,this.length,Y,1),y1.from(Y,this.length-($-Z)+J.length)}append(Z){return this.replace(this.length,this.length,Z)}slice(Z,$=this.length){[Z,$]=y2(this,Z,$);let J=[];return this.decompose(Z,$,J,0),y1.from(J,$-Z)}eq(Z){if(Z==this)return!0;if(Z.length!=this.length||Z.lines!=this.lines)return!1;let $=this.scanIdentical(Z,1),J=this.length-this.scanIdentical(Z,-1),Y=new C2(this),X=new C2(Z);for(let Q=$,K=$;;){if(Y.next(Q),X.next(Q),Q=0,Y.lineBreak!=X.lineBreak||Y.done!=X.done||Y.value!=X.value)return!1;if(K+=Y.value.length,Y.done||K>=J)return!0}}iter(Z=1){return new C2(this,Z)}iterRange(Z,$=this.length){return new q7(this,Z,$)}iterLines(Z,$){let J;if(Z==null)J=this.iter();else{if($==null)$=this.lines+1;let Y=this.line(Z).from;J=this.iterRange(Y,Math.max(Y,$==this.lines+1?this.length:$<=1?0:this.line($-1).to))}return new G7(J)}toString(){return this.sliceString(0)}toJSON(){let Z=[];return this.flatten(Z),Z}constructor(){}static of(Z){if(Z.length==0)throw RangeError("A document must have at least one line");if(Z.length==1&&!Z[0])return Z0.empty;return Z.length<=32?new D0(Z):y1.from(D0.split(Z,[]))}}class D0 extends Z0{constructor(Z,$=RK(Z)){super();this.text=Z,this.length=$}get lines(){return this.text.length}get children(){return null}lineInner(Z,$,J,Y){for(let X=0;;X++){let Q=this.text[X],K=Y+Q.length;if(($?J:K)>=Z)return new M5(Y,K,J,Q);Y=K+1,J++}}decompose(Z,$,J,Y){let X=Z<=0&&$>=this.length?this:new D0(R5(this.text,Z,$),Math.min($,this.length)-Math.max(0,Z));if(Y&1){let Q=J.pop(),K=O6(X.text,Q.text.slice(),0,X.length);if(K.length<=32)J.push(new D0(K,Q.length+X.length));else{let U=K.length>>1;J.push(new D0(K.slice(0,U)),new D0(K.slice(U)))}}else J.push(X)}replace(Z,$,J){if(!(J instanceof D0))return super.replace(Z,$,J);[Z,$]=y2(this,Z,$);let Y=O6(this.text,O6(J.text,R5(this.text,0,Z)),$),X=this.length+J.length-($-Z);if(Y.length<=32)return new D0(Y,X);return y1.from(D0.split(Y,[]),X)}sliceString(Z,$=this.length,J=`
 `){[Z,$]=y2(this,Z,$);let Y="";for(let X=0,Q=0;X<=$&&Q<this.text.length;Q++){let K=this.text[Q],U=X+K.length;if(X>Z&&Q)Y+=J;if(Z<U&&$>X)Y+=K.slice(Math.max(0,Z-X),$-X);X=U+1}return Y}flatten(Z){for(let $ of this.text)Z.push($)}scanIdentical(){return 0}static split(Z,$){let J=[],Y=-1;for(let X of Z)if(J.push(X),Y+=X.length+1,J.length==32)$.push(new D0(J,Y)),J=[],Y=-1;if(Y>-1)$.push(new D0(J,Y));return $}}class y1 extends Z0{constructor(Z,$){super();this.children=Z,this.length=$,this.lines=0;for(let J of Z)this.lines+=J.lines}lineInner(Z,$,J,Y){for(let X=0;;X++){let Q=this.children[X],K=Y+Q.length,U=J+Q.lines-1;if(($?U:K)>=Z)return Q.lineInner(Z,$,J,Y);Y=K+1,J=U+1}}decompose(Z,$,J,Y){for(let X=0,Q=0;Q<=$&&X<this.children.length;X++){let K=this.children[X],U=Q+K.length;if(Z<=U&&$>=Q){let q=Y&((Q<=Z?1:0)|(U>=$?2:0));if(Q>=Z&&U<=$&&!q)J.push(K);else K.decompose(Z-Q,$-Q,J,q)}Q=U+1}}replace(Z,$,J){if([Z,$]=y2(this,Z,$),J.lines<this.lines)for(let Y=0,X=0;Y<this.children.length;Y++){let Q=this.children[Y],K=X+Q.length;if(Z>=X&&$<=K){let U=Q.replace(Z-X,$-X,J),q=this.lines-Q.lines+U.lines;if(U.lines<q>>4&&U.lines>q>>6){let G=this.children.slice();return G[Y]=U,new y1(G,this.length-($-Z)+J.length)}return super.replace(X,K,U)}X=K+1}return super.replace(Z,$,J)}sliceString(Z,$=this.length,J=`
 `){[Z,$]=y2(this,Z,$);let Y="";for(let X=0,Q=0;X<this.children.length&&Q<=$;X++){let K=this.children[X],U=Q+K.length;if(Q>Z&&X)Y+=J;if(Z<U&&$>Q)Y+=K.sliceString(Z-Q,$-Q,J);Q=U+1}return Y}flatten(Z){for(let $ of this.children)$.flatten(Z)}scanIdentical(Z,$){if(!(Z instanceof y1))return 0;let J=0,[Y,X,Q,K]=$>0?[0,0,this.children.length,Z.children.length]:[this.children.length-1,Z.children.length-1,-1,-1];for(;;Y+=$,X+=$){if(Y==Q||X==K)return J;let U=this.children[Y],q=Z.children[X];if(U!=q)return J+U.scanIdentical(q,$);J+=U.length+1}}static from(Z,$=Z.reduce((J,Y)=>J+Y.length+1,-1)){let J=0;for(let _ of Z)J+=_.lines;if(J<32){let _=[];for(let z of Z)z.flatten(_);return new D0(_,$)}let Y=Math.max(32,J>>5),X=Y<<1,Q=Y>>1,K=[],U=0,q=-1,G=[];function W(_){let z;if(_.lines>X&&_ instanceof y1)for(let V of _.children)W(V);else if(_.lines>Q&&(U>Q||!U))j(),K.push(_);else if(_ instanceof D0&&U&&(z=G[G.length-1])instanceof D0&&_.lines+z.lines<=32)U+=_.lines,q+=_.length+1,G[G.length-1]=new D0(z.text.concat(_.text),z.length+1+_.length);else{if(U+_.lines>Y)j();U+=_.lines,q+=_.length+1,G.push(_)}}function j(){if(U==0)return;K.push(G.length==1?G[0]:y1.from(G,q)),q=-1,U=G.length=0}for(let _ of Z)W(_);return j(),K.length==1?K[0]:new y1(K,$)}}Z0.empty=new D0([""],0);function RK(Z){let $=-1;for(let J of Z)$+=J.length+1;return $}function O6(Z,$,J=0,Y=1e9){for(let X=0,Q=0,K=!0;Q<Z.length&&X<=Y;Q++){let U=Z[Q],q=X+U.length;if(q>=J){if(q>Y)U=U.slice(0,Y-X);if(X<J)U=U.slice(J-X);if(K)$[$.length-1]+=U,K=!1;else $.push(U)}X=q+1}return $}function R5(Z,$,J){return O6(Z,[""],$,J)}class C2{constructor(Z,$=1){this.dir=$,this.done=!1,this.lineBreak=!1,this.value="",this.nodes=[Z],this.offsets=[$>0?1:(Z instanceof D0?Z.text.length:Z.children.length)<<1]}nextInner(Z,$){this.done=this.lineBreak=!1;for(;;){let J=this.nodes.length-1,Y=this.nodes[J],X=this.offsets[J],Q=X>>1,K=Y instanceof D0?Y.text.length:Y.children.length;if(Q==($>0?K:0)){if(J==0)return this.done=!0,this.value="",this;if($>0)this.offsets[J-1]++;this.nodes.pop(),this.offsets.pop()}else if((X&1)==($>0?0:1)){if(this.offsets[J]+=$,Z==0)return this.lineBreak=!0,this.value=`
@@ -258,9 +251,9 @@ Please report this to https://github.com/markedjs/marked.`,Z){let Y="<p>An error
       Printf.printf "Test failed: %s\\nExpected: %s\\nActual:   %s\\n" msg (to_str expected) (to_str actual);
       failwith "Test failed"
     end
-end;;`;var MQ={name:"ocaml",async isReady(){return!!(window.ocaml&&window.ocaml.run)},async run(Z,$=""){if(!window.ocaml||!window.ocaml.run)return{success:!1,output:"",error:"Compiler not ready"};let J=LQ+`
+end`;var MQ={name:"ocaml",async isReady(){return!!(window.ocaml&&window.ocaml.run)},async run(Z,$=""){if(!window.ocaml||!window.ocaml.run)return{success:!1,output:"",error:"Compiler not ready"};let J=LQ+`
 `+Z+`
-`+$;try{let Y=window.ocaml.run(J),X=Y.out.replace(/module Tests :[\s\S]*?end\n/g,"");return{success:Y.success,output:X,error:Y.err}}catch(Y){return{success:!1,output:"",error:Y.message}}}};var U6=MQ;var C0={CHECK:`<svg xmlns="http://www.w3.org/2000/svg"
+`+$+";;";try{let Y=window.ocaml.run(J),X=Y.out.replace(/module Tests :[\s\S]*?end\n/g,"");return{success:Y.success,output:X,error:Y.err}}catch(Y){return{success:!1,output:"",error:Y.message}}}};var U6=MQ;var C0={CHECK:`<svg xmlns="http://www.w3.org/2000/svg"
     width="14" height="14" viewBox="0 0 24 24" fill="none"
   stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
   class="text-green-500">
