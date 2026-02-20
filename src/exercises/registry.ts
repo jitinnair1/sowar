@@ -2,11 +2,11 @@ import { Exercise } from '../core/types';
 import { Chapter } from '../core/types';
 
 //individual exercises
-import helloWorld from './01_hello_world/index';
-import intsVsFloats from './02_ints_vs_floats/index';
-import functions from './03_functions/index';
-import conditionals from './04_conditionals/index';
-import currying from './05_currying/index';
+import helloWorld from './1.1_hello_world/index';
+import intsVsFloats from './1.2_ints_vs_floats/index';
+import functions from './1.3_functions/index';
+import conditionals from './1.4_conditionals/index';
+import currying from './2.1_currying/index';
 
 export const curriculum: Chapter[] = [
     {
@@ -17,10 +17,10 @@ export const curriculum: Chapter[] = [
             intsVsFloats,
             functions,
             conditionals,
-            //strings,
             //tuples,
             //arrays,
             //lists,
+            //strings,
         ]
     },
     {

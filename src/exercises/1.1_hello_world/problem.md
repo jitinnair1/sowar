@@ -1,6 +1,8 @@
 This series of exercises takes you through the basic syntax and concepts of OCaml. All exercies can be run right here in your browser.
 
-We start with the basics and build up to the more advanced concepts. The objective is to write a (very simple) clone of FFTW in OCaml.
+We start with the basics and build up to the more advanced concepts. The objective is to write a (very simple) clone of FFTW[^1] in OCaml.
+
+[^1]: Fastest Fourier Transform in the West!
 
 (Fun fact, while FFTW is a C library, the core `genfft` part is written in OCaml)
 
