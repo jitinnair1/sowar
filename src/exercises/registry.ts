@@ -6,6 +6,7 @@ import helloWorld from './1.1_hello_world/index';
 import intsVsFloats from './1.2_ints_vs_floats/index';
 import functions from './1.3_functions/index';
 import conditionals from './1.4_conditionals/index';
+import tuples from './1.5_tuples/index';
 import currying from './2.1_currying/index';
 
 export const curriculum: Chapter[] = [
@@ -17,7 +18,7 @@ export const curriculum: Chapter[] = [
             intsVsFloats,
             functions,
             conditionals,
-            //tuples,
+            tuples,
             //arrays,
             //lists,
             //strings,
