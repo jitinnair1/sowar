@@ -5,4 +5,4 @@ let abs_int x =
 
 (* do not edit below this line *)
 
-let y = abs_int (-5);;
+let y = abs_int (-5)

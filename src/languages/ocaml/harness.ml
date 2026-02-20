@@ -14,4 +14,4 @@ module Tests = struct
       Printf.printf "Test failed: %s\nExpected: %s\nActual:   %s\n" msg (to_str expected) (to_str actual);
       failwith "Test failed"
     end
-end;;
+end

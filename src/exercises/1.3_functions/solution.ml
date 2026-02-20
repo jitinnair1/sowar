@@ -1,1 +1,1 @@
-let sum_of_squares a b = square a +. square b;;
+let sum_of_squares a b = square a +. square b

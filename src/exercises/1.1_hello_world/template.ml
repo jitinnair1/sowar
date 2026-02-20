@@ -1,1 +1,1 @@
-print_endline "some message";;
+print_endline "some message"
