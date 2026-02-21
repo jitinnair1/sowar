@@ -15,7 +15,7 @@ const EDITOR_SHORTCUTS: Shortcut[] = [
 ];
 
 const NAVIGATION_SHORTCUTS: Shortcut[] = [
-    { action: "Run Code", keys: ["Shift", "Enter"] },
+    { action: "Run Code", keys: ["Cmd/Ctrl", "Enter"] },
     { action: "Previous Lesson", keys: ["Cmd/Ctrl", "["] },
     { action: "Next Lesson", keys: ["Cmd/Ctrl", "]"] },
     { action: "Show Shortcuts", keys: ["?", "or", "F1"] },
@@ -51,36 +51,44 @@ export function initShortcuts() {
     //shortcut logic
     document.addEventListener('keydown', (e) => {
 
-        // run: Shift+Enter
-        if (e.shiftKey && e.key === 'Enter') {
+        // run: Cmd/Ctrl+Enter
+        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
             e.preventDefault();
+            e.stopPropagation();
             if (!elements.runBtn.disabled) {
                 runner.run();
             }
+            return;
         }
 
         // navigation: Cmd/Ctrl + [ or ]
         if ((e.metaKey || e.ctrlKey) && e.key === '[') {
             e.preventDefault();
+            e.stopPropagation();
             if (elements.nav.prev && !elements.nav.prev.disabled) {
                 elements.nav.prev.click();
             }
+            return;
         }
         if ((e.metaKey || e.ctrlKey) && e.key === ']') {
             e.preventDefault();
+            e.stopPropagation();
             if (elements.nav.next && !elements.nav.next.disabled) {
                 elements.nav.next.click();
             }
+            return;
         }
 
         // show shortcuts: F1 (global)
         if (e.key === 'F1') {
             e.preventDefault();
+            e.stopPropagation();
             if (elements.shortcuts.modal?.classList.contains('hidden')) {
                 openModal();
             } else {
                 closeModal();
             }
+            return;
         }
 
         const active = document.activeElement;
@@ -95,16 +103,16 @@ export function initShortcuts() {
             // show shortcuts: ?
             if (e.key === '?') {
                 e.preventDefault();
+                e.stopPropagation();
                 if (elements.shortcuts.modal?.classList.contains('hidden')) {
                     openModal();
                 } else {
                     closeModal();
                 }
+                return;
             }
-
-
         }
-    });
+    }, { capture: true });
 }
 
 function renderShortcuts() {
