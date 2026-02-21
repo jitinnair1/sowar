@@ -16,7 +16,7 @@ async function restart() {
     return;
   }
 
-  server = Bun.spawn(["bun", "run", "serve"], {
+  server = Bun.spawn(["bun", "run", "serve", ...Bun.argv.slice(2)], {
     stdout: "inherit",
     stderr: "inherit",
   });

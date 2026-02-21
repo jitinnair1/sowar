@@ -1,7 +1,10 @@
 import { serve } from "bun";
 
+const portArg = Bun.argv.indexOf("--port");
+const port = portArg > -1 ? parseInt(Bun.argv[portArg + 1]) : parseInt(process.env.PORT || "8080");
+
 const server = serve({
-  port: 8080,
+  port,
   development: true,
 
   async fetch(req: Request) {
