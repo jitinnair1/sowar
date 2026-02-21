@@ -21,11 +21,11 @@
 
 # Later
 - ~~Hightlight user selecrted exercise in the progress bar~~
+- ~~Add keyboard shortcuts~~
+- ~~Line by line `;;` vs once at the end of block appended manually?~~
+- ~~Add a footer with link to GithHub repo~~
 - Add Vim mode
 - Split Run and Submit buttons
-- Add keyboard shortcuts
-- Line by line `;;` vs once at the end of block appended manually?
-- ~~Add a footer with link to GithHub repo~~
 - Add (better) error reporting mechanism for users (than link to GH issues)
 - Footnotes and "important" or "pro tip" section in problem descriptions
 
