@@ -9,10 +9,12 @@ If you're coming from C-styled languages, the functional style might take some t
 In OCaml, the `print_endline` function is used to print to the console. So, to print a message you would use something like:
 
 ```ocaml
-print_endline "some message"
+let () = print_endline "some message"
 ```
 
 Now, check if the code in the exercise window looks alright and fix it if needed. Then, you can user the `Run` button to run the code.
+
+(Wait, what is the `let () =` part? We'll get to that part soon!)
 
 # Problem Statement
 

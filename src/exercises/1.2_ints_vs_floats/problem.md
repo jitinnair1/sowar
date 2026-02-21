@@ -46,6 +46,13 @@ let x = sum 1. 2.;;
 ```
 So here, what we're doing is evaluate the function sum, which takes two arguments `1.` and `2.` and assigns the result to the variable `x`.
 
+<details>
+
+<summary>Everything is an Expression!</summary>
+
+You remember how we used `let () =` in the previous exercise to print a message? Well, `()` is the unit type in OCaml, and it's often used in situations where a function returns no meaningful value. Like a "void" type in other programming languages. The takeway here is that the pattern of "everything as an expression" is something you'll see a lot in OCaml.
+</details><br>
+
 # Problem Statement
 
 Implement a function average that takes two floating-point numbers and returns their average as a float.

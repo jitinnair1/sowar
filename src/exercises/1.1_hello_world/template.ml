@@ -1,1 +1,1 @@
-print_endline "some message"
+let () = print_endline "some message"
