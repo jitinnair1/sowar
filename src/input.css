@@ -17,38 +17,22 @@
 
 /* catpuccin colours */
 :root {
-  /* Brand - Peach */
   --color-brand: #fe640b;
-
-  /* Catppuccin Latte (Light) */
   --bg-app: #eff1f5;
-  /* Base */
   --bg-surface: #e6e9ef;
-  /* Mantle */
   --fg-primary: #4c4f69;
-  /* Text */
   --fg-muted: #8c8fa1;
-  /* Overlay1 */
   --border-default: #ccd0da;
-  /* Surface0 */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Brand - Peach */
     --color-brand: #fe640b;
-
-    /* Catppuccin Mocha (Dark) */
     --bg-app: #1e1e2e;
-    /* Base */
     --bg-surface: #181825;
-    /* Mantle */
     --fg-primary: #cdd6f4;
-    /* Text */
     --fg-muted: #7f849c;
-    /* Overlay1 */
     --border-default: #313244;
-    /* Surface0 */
   }
 }
 
