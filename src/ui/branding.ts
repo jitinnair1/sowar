@@ -14,5 +14,4 @@ export function initBranding() {
 
     if (elements.branding.title) elements.branding.title.textContent = siteConfig.title;
     if (elements.branding.subtitle) elements.branding.subtitle.textContent = siteConfig.subtitle;
-    if (elements.branding.version) elements.branding.version.textContent = siteConfig.version;
 }
