@@ -20,10 +20,12 @@ import { initNavigation } from './ui/navigation';
 import { resetEditorText } from './ui/resetEditorText';
 import { renderFooter } from './ui/footer';
 import { initShortcuts } from './ui/shortcuts';
+import { initResetProgress } from './ui/resetProgress';
 
 //initialisation
 initBranding();
 initShortcuts();
+initResetProgress();
 renderFooter();
 configureMarkdown();
 

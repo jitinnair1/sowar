@@ -135,6 +135,11 @@
         <div
           class="h-10 px-4 flex justify-between items-center border-b border-border-default select-none shrink-0 bg-bg-surface order-first md:order-0">
           <span class="text-[10px] font-bold text-fg-muted uppercase tracking-wider">Exercises</span>
+          <button id="reset-progress-btn"
+            class="text-fg-muted hover:text-red-500 transition-colors p-1 rounded-md hover:bg-bg-app cursor-pointer"
+            title="Reset Progress">
+            <!-- trash icon injected via js -->
+          </button>
         </div>
         <div id="sidebar-list" class="flex-1 overflow-y-auto p-2 space-y-1">
         </div>
@@ -197,6 +202,36 @@
     <!-- footer -->
     <footer id="footer" class="flex items-center justify-center px-6 py-4 border-t border-border-default bg-bg-surface">
     </footer>
+
+    <!-- reset progress modal -->
+    <div id="reset-progress-modal"
+      class="hidden fixed inset-0 z-100 items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div
+        class="bg-bg-surface border border-border-default rounded-xl shadow-2xl p-6 w-full max-w-sm relative flex flex-col gap-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-bold text-red-500 flex items-center gap-2">
+            Reset Progress
+          </h2>
+          <button id="close-reset-progress-btn"
+            class="text-fg-muted hover:text-fg-primary transition-colors p-1 rounded-md hover:bg-bg-app">
+          </button>
+        </div>
+        <p class="text-sm text-fg-muted">
+          Are you sure you want to reset all progress? This will delete your saved code and completion status for all
+          exercises. This action cannot be undone.
+        </p>
+        <div class="flex justify-end gap-3 mt-2">
+          <button id="cancel-reset-progress-btn"
+            class="px-4 py-2 text-sm font-semibold text-fg-secondary hover:text-fg-primary bg-bg-app hover:bg-border-default rounded-md transition-colors">
+            Cancel
+          </button>
+          <button id="confirm-reset-progress-btn"
+            class="px-4 py-2 text-sm font-semibold text-white bg-red-500 hover:bg-red-600 rounded-md transition-colors shadow-sm">
+            Reset All
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- shortcuts modal -->
     <div id="shortcuts-modal"

@@ -22,12 +22,21 @@ export const elements = {
     resetBtn: document.getElementById('reset-btn') as HTMLButtonElement,
     clearConsoleBtn: document.getElementById('clear-console-btn') as HTMLButtonElement,
     shortcutsBtn: document.getElementById('shortcuts-btn') as HTMLButtonElement,
+    resetProgressBtn: document.getElementById('reset-progress-btn') as HTMLButtonElement,
 
     //shortcuts modal
     shortcuts: {
         modal: document.getElementById('shortcuts-modal') as HTMLElement,
         closeBtn: document.getElementById('close-shortcuts-btn') as HTMLButtonElement,
         list: document.getElementById('shortcuts-list') as HTMLElement,
+    },
+
+    //reset progress modal
+    resetProgress: {
+        modal: document.getElementById('reset-progress-modal') as HTMLElement,
+        closeBtn: document.getElementById('close-reset-progress-btn') as HTMLButtonElement,
+        cancelBtn: document.getElementById('cancel-reset-progress-btn') as HTMLButtonElement,
+        confirmBtn: document.getElementById('confirm-reset-progress-btn') as HTMLButtonElement,
     },
 
     //navigation and tabs
@@ -56,6 +65,5 @@ export const elements = {
         logo: document.getElementById('header-logo') as HTMLElement,
         title: document.getElementById('header-title') as HTMLElement,
         subtitle: document.getElementById('header-subtitle') as HTMLElement,
-        version: document.getElementById('app-version') as HTMLElement,
     }
 };
